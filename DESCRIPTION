@@ -1,0 +1,21 @@
+URL: https://github.com/Frycast/studentlife
+BugReports: https://github.com/Frycast/studentlife/issues
+Package: studentlife
+Type: Package
+Title: Useful Functions for the StudentLife Dataset
+Version: 0.1.0
+Authors@R: c(person("Daniel", "Fryer", 
+                     role = c("aut", "cre"), 
+                     email = "d.fryer@latrobe.edu.au",
+                     comment = c(ORCID = "0000-0001-6032-0522")))
+Description: These functions are being used by the package author 
+    for investigation into the StudentLife dataset 
+Depends: R (>= 3.5.1)
+License: GPL-3 | file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    dplyr (>= 0.8.0.1),
+    jsonlite (>= 1.6),
+    tibble (>= 2.0.1)
+RoxygenNote: 6.1.1
