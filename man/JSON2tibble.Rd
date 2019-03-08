@@ -4,24 +4,29 @@
 \alias{JSON2tibble}
 \title{JSON2tibble}
 \usage{
-JSON2tibble(prefix, name, vars, timestamp, month1 = 3, week1 = 11,
-  day1 = 83)
+JSON2tibble(prefix, EMA_name, vars, timestamp = "", month1 = 3,
+  week1 = 11, day1 = 83, days_in_weeks = FALSE)
 }
 \arguments{
-\item{prefix}{The path prefix}
+\item{prefix}{The path prefix.}
 
-\item{name}{The name of the folder in the StudentLife dataset,
-usually as a subfolder of the EMA/response directory}
+\item{EMA_name}{The name of the folder in the StudentLife dataset,
+as a subfolder of the folder specified by \code{prefix}.
+Usually as a subfolder of the EMA/response directory.}
 
-\item{vars}{Vector of names of variables to read for each student}
+\item{vars}{Vector of names of variables to read for each student.}
 
 \item{timestamp}{Character string indicating which variable
 contains unix time stamps to convert to columns date,
-day, week and month. Leave unspecified for no conversion.}
+day, week and month. Leave as default for no conversion.}
 
 \item{month1, week1, day1}{Integers specifying the
 month, week and day of the year that the study begins.
 Best left as defaults.}
+
+\item{days_in_weeks}{Logical, only used if \code{timestamp}
+is not default. If \code{TRUE} then days are per week and
+factors rather than per year and integer.}
 }
 \description{
 This function is mostly used for reading StudentLife EMA data into R.
@@ -39,7 +44,9 @@ stress <- JSON2tibble(p, n, v)
 p <- "C:/Users/danie/Data/StudentLife/dataset/dataset/EMA/response/"
 n <-  "PAM"
 v <- c("picture_idx", "resp_time")
-pam <- JSON2tibble(p, n, v)
-pam <- JSON2tibble(p, n, v, timestamp = "resp_time")
+pam1 <- JSON2tibble(p, n, v)
+pam2 <- JSON2tibble(p, n, v, timestamp = "resp_time")
+pam3 <- studentlife::JSON2tibble(p, n, v, "resp_time",
+                                days_in_weeks = TRUE)
 
 }
