@@ -301,6 +301,11 @@ get_path <- function(menu1, menu2) {
     menu1 <- menu1_choices[[utils::menu(
       choices = menu1_choices,
       title = "Choose Menu 1 option:")]]
+
+  } else {
+
+    menu1 <- menu1_choices[[menu1]]
+
   }
 
   if (menu1 == "EMA") menu1 <- "EMA/response"
@@ -308,15 +313,19 @@ get_path <- function(menu1, menu2) {
   menu2_choices <- menu2_list[[menu1]]
   if ( missing(menu2) ) {
 
-    if ( !is.null(menu2_choices) ) {
-
-      menu2 <- menu2_choices[[utils::menu(
+      menu2 <- utils::menu(
         choices = menu2_choices,
-        title = "Choose Menu 2 option:")]]
-    } else {
+        title = "Choose Menu 2 option:")
+  }
 
-      menu2 <- NULL
-    }
+  if ( !is.null(menu2_choices) ) {
+
+    menu2 <- menu2_choices[[menu2]]
+
+  } else {
+
+    menu2 <- NULL
+
   }
 
   result <- paste0(menu1, "/", menu2)
