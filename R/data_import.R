@@ -154,7 +154,7 @@ get_txt_studs <- function(path, prefix, vars) {
       this_stud <- suppressMessages(
         readr::read_csv(paths[i], progress = FALSE,
                         col_names = c("date-time","location","type")))
-      this_stud$stud_id <- i - 1
+      this_stud$uid <- i - 1
       studs[[length(studs)+1]] <- this_stud
     }, error = function(e){missing_studs <<- missing_studs + 1},
     warning = function(w) {})
@@ -176,7 +176,7 @@ get_wide_csv_studs <- function(path, prefix, vars) {
   full_path <- paste0(prefix, "/", path, ".csv")
   studs <- utils::read.csv(full_path)
 
-  studs$stud_id <- as.integer(substr(studs$uid, 2, 3))
+  studs$uid <- as.integer(substr(studs$uid, 2, 3))
   studs$uid <- NULL
 
   if(!missing(vars)) studs <- dplyr::select(studs, vars)
@@ -214,7 +214,7 @@ get_long_csv_studs <- function(path, prefix, vars) {
                    header = FALSE,
                    stringsAsFactors = FALSE))
         this_stud$to_drop <- NULL
-        this_stud$stud_id <- i - 1
+        this_stud$uid <- i - 1
         studs[[length(studs)+1]] <- this_stud
       }, error = function(e){
         missing_studs <<- missing_studs + 1},
@@ -225,7 +225,7 @@ get_long_csv_studs <- function(path, prefix, vars) {
       tryCatch({
         this_stud <- suppressMessages(
           readr::read_csv(paths[i], progress = FALSE))
-        this_stud$stud_id <- i - 1
+        this_stud$uid <- i - 1
         studs[[length(studs)+1]] <- this_stud
       }, error = function(e){missing_studs <<- missing_studs + 1},
       warning = function(w) {})
@@ -352,7 +352,7 @@ EMA_to_list <- function(prefix, path) {
   for (i in 1:60) {
     tryCatch({
       this_stud <- jsonlite::fromJSON(paths[i])
-      this_stud$stud_id <- i - 1
+      this_stud$uid <- i - 1
       studs[[length(studs)+1]] <- this_stud
     }, error = function(e){missing_studs <<- missing_studs + 1},
     warning = function(w){})
