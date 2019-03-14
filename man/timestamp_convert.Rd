@@ -25,7 +25,7 @@ contains unix time stamps to convert to columns date,
 day, week and month. Leave as default for no conversion.}
 }
 \description{
-Convert StudentLife UNIX timestamps to day, week and month
+Convert StudentLife UNIX timestamps to date, day, week and month
 in study.
 }
 \examples{

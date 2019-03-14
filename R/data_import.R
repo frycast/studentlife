@@ -46,6 +46,8 @@ read_from_SL <- function(menu1, menu2, prefix = ".", vars) {
 
   }
 
+  studs$uid <- as.integer(studs$uid)
+
   return(studs)
 }
 
