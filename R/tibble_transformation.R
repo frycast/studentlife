@@ -38,7 +38,7 @@ timestamp_convert <- function(studs, month1 = 3, week1 = 11, day1 = 83,
   # Bind and exclude NAs
   studs <- tibble::as_tibble(studs)
 
-  studs <- make_daily(timestamp, studs, month1, week1, day1)
+  studs <- make_daily(timestamp, studs, month1, week1, day1, include_epochs)
 
   if ( days_in_weeks ) {
     studs <- make_days_in_weeks(studs)
@@ -88,18 +88,22 @@ make_daily <- function(timestamp, studs, month1, week1, day1, include_epochs) {
 
   `%>%` <- dplyr::`%>%`
 
+  posix <- as.POSIXct(studs[[timestamp]], origin="1970-01-01")
+
   if ( include_epochs ) {
 
     epochs <- c("night","morning","afternoon","evening")
     ub <- c(6, 12, 18, 24)
-    hours <- as.integer(strftime(as.POSIXct(studs[[timestamp]]), format="%H"))
-    epc <- purrr::map_chr(hours, function(x){epochs[which(x <= ub)[1]]})
+    hours <- as.integer(strftime(posix, format="%H"))
+    epc <- purrr::map_chr(hours, function(x){
+      epochs[which(x <= ub)[1]]
+    })
 
     studs <- studs %>%
        dplyr::mutate(
-         time = strftime(studs[[timestamp]], format="%H:%M:%S"),
-         epoch = epc,
-         date = as.Date(as.POSIXct(get(timestamp), origin="1970-01-01")),
+         time = strftime(posix, format="%H:%M:%S"),
+         epoch = factor(epc, levels = epochs),
+         date = as.Date(posix),
          month = as.numeric(format(date, "%m")) - month1,
          week = as.numeric(format(date, "%W")) - week1,
          day = as.numeric(format(date, "%j")) - day1)
@@ -108,7 +112,7 @@ make_daily <- function(timestamp, studs, month1, week1, day1, include_epochs) {
 
      studs <- studs %>%
        dplyr::mutate(
-         date = as.Date(as.POSIXct(get(timestamp), origin="1970-01-01")),
+         date = as.Date(posix),
          month = as.numeric(format(date, "%m")) - month1,
          week = as.numeric(format(date, "%W")) - week1,
          day = as.numeric(format(date, "%j")) - day1)
