@@ -1,3 +1,56 @@
+#### INCOMPLETE
+## ISSUES:
+# The folder "Do Campbell's Jokes Suck?" causes
+# an issue with utils::untar
+#  In dir.create(path, showWarnings = TRUE, recursive = TRUE, ...) :
+#    cannot create dir 'dataset\EMA\response\Do Campbell's jokes suck?', reason 'Invalid argument'
+#
+#
+####
+#' download_studentlife
+#'
+#' Downloads the entire StudentLife dataset
+#'
+#'@param url The url for the StudentLife dataset
+#'@param dest_prefix The prefix for the destination path
+#'@param destfile The destination filename
+#'
+#'@examples
+#'p <- "C:/Users/danie/Data/StudentLife/dataset"
+#'d <- "dataset"
+#'download_studentlife(dest_prefix = p, destfile = d)
+#'read_from_SL(location = paste0(p, "/", d))
+#'
+#'
+
+download_studentlife <- function(
+  url = "https://studentlife.cs.dartmouth.edu/dataset/dataset.tar.bz2",
+  dest_prefix = ".",
+  destfile = "dataset") {
+
+  d <- "dataset.tar.bz2"
+  p <- paste0(dest_prefix, "/", d)
+  download.file(url = url, p)
+
+  message("Unzipping the dataset...")
+  R.utils::bunzip2(p, remove = FALSE, skip = TRUE)
+
+  d <- "dataset.tar"
+  p <- paste0(dest_prefix, "/", d)
+  message("Untarring the dataset...")
+  utils::untar(p)
+
+  message("done")
+}
+
+
+
+
+
+
+
+
+
 #' read_from_SL
 #'
 #' Import a chosen StudentLife data set as
@@ -9,7 +62,7 @@
 #' blank to choose interactively.
 #' @param menu2 The Menu 1 choice. Leave
 #' blank to choose interactively.
-#' @param prefix The path to the top
+#' @param location The path to the top
 #' directory of the StudentLife dataset
 #' @param vars Character vector of variable
 #' names to import for all students. Leave
@@ -17,32 +70,32 @@
 #' if necesssary.
 #'
 #' @examples
-#' pr <- "C:/Users/danie/Data/StudentLife/dataset/dataset"
-#' students <- import_from_SL(prefix = prefix)
+#' p <- "C:/Users/danie/Data/StudentLife/dataset/dataset"
+#' students <- import_from_SL(location = p)
 #'
 #' @export
 
 
-read_from_SL <- function(menu1, menu2, prefix = ".", vars) {
+read_from_SL <- function(menu1, menu2, location = ".", vars) {
 
 
   path <- get_path(menu1, menu2)
 
   if ( path %in% EMA_json ) {
 
-    studs <- get_EMA_studs(path, prefix, vars)
+    studs <- get_EMA_studs(path, location, vars)
 
   } else if ( path %in% long_csv ) {
 
-    studs <- get_long_csv_studs(path, prefix, vars)
+    studs <- get_long_csv_studs(path, location, vars)
 
   } else if ( path %in% wide_csv ) {
 
-    studs <- get_wide_csv_studs(path, prefix, vars)
+    studs <- get_wide_csv_studs(path, location, vars)
 
   } else if ( path %in% txt ) {
 
-    studs <- get_txt_studs(path, prefix, vars)
+    studs <- get_txt_studs(path, location, vars)
 
   }
 
@@ -140,11 +193,11 @@ long_csv <- c("sms", "call_log", "calendar", "app_usage",
 EMA_json <- paste0("EMA/response/", menu2_list[["EMA/response"]])
 
 
-get_txt_studs <- function(path, prefix, vars) {
+get_txt_studs <- function(path, location, vars) {
 
   `%>%` <- dplyr::`%>%`
 
-  pr <- paste0(prefix, "/", path, "/", "u")
+  pr <- paste0(location, "/", path, "/", "u")
   paths <- c(paste0(pr, "0", seq(0,9), ".txt"),
              paste0(pr, seq(10,59), ".txt"))
   readr::read_csv(paths[2],
@@ -173,9 +226,9 @@ get_txt_studs <- function(path, prefix, vars) {
 }
 
 
-get_wide_csv_studs <- function(path, prefix, vars) {
+get_wide_csv_studs <- function(path, location, vars) {
 
-  full_path <- paste0(prefix, "/", path, ".csv")
+  full_path <- paste0(location, "/", path, ".csv")
   studs <- utils::read.csv(full_path)
 
   studs$uid <- as.integer(substr(studs$uid, 2, 3))
@@ -189,7 +242,7 @@ get_wide_csv_studs <- function(path, prefix, vars) {
 
 
 
-get_long_csv_studs <- function(path, prefix, vars) {
+get_long_csv_studs <- function(path, location, vars) {
 
   `%>%` <- dplyr::`%>%`
 
@@ -198,7 +251,7 @@ get_long_csv_studs <- function(path, prefix, vars) {
   name <- splat[length(splat)]
   if( name == "app_usage" ) name <- "running_app"
   if( name == "bluetooth" ) name <- "bt"
-  pr <- paste0(prefix, "/", path, "/", name, "_u")
+  pr <- paste0(location, "/", path, "/", name, "_u")
   paths <- c(paste0(pr, "0", seq(0,9), ".csv"),
              paste0(pr, seq(10,59), ".csv"))
   studs <- list()
@@ -252,9 +305,9 @@ get_long_csv_studs <- function(path, prefix, vars) {
 
 
 
-get_EMA_studs <- function(path, prefix, vars) {
+get_EMA_studs <- function(path, location, vars) {
 
-  studs <- EMA_to_list(prefix, path)
+  studs <- EMA_to_list(location, path)
 
   if ( missing(vars) ) {
     # Create a menu to choose vars
@@ -339,14 +392,14 @@ get_path <- function(menu1, menu2) {
   return(result)
 }
 
-EMA_to_list <- function(prefix, path) {
+EMA_to_list <- function(location, path) {
 
   `%>%` <- dplyr::`%>%`
 
   splat <- unlist(strsplit(path, split='/', fixed=TRUE))
   EMA_name <- splat[length(splat)]
 
-  pr <- paste0(prefix, "/", path, "/", EMA_name, "_u")
+  pr <- paste0(location, "/", path, "/", EMA_name, "_u")
   paths <- c(paste0(pr, "0", seq(0,9), ".json"),
              paste0(pr, seq(10,59), ".json"))
   studs <- list()
@@ -364,7 +417,7 @@ EMA_to_list <- function(prefix, path) {
 
   if ( length(vars_present) == 0 ) {
     stop(paste0("There was an error finding data. ",
-                "Perhaps Check the path prefix to ensure ",
+                "Perhaps Check the location to ensure ",
                 "it points to the top level of the StudentLife ",
                 "dataset directory"))
   }

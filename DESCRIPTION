@@ -17,5 +17,6 @@ LazyData: true
 Imports:
     dplyr (>= 0.8.0.1),
     jsonlite (>= 1.6),
-    tibble (>= 2.0.1)
+    tibble (>= 2.0.1),
+    R.utils (>= 2.8.0)
 RoxygenNote: 6.1.1
