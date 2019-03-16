@@ -82,6 +82,58 @@ make_days_in_weeks <- function(studs, day = "day") {
 
 
 
+###### INCOMPLETE
+## ISSUES:
+##   Need to return the tibble
+##
+#' PAM_categorise
+#'
+#' Categorise Photographic Affect Meter (PAM) scores into
+#' 4 categories by either PAM Quadrant, Valence or Arousal
+#' (or multiple of these).
+#'
+#' The 4 Quadrant categories are as follows:
+#' Quadrant 1: low valence, low arousal.
+#' Quadrant 2: low valence, high arousal.
+#' Quadrant 3: high valence, low arousal.
+#' Quadrant 4: high valence, high arousal.
+#'
+#'@param studs A data.frame with a column representing
+#'Photographic Affect Meter (PAM) score.
+#'@param pam_name Character. The name of the column
+#'representing PAM.
+#'@param types Character vector containing the categories,
+#'one or more of "quadrant", "valence" and "arousal" into
+#'which to code PAM scores.
+#'
+#' @export
+
+PAM_categorise <- function(studs, pam_name = "picture_idx",
+                           types = c("quadrant", "valence", "arousal") ) {
+
+  ub <- c(4, 8, 12, 16)
+  pams <- studs[[pam_name]]
+
+  ## Quadrant
+  if ( "quadrant" %in% types )
+    qs <- purrr::map_int(pams, function(x) { which(x <= ub)[1] })
+
+  ## Valence
+  v1 <- c(1, 2, 5, 6, 3, 4, 7, 8, 9, 10, 13, 14, 11, 12, 15, 16)
+  if ( "valence" %in% types )
+    vs <- purrr::map_int(v1[pams], function(x) { which(x <= ub)[1] })
+
+  ## Arousal
+  a1 <- c(1, 3, 9, 11, 2, 4, 10, 12, 5, 7, 13, 15, 6, 8, 14, 16)
+  if ( "arousal" %in% types )
+    as <- purrr::map_int(a1[pams], function(x) { which(x <= ub)[1] })
+
+}
+
+
+
+
+
 # Helper functions ----------------------------------------------
 
 make_daily <- function(timestamp, studs, month1, week1, day1, include_epochs) {
