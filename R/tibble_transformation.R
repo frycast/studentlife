@@ -1,53 +1,246 @@
-#' timestamp_convert
+### INCOMPLETE
+## ISSUES:
+# Needs documentation and greater generality.
+#
+###
+#'group_by_epoch
 #'
-#' Convert StudentLife UNIX timestamps to date, day, week and month
-#' in study.
+#' Group by day and epoch with mean response
 #'
-#' @param studs A data.frame where each row corresponds to an
-#' observation on a student, and at least one column contains
-#' UNIX timestamps.
-#' @param timestamp Character string indicating which variable
-#' contains unix time stamps to convert to columns date,
-#' day, week and month.
-#' @param month1,week1,day1 Integers specifying the
-#' month, week and day of the year that the study begins.
-#' Best left as defaults.
-#' @param days_in_weeks Logical, only used if \code{timestamp}
-#' is not default. If \code{TRUE} then days are per week and
-#' factors rather than per year and integer.
-#' @include_epochs Logical. If TRUE then each day is split into 4
-#' epochs: night (12am-6am), morning (6am-12pm), afternoon (12pm-6pm)
-#' and evening (6pm-12am).
+#' @param ... Arguments passed to summarise for group aggregation
+#' @param timestamp Character string determining what column contains
+#' timestamps for keeping if \code{keep_timestamps = TRUE}
 #'
-#' @examples
-#' p <- "C:/Users/danie/Data/StudentLife/dataset/dataset"
-#' pam <- studentlife::read_from_SL(menu1 = 2, menu2 = 22, location = p)
-#'
-#' timestamp_convert(pam)
-#' # Compare to
-#' timestamp_convert(pam, days_in_weeks = TRUE)
-#'
-#' @export
-
-timestamp_convert <- function(studs, month1 = 3, week1 = 11, day1 = 83,
-                              days_in_weeks = FALSE, timestamp = "resp_time",
-                              include_epochs = FALSE) {
+#'@export
+group_by_epoch <- function(studs, ..., keep_timestamps = TRUE, timestamp = "resp_time") {
 
   `%>%` <- dplyr::`%>%`
 
-  # Bind and exclude NAs
-  studs <- tibble::as_tibble(studs)
+  if ( keep_timestamps ) {
+    studsg <- studs %>% dplyr::group_by(uid, day, epoch) %>%
+      dplyr::summarise(
+        ..., median_timestamp = as.integer(median(get(timestamp)))) %>%
+      dplyr::ungroup()
 
-  studs <- make_daily(timestamp, studs, month1, week1, day1, include_epochs)
+  } else {
+    studsg <- studs %>% dplyr::group_by(uid, day, epoch) %>%
+      dplyr::summarise(...) %>%
+      dplyr::ungroup()
 
-  if ( days_in_weeks ) {
-    studs <- make_days_in_weeks(studs)
+  }
+
+  return(studsg)
+}
+
+
+
+
+### INCOMPLETE
+## ISSUES:
+# Needs documentation and greater generality.
+#
+###
+#' add_NAs
+#'
+#'
+#' @export
+add_NAs <- function(studs, day = "day") {
+
+  `%>%` <- dplyr::`%>%`
+
+  uids <- unique(studs$uid)
+  e <- unique(studs$epoch)
+  el <- c("night","morning", "afternoon","evening")
+  d <- studs[[day]]
+  ndays <- max(d) - min(d) + 1
+
+  studs <- data.frame(uid = rep(uids, each = length(e)*ndays),
+                     epoch = e,
+                     day = rep(1:ndays, each = length(e))) %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(epoch = factor(epoch, levels = el)) %>%
+    dplyr::left_join(studs, by = c("uid", "epoch", "day"))
+
+  return(studs)
+}
+
+
+## #' timestamp_convert
+## #'
+## #' Convert StudentLife UNIX timestamps to date, day, week and month
+## #' in study.
+## #'
+## #' @param studs A data.frame where each row corresponds to an
+## #' observation on a student, and at least one column contains
+## #' UNIX timestamps.
+## #' @param timestamp Character string indicating which variable
+## #' contains unix time stamps to convert to columns date,
+## #' day, week and month.
+## #' @param month1,week1,day1 Integers specifying the
+## #' month, week and day of the year that the study begins.
+## #' Best left as defaults.
+## #' @param days_in_weeks Logical, only used if \code{timestamp}
+## #' is not default. If \code{TRUE} then days are per week and
+## #' factors rather than per year and integer.
+## #' @include_epochs Logical. If TRUE then each day is split into 4
+## #' epochs: night (12am-6am), morning (6am-12pm), afternoon (12pm-6pm)
+## #' and evening (6pm-12am).
+## #'
+## #' @examples
+## #' p <- "C:/Users/danie/Data/StudentLife/dataset/dataset"
+## #' pam <- studentlife::read_from_SL(menu1 = 2, menu2 = 22, location = p)
+## #'
+## #' timestamp_convert(pam)
+## #' # Compare to
+## #' timestamp_convert(pam, days_in_weeks = TRUE)
+## #'
+## #' @export
+## timestamp_convert <- function(studs, day1 = 83,
+##                               timestamp = "resp_time",
+##                               include_epochs = FALSE) {
+##
+##   `%>%` <- dplyr::`%>%`
+##
+##   studs <- make_daily(timestamp, studs, day1, include_epochs)
+##
+##   return(studs)
+## }
+
+
+
+### INCOMPLETE
+## ISSUES
+# Needing documentation
+#
+###
+#' add_days
+#'
+#'@export
+add_days <- function(studs, day1 = 83, timestamp = "resp_time") {
+
+  if ( !(timestamp %in% names(studs)) )
+    stop("Column not found, try changing the timestamp parameter")
+
+  `%>%` <- dplyr::`%>%`
+
+  date <- as.Date(as.POSIXct(studs[[timestamp]], origin="1970-01-01"))
+
+  return(studs %>% dplyr::mutate(
+         day = as.integer(format(date, "%j")) - day1))
+}
+
+
+### INCOMPLETE
+## ISSUES
+# Needing documentation
+#
+###
+#' add_epochs
+#'
+#'@export
+add_epochs <- function(studs, timestamp = "resp_time", add_days = TRUE, day1 = 83) {
+
+  if ( !(timestamp %in% names(studs)) )
+    stop("Column not found, try changing the timestamp parameter")
+
+  `%>%` <- dplyr::`%>%`
+
+  posix <- as.POSIXct(studs[[timestamp]], origin="1970-01-01")
+
+  epochs <- c("night","morning","afternoon","evening")
+  ub <- c(6, 12, 18, 24)
+  hours <- as.integer(strftime(posix, format="%H"))
+  epc <- purrr::map_chr(hours, function(x){
+    epochs[which(x <= ub)[1]]
+  })
+
+  studs <- studs %>% dplyr::mutate(
+           epoch = factor(epc, levels = epochs))
+
+  if (add_days) {
+
+    studs <- studs %>% dplyr::mutate( day = as.numeric(format(as.Date(posix), "%j")) - day1 )
+
   }
 
   return(studs)
 }
 
-#'make_days_in_weeks
+### INCOMPLETE
+## ISSUES
+# Needing documentation
+#
+###
+#' add_times
+#'
+#'@export
+add_times <- function(studs, timestamp = "resp_time") {
+
+  if ( !(timestamp %in% names(studs)) )
+    stop("Column not found, try changing the timestamp parameter")
+
+  `%>%` <- dplyr::`%>%`
+
+  posix <- as.POSIXct(studs[[timestamp]], origin="1970-01-01")
+
+  return(studs %>% dplyr::mutate(
+         time = strftime(posix, format="%H:%M:%S")))
+}
+
+### INCOMPLETE
+## ISSUES
+# Needing documentation
+#
+###
+#' add_dates
+#'
+#'@export
+add_dates <- function(studs, timestamp = "resp_time") {
+
+  if ( !(timestamp %in% names(studs)) )
+    stop("Column not found, try changing the timestamp parameter")
+
+  `%>%` <- dplyr::`%>%`
+
+  posix <- as.POSIXct(studs[[timestamp]], origin="1970-01-01")
+
+  return(studs %>% dplyr::mutate(
+         date = as.Date(posix)))
+}
+
+
+
+### INCOMPLETE
+## ISSUES
+# Needs documentation
+#
+#
+###
+#'add_weeks
+#'
+#' Extract a week variable from the timestamp column
+#' specified by the
+#' \code{timestamp} parameter
+#'
+#'@export
+add_weeks <- function(studs, timestamp = "resp_time", week1 = 11) {
+
+  if ( !(timestamp %in% names(studs)) )
+    stop("Column not found, try changing the timestamp parameter")
+
+  `%>%` <- dplyr::`%>%`
+
+  d <- as.Date(as.POSIXct(studs[[timestamp]], origin="1970-01-01"))
+
+  studs <- studs %>%
+    dplyr::mutate(
+      week = as.numeric(format(d, "%W")) - week1)
+
+  return( studs )
+}
+
+
+#'add_weekdays
 #'
 #' Given a data.frame with a column representing days
 #' since the start of the study, creates a column
@@ -62,12 +255,15 @@ timestamp_convert <- function(studs, month1 = 3, week1 = 11, day1 = 83,
 #' @examples
 #' p <- "C:/Users/danie/Data/StudentLife/dataset/dataset"
 #' pam <- studentlife::read_from_SL(menu1 = 2, menu2 = 22, location = p)
-#' make_days_in_weeks(timestamp_convert(pam))
+#' add_weekdays(timestamp_convert(pam))
 #'
 #'
 #'
 #'@export
-make_days_in_weeks <- function(studs, day = "day") {
+add_weekdays <- function(studs, day = "day") {
+
+  if ( !(day %in% names(studs)) )
+    stop("Column not found, try changing the day parameter")
 
   `%>%` <- dplyr::`%>%`
 
@@ -75,17 +271,10 @@ make_days_in_weeks <- function(studs, day = "day") {
   weekdays <- c("mon", "tue", "wed", "thu", "fri", "sat", "sun")
 
   return( studs %>% dplyr::mutate(
-    day = factor(weekdays[((d - 1) %% 7 + 1)],
-                 levels = weekdays)) )
+    weekday = factor(weekdays[((d - 1) %% 7 + 1)], levels = weekdays)))
 }
 
 
-
-
-###### INCOMPLETE
-## ISSUES:
-##   Need to return the tibble
-##
 #' PAM_categorise
 #'
 #' Categorise Photographic Affect Meter (PAM) scores into
@@ -98,6 +287,9 @@ make_days_in_weeks <- function(studs, day = "day") {
 #' Quadrant 3: high valence, low arousal.
 #' Quadrant 4: high valence, high arousal.
 #'
+#' The 4 valence / arousal categories are: low (1),
+#' med-low (2), high-low (3), high (4).
+#'
 #'@param studs A data.frame with a column representing
 #'Photographic Affect Meter (PAM) score.
 #'@param pam_name Character. The name of the column
@@ -107,27 +299,28 @@ make_days_in_weeks <- function(studs, day = "day") {
 #'which to code PAM scores.
 #'
 #' @export
-
 PAM_categorise <- function(studs, pam_name = "picture_idx",
                            types = c("quadrant", "valence", "arousal") ) {
-
   ub <- c(4, 8, 12, 16)
   pams <- studs[[pam_name]]
-
   ## Quadrant
-  if ( "quadrant" %in% types )
-    qs <- purrr::map_int(pams, function(x) { which(x <= ub)[1] })
-
+  if ( "quadrant" %in% types ) {
+    qc <- purrr::map_int(pams, function(x) { which(x <= ub)[1] })
+    studs$pam_q <- qc
+  }
   ## Valence
   v1 <- c(1, 2, 5, 6, 3, 4, 7, 8, 9, 10, 13, 14, 11, 12, 15, 16)
-  if ( "valence" %in% types )
-    vs <- purrr::map_int(v1[pams], function(x) { which(x <= ub)[1] })
-
+  if ( "valence" %in% types ) {
+    vc <- purrr::map_int(v1[pams], function(x) { which(x <= ub)[1] })
+    studs$pam_v <- vc
+  }
   ## Arousal
   a1 <- c(1, 3, 9, 11, 2, 4, 10, 12, 5, 7, 13, 15, 6, 8, 14, 16)
-  if ( "arousal" %in% types )
-    as <- purrr::map_int(a1[pams], function(x) { which(x <= ub)[1] })
-
+  if ( "arousal" %in% types ) {
+    ac <- purrr::map_int(a1[pams], function(x) { which(x <= ub)[1] })
+    studs$pam_a <- ac
+  }
+  return(studs)
 }
 
 
@@ -136,46 +329,43 @@ PAM_categorise <- function(studs, pam_name = "picture_idx",
 
 # Helper functions ----------------------------------------------
 
-make_daily <- function(timestamp, studs, month1, week1, day1, include_epochs) {
+## make_daily <- function(timestamp, studs, day1, include_epochs) {
+##
+##   `%>%` <- dplyr::`%>%`
+##
+##   if ( !(timestamp %in% names(studs)) )
+##     stop("Column not found, try changing the timestamp parameter")
+##
+##   posix <- as.POSIXct(studs[[timestamp]], origin="1970-01-01")
+##
+##   if ( include_epochs ) {
+##
+##     epochs <- c("night","morning","afternoon","evening")
+##     ub <- c(6, 12, 18, 24)
+##     hours <- as.integer(strftime(posix, format="%H"))
+##     epc <- purrr::map_chr(hours, function(x){
+##       epochs[which(x <= ub)[1]]
+##     })
+##
+##     studs <- studs %>%
+##        dplyr::mutate(
+##          time = strftime(posix, format="%H:%M:%S"),
+##          epoch = factor(epc, levels = epochs),
+##          date = as.Date(posix),
+##          day = as.numeric(format(date, "%j")) - day1)
+##
+##    } else {
+##
+##      studs <- studs %>%
+##        dplyr::mutate(
+##          date = as.Date(posix),
+##          day = as.numeric(format(date, "%j")) - day1)
+##    }
+##
+##   return(studs)
+## }
+##
 
-  `%>%` <- dplyr::`%>%`
-
-  posix <- as.POSIXct(studs[[timestamp]], origin="1970-01-01")
-
-  if ( include_epochs ) {
-
-    epochs <- c("night","morning","afternoon","evening")
-    ub <- c(6, 12, 18, 24)
-    hours <- as.integer(strftime(posix, format="%H"))
-    epc <- purrr::map_chr(hours, function(x){
-      epochs[which(x <= ub)[1]]
-    })
-
-    studs <- studs %>%
-       dplyr::mutate(
-         time = strftime(posix, format="%H:%M:%S"),
-         epoch = factor(epc, levels = epochs),
-         date = as.Date(posix),
-         month = as.numeric(format(date, "%m")) - month1,
-         week = as.numeric(format(date, "%W")) - week1,
-         day = as.numeric(format(date, "%j")) - day1)
-
-   } else {
-
-     studs <- studs %>%
-       dplyr::mutate(
-         date = as.Date(posix),
-         month = as.numeric(format(date, "%m")) - month1,
-         week = as.numeric(format(date, "%W")) - week1,
-         day = as.numeric(format(date, "%j")) - day1)
-   }
-
-  return(studs)
-}
-
-
-time <- as.POSIXct(1000012000, origin="1970-01-01")
-strftime(time, format="%H:%M:%S")
 
 
 

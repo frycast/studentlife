@@ -99,7 +99,7 @@ read_from_SL <- function(menu1, menu2, location = ".", vars) {
 
   }
 
-  studs$uid <- as.integer(studs$uid)
+  studs$uid <- factor(studs$uid, levels = 0:59)
 
   return(studs)
 }
@@ -232,10 +232,11 @@ get_wide_csv_studs <- function(path, location, vars) {
   studs <- utils::read.csv(full_path)
 
   studs$uid <- as.integer(substr(studs$uid, 2, 3))
-  studs$uid <- NULL
 
-  if(!missing(vars)) studs <- dplyr::select(studs, vars)
-  studs <- tibble::as.tibble(studs)
+  if(!missing(vars))
+    studs <- dplyr::select(studs, vars)
+
+  studs <- tibble::as_tibble(studs)
 
   return(studs)
 }
