@@ -70,14 +70,13 @@ download_studentlife <- function(
 #' if necesssary.
 #'
 #' @examples
-#' p <- "C:/Users/danie/Data/StudentLife/dataset/dataset"
+#' p <- "D:/Datasets/studentlife/dataset"
 #' students <- import_from_SL(location = p)
 #'
 #' @export
 
 
 read_from_SL <- function(menu1, menu2, location = ".", vars) {
-
 
   path <- get_path(menu1, menu2)
 
@@ -334,10 +333,11 @@ get_EMA_studs <- function(path, location, vars) {
   studs <- EMA_list_to_tibble(studs, vars)
 
   ds <- attributes(studs)$dropped_students
+  ds <- paste0(ds, collapse = ", ")
 
   if (ds > 0) {
-    warning(paste0(ds, " students were dropped ",
-                   " with the choice of vars."))
+    warning(paste0("The students dropped ",
+                   " with the choice of vars were numbers ", ds, "."))
   }
 
   return(studs)
@@ -400,6 +400,8 @@ EMA_to_list <- function(location, path) {
   splat <- unlist(strsplit(path, split='/', fixed=TRUE))
   EMA_name <- splat[length(splat)]
 
+  if (EMA_name == "QR_Code") EMA_name <- "QR"
+
   pr <- paste0(location, "/", path, "/", EMA_name, "_u")
   paths <- c(paste0(pr, "0", seq(0,9), ".json"),
              paste0(pr, seq(10,59), ".json"))
@@ -414,7 +416,7 @@ EMA_to_list <- function(location, path) {
     warning = function(w){})
   }
 
-  vars_present <- unique(lapply(studs, 'names'))
+  vars_present <- unique(lapply(studs, function(x){sort(names(x))} ))
 
   if ( length(vars_present) == 0 ) {
     stop(paste0("There was an error finding data. ",
@@ -429,12 +431,40 @@ EMA_to_list <- function(location, path) {
     }
   }
 
+  if (EMA_name == "PAM") {
+
+    EMA_questions <- paste0("Refer to: Pollak, J. P., Adams, P., & Gay, G.",
+                            " (2011, May). PAM: a photographic affect meter",
+                            " for frequent, in situ measurement of affect.",
+                            " In Proceedings of the SIGCHI conference on Human",
+                            " factors in computing systems (pp. 725-734). ACM.")
+
+  } else if (EMA_name == "QR") {
+
+    EMA_name <- "QR_Code"
+    EMA_questions <- paste0(
+                     "Classroom seating positions. See the layout at ",
+                     "https://studentlife.cs.dartmouth.edu/dataset.html")
+
+  } else {
+    EMA_definition <- jsonlite::fromJSON(
+      paste0(location,"/EMA/EMA_definition.json"), flatten = TRUE)
+    EMA_questions <- EMA_definition[
+      which(EMA_definition$name == EMA_name),2][[1]]
+    EMA_questions <- tibble::as_tibble(EMA_questions)
+    EMA_questions <- EMA_questions[-which(EMA_questions$question_id == "location"),]
+  }
+
   attr(studs, "vars_present") <- vars_present
+  attr(studs, "EMA_name") <- EMA_name
+  attr(studs, "EMA_questions") <- EMA_questions
 
   return(studs)
 }
 
 EMA_list_to_tibble <- function(studs, vars = "resp_time") {
+
+  studs_list <- studs
 
   # Drop lists not sharing variable names specified by parameter 'vars'
   null_ind <- c()
@@ -443,7 +473,6 @@ EMA_list_to_tibble <- function(studs, vars = "resp_time") {
       null_ind <- c(null_ind, i)
     }
   }
-  dropped_students <- length(null_ind)
   studs[null_ind] <- NULL
 
   # Drop all columns other than those specified by parameter 'vars'
@@ -458,7 +487,11 @@ EMA_list_to_tibble <- function(studs, vars = "resp_time") {
     dplyr::bind_rows() %>%
     tibble::as_tibble()
 
-  attr(studs, "dropped_students") <- dropped_students
+  attr(studs, "dropped_students") <- null_ind - 1
+
+  transfer_EMA_attrs(studs) <- studs_list
+
+  class(studs) <- c("EMA_tbl", class(studs))
 
   return(studs)
 }
