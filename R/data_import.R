@@ -19,7 +19,7 @@
 #'p <- "C:/Users/danie/Data/StudentLife/dataset"
 #'d <- "dataset"
 #'download_studentlife(dest_prefix = p, destfile = d)
-#'read_from_SL(location = paste0(p, "/", d))
+#'load_SL_tibble(location = paste0(p, "/", d))
 #'
 #'
 
@@ -51,34 +51,42 @@ download_studentlife <- function(
 
 
 
-#' read_from_SL
+#' load_SL_tibble
 #'
-#' Import a chosen StudentLife data set as
-#' a tibble. Leave \code{menu1} and \code{menu2}
+#' Import a chosen StudentLife table as
+#' a tibble. Leave \code{schema} and \code{table}
 #' unspecified to choose interactively via a
 #' menu.
 #'
-#' @param menu1 The Menu 1 choice. Leave
+#' @param schema An integer. The menu 1 choice. Leave
 #' blank to choose interactively.
-#' @param menu2 The Menu 1 choice. Leave
+#' @param table An integer. The menu 2 choice. Leave
 #' blank to choose interactively.
 #' @param location The path to the top
 #' directory of the StudentLife dataset
+#' @param time_options A character vector specifying which
+#' table types to include in the menu, organised by level
+#' of time information present. The default includes everything. Note
+#' this parameter only has an effect when used with the interactive menu.
 #' @param vars Character vector of variable
 #' names to import for all students. Leave
 #' blank and this will be chosen interactively
 #' if necesssary.
+#' @param csv_nrows An integer specifying the number of rows to read
+#' per student if the target is a csv. The largest files in StudentLife are csv
+#' files, so this allows code testing with less overhead.
 #'
 #' @examples
 #' p <- "D:/Datasets/studentlife/dataset"
-#' students <- import_from_SL(location = p)
+#' students <- load_SL_tibble(location = p)
 #'
 #' @export
+load_SL_tibble <- function(
+  schema, table, location = ".",
+  time_options = c("period", "timestamp", "dateonly", "dateless"),
+  vars, csv_nrows) {
 
-
-read_from_SL <- function(menu1, menu2, location = ".", vars) {
-
-  path <- get_path(menu1, menu2)
+  path <- get_path(schema, table, time_options)
 
   if ( path %in% EMA_json ) {
 
@@ -86,11 +94,11 @@ read_from_SL <- function(menu1, menu2, location = ".", vars) {
 
   } else if ( path %in% long_csv ) {
 
-    studs <- get_long_csv_studs(path, location, vars)
+    studs <- get_long_csv_studs(path, location, vars, csv_nrows)
 
   } else if ( path %in% wide_csv ) {
 
-    studs <- get_wide_csv_studs(path, location, vars)
+    studs <- get_wide_csv_studs(path, location, vars, csv_nrows)
 
   } else if ( path %in% txt ) {
 
@@ -105,91 +113,7 @@ read_from_SL <- function(menu1, menu2, location = ".", vars) {
 
 
 
-# Helper functions and shared variables ---------------------------------
-
-EMAs <- c("Activity",
-          "Administration's response",
-          "Behavior",
-          "Boston Bombing",
-          "Cancelled Classes",
-          "Class",
-          "Class 2",
-          "Comment",
-          "Dartmouth now",
-          "Dimensions",
-          "Dimensions protestors",
-          "Dining Halls",
-          "Do Campbell's jokes suck_",
-          "Events",
-          "Exercise",
-          "Green Key 1",
-          "Green Key 2",
-          "Lab",
-          "Mood",
-          "Mood 1",
-          "Mood 2",
-          "PAM",
-          "QR_Code",
-          "Sleep",
-          "Social",
-          "Stress",
-          "Study Spaces")
-
-sensors <- c("activity",
-             "audio",
-             "bluetooth",
-             "conversation",
-             "dark",
-             "gps",
-             "phonecharge",
-             "phonelock",
-             "wifi",
-             "wifi_location")
-
-others <- c("app_usage",
-            "calendar",
-            "call_log",
-            "dining",
-            "sms")
-
-educations <- c("class",
-                "deadlines",
-                "grades",
-                "piazza")
-
-surveys <- c("BigFive",
-             "FlourishingScale",
-             "LonelinessScale",
-             "panas",
-             "PerceivedStressScale",
-             "PHQ-9",
-             "psqi",
-             "vr_12")
-
-
-menu1_choices <- c("sensing", "EMA", "education", "survey", "other")
-menu2_list <- list("sensing" = sensors,
-                   "EMA/response" = EMAs,
-                   "other" = others,
-                   "education" = educations,
-                   "survey" = surveys)
-
-
-## In dataset/
-
-# Open to wide csv
-wide_csv <- c(paste0("survey/",surveys),
-              paste0("education/", educations))
-
-# Open to txt
-txt <- c("dinning")
-
-# Open to long format student csv
-long_csv <- c("sms", "call_log", "calendar", "app_usage",
-              paste0("sensing/", menu2_list[["sensing"]]))
-
-# Open to student json
-EMA_json <- paste0("EMA/response/", menu2_list[["EMA/response"]])
+# Helper functions ---------------------------------
 
 
 get_txt_studs <- function(path, location, vars) {
@@ -199,6 +123,7 @@ get_txt_studs <- function(path, location, vars) {
   pr <- paste0(location, "/", path, "/", "u")
   paths <- c(paste0(pr, "0", seq(0,9), ".txt"),
              paste0(pr, seq(10,59), ".txt"))
+
   readr::read_csv(paths[2],
                   col_names = c("date-time","location","type"))
   studs <- list()
@@ -225,49 +150,55 @@ get_txt_studs <- function(path, location, vars) {
 }
 
 
-get_wide_csv_studs <- function(path, location, vars) {
+get_wide_csv_studs <- function(path, location, vars, csv_nrows) {
 
   full_path <- paste0(location, "/", path, ".csv")
-  studs <- utils::read.csv(full_path)
+  name <- get_name_from_path(path)
+
+  args <- list(file = full_path)
+  cn <- c("uid", "class1", "class2", "class3", "class4")
+  if (name == "class") {args$col.names = cn; args$header = FALSE}
+  if (!missing(csv_nrows)) args$nrows = csv_nrows
+  studs <- do.call(utils::read.csv, args)
 
   studs$uid <- as.integer(substr(studs$uid, 2, 3))
-
-  if(!missing(vars))
-    studs <- dplyr::select(studs, vars)
-
   studs <- tibble::as_tibble(studs)
+  if(!missing(vars)) studs <- dplyr::select(studs, vars)
+
 
   return(studs)
 }
 
 
 
-get_long_csv_studs <- function(path, location, vars) {
+get_long_csv_studs <- function(path, location, vars, csv_nrows) {
 
   `%>%` <- dplyr::`%>%`
 
-  # Import the data
-  splat <- unlist(strsplit(path, split='/', fixed=TRUE))
-  name <- splat[length(splat)]
+  name <- get_name_from_path(path)
   if( name == "app_usage" ) name <- "running_app"
   if( name == "bluetooth" ) name <- "bt"
-  pr <- paste0(location, "/", path, "/", name, "_u")
-  paths <- c(paste0(pr, "0", seq(0,9), ".csv"),
-             paste0(pr, seq(10,59), ".csv"))
+  paths <- generate_paths(location, path, name)
+
+  args <- list()
+  if ( !missing(csv_nrows) ) args$nrows <- csv_nrows
+
   studs <- list()
   missing_studs <- 0
   if ( name == "wifi_location" || name == "gps" ) {
+    args2 <- c(args, list(skip = 1, header = FALSE,
+      stringsAsFactors = FALSE))
     for (i in 1:60) {
+
+      args2$file <- paths[i]
       tryCatch({
         col_names <- as.character(
-          utils::read.csv(paths[i], nrows = 1,
+          utils::read.csv(file = paths[i], nrows = 1,
                    stringsAsFactors = FALSE,
                    header = FALSE))
+        args2$col.names <- c(col_names, "to_drop")
         this_stud <- suppressMessages(
-          utils::read.csv(paths[i], skip = 1,
-                   col.names = c(col_names, "to_drop"),
-                   header = FALSE,
-                   stringsAsFactors = FALSE))
+          do.call(utils::read.csv, args2))
         this_stud$to_drop <- NULL
         this_stud$uid <- i - 1
         studs[[length(studs)+1]] <- this_stud
@@ -276,10 +207,11 @@ get_long_csv_studs <- function(path, location, vars) {
       warning = function(w) {})
     }
   } else {
+    if ( missing(csv_nrows) ) csv_nrows <- Inf
     for (i in 1:60) {
       tryCatch({
         this_stud <- suppressMessages(
-          readr::read_csv(paths[i], progress = FALSE))
+          readr::read_csv(file = paths[i], progress = FALSE, n_max = csv_nrows))
         this_stud$uid <- i - 1
         studs[[length(studs)+1]] <- this_stud
       }, error = function(e){missing_studs <<- missing_studs + 1},
@@ -289,7 +221,7 @@ get_long_csv_studs <- function(path, location, vars) {
 
   if ( path == "sms" & missing(vars) ) {
     studs <- lapply(studs, function(x){
-      x <- dplyr::select(x, id, device, timestamp)
+      x <- dplyr::select(as.data.frame(x), id, device, timestamp)
     })
   }
 
@@ -315,7 +247,7 @@ get_EMA_studs <- function(path, location, vars) {
     vars_list <- attributes(studs)$vars_present
 
     vars_opt <- unlist(lapply(vars_list, function(x) {
-      paste0(unlist(x), collapse = ", ")
+      sort(paste0(unlist(x), collapse = ", "))
     }))
 
     if ( length(vars_opt) > 1 ) {
@@ -345,13 +277,16 @@ get_EMA_studs <- function(path, location, vars) {
 
 
 
-get_path <- function(menu1, menu2) {
+get_path <- function(menu1, menu2, time_options) {
 
   if ( missing(menu1) & !missing(menu2) ) {
     stop(paste0("if menu2 is specified then menu1 ",
                 "must be specified also"))
   }
 
+  # Present interactive menu 1
+  menu1_restrict <- unlist(time_opt_list1[time_options], use.names = FALSE)
+  menu1_choices <- menu1_choices[which(menu1_choices %in% menu1_restrict)]
   if ( missing(menu1) ) {
 
     menu1 <- menu1_choices[[utils::menu(
@@ -366,7 +301,10 @@ get_path <- function(menu1, menu2) {
 
   if (menu1 == "EMA") menu1 <- "EMA/response"
 
+  # Present interactive menu 2
   menu2_choices <- menu2_list[[menu1]]
+  menu2_restrict <- unlist(time_opt_list2[time_options], use.names = FALSE)
+  menu2_choices <- menu2_choices[which(menu2_choices %in% menu2_restrict)]
   if ( missing(menu2) ) {
 
       menu2 <- utils::menu(
@@ -385,8 +323,7 @@ get_path <- function(menu1, menu2) {
   }
 
   result <- paste0(menu1, "/", menu2)
-  splat <- unlist(strsplit(result, split='other/', fixed=TRUE))
-  result <- splat[length(splat)]
+  result <- get_name_from_path(result, split = 'other/')
 
   if ( result == "dining" ) result <- "dinning"
 
@@ -397,14 +334,10 @@ EMA_to_list <- function(location, path) {
 
   `%>%` <- dplyr::`%>%`
 
-  splat <- unlist(strsplit(path, split='/', fixed=TRUE))
-  EMA_name <- splat[length(splat)]
+  name <- get_name_from_path(path)
+  if (name == "QR_Code") name <- "QR"
+  paths <- generate_paths(location, path, name, ext = ".json")
 
-  if (EMA_name == "QR_Code") EMA_name <- "QR"
-
-  pr <- paste0(location, "/", path, "/", EMA_name, "_u")
-  paths <- c(paste0(pr, "0", seq(0,9), ".json"),
-             paste0(pr, seq(10,59), ".json"))
   studs <- list()
   missing_studs <- 0
   for (i in 1:60) {
@@ -431,7 +364,8 @@ EMA_to_list <- function(location, path) {
     }
   }
 
-  if (EMA_name == "PAM") {
+  ## Get EMA definition information
+  if (name == "PAM") {
 
     EMA_questions <- paste0("Refer to: Pollak, J. P., Adams, P., & Gay, G.",
                             " (2011, May). PAM: a photographic affect meter",
@@ -439,9 +373,9 @@ EMA_to_list <- function(location, path) {
                             " In Proceedings of the SIGCHI conference on Human",
                             " factors in computing systems (pp. 725-734). ACM.")
 
-  } else if (EMA_name == "QR") {
+  } else if (name == "QR") {
 
-    EMA_name <- "QR_Code"
+    name <- "QR_Code"
     EMA_questions <- paste0(
                      "Classroom seating positions. See the layout at ",
                      "https://studentlife.cs.dartmouth.edu/dataset.html")
@@ -450,13 +384,14 @@ EMA_to_list <- function(location, path) {
     EMA_definition <- jsonlite::fromJSON(
       paste0(location,"/EMA/EMA_definition.json"), flatten = TRUE)
     EMA_questions <- EMA_definition[
-      which(EMA_definition$name == EMA_name),2][[1]]
+      which(EMA_definition$name == name),2][[1]]
     EMA_questions <- tibble::as_tibble(EMA_questions)
     EMA_questions <- EMA_questions[-which(EMA_questions$question_id == "location"),]
   }
 
+  attr(studs, "missing_students") <- missing_studs
   attr(studs, "vars_present") <- vars_present
-  attr(studs, "EMA_name") <- EMA_name
+  attr(studs, "EMA_name") <- name
   attr(studs, "EMA_questions") <- EMA_questions
 
   return(studs)
@@ -477,7 +412,7 @@ EMA_list_to_tibble <- function(studs, vars = "resp_time") {
 
   # Drop all columns other than those specified by parameter 'vars'
   studs <- lapply(studs, function(x){
-    dplyr::select(x, vars)
+    dplyr::select(as.data.frame(x), vars)
   })
 
   `%>%` <- dplyr::`%>%`
@@ -487,7 +422,7 @@ EMA_list_to_tibble <- function(studs, vars = "resp_time") {
     dplyr::bind_rows() %>%
     tibble::as_tibble()
 
-  attr(studs, "dropped_students") <- null_ind - 1
+  attr(studs_list, "dropped_students") <- null_ind - 1
 
   transfer_EMA_attrs(studs) <- studs_list
 
@@ -495,6 +430,124 @@ EMA_list_to_tibble <- function(studs, vars = "resp_time") {
 
   return(studs)
 }
+
+
+
+# Shared variables  -------------------------------------------------------
+
+EMA <- c("Activity",
+         "Administration's response",
+         "Behavior",
+         "Boston Bombing",
+         "Cancelled Classes",
+         "Class",
+         "Class 2",
+         "Comment",
+         "Dartmouth now",
+         "Dimensions",
+         "Dimensions protestors",
+         "Dining Halls",
+         "Do Campbell's jokes suck_",
+         "Events",
+         "Exercise",
+         "Green Key 1",
+         "Green Key 2",
+         "Lab",
+         "Mood",
+         "Mood 1",
+         "Mood 2",
+         "PAM",
+         "QR_Code",
+         "Sleep",
+         "Social",
+         "Stress",
+         "Study Spaces")
+
+sensing <- c("activity",
+             "audio",
+             "bluetooth",
+             "conversation",
+             "dark",
+             "gps",
+             "phonecharge",
+             "phonelock",
+             "wifi",
+             "wifi_location")
+
+other <- c("app_usage",
+           "calendar",
+           "call_log",
+           "dining",
+           "sms")
+
+education <- c("class",
+               "deadlines",
+               "grades",
+               "piazza")
+
+survey <- c("BigFive",
+            "FlourishingScale",
+            "LonelinessScale",
+            "panas",
+            "PerceivedStressScale",
+            "PHQ-9",
+            "psqi",
+            "vr_12")
+
+# Tables that have a start_time and end_time (or 'start' and 'end') timestamp
+period <- c("conversation", "dark", "phonecharge", "phonelock")
+
+# Tables that have a timestamp
+timestamp <- c(other,
+               EMA,
+               sensing[-which(sensing %in% period)])
+
+# Tables that only have a date
+dateonly <- c("deadlines")
+
+# Tables that have no indication of time
+dateless <- c(education[-which(education %in% dateonly)],
+              survey)
+
+
+#timestamp_names <- c("timestamp", "date-time", "resp_time")
+
+time_opt_list1 <- list("period"    = c("sensing"),
+                       "timestamp" = c("other", "EMA", "sensing"),
+                       "dateonly"  = c("education"),
+                       "dateless"  = c("education", "survey"))
+
+time_opt_list2 <- list("period" = period,
+                       "timestamp" = timestamp,
+                       "dateonly" = dateonly,
+                       "dateless" = dateless)
+
+# These are the schemas
+menu1_choices <- c("sensing", "EMA", "education", "survey", "other")
+
+# List of tables by schema
+menu2_list <- list("sensing" = sensing,
+                   "EMA/response" = EMA,
+                   "other" = other,
+                   "education" = education,
+                   "survey" = survey)
+
+
+## In dataset/
+
+# Open to wide csv
+wide_csv <- c(paste0("survey/",survey),
+              paste0("education/", education))
+
+# Open to txt
+txt <- c("dinning")
+
+# Open to long format student csv
+long_csv <- c("sms", "call_log", "calendar", "app_usage",
+              paste0("sensing/", menu2_list[["sensing"]]))
+
+# Open to student json
+EMA_json <- paste0("EMA/response/", menu2_list[["EMA/response"]])
 
 
 
@@ -523,13 +576,13 @@ EMA_list_to_tibble <- function(studs, vars = "resp_time") {
 ## #'
 ## #'
 ## #' @examples
-## #' # Import Stress EMAs
+## #' # Import Stress EMA
 ## #' p <- "C:/Users/danie/Data/StudentLife/dataset/dataset/EMA/response/"
 ## #' n <-  "Stress"
 ## #' v <- c("level", "resp_time")
 ## #' stress <- JSON2tibble(p, n, v)
 ## #'
-## #' # Import PAM EMAs
+## #' # Import PAM EMA
 ## #' p <- "C:/Users/danie/Data/StudentLife/dataset/dataset/EMA/response/"
 ## #' n <-  "PAM"
 ## #' v <- c("picture_idx", "resp_time")

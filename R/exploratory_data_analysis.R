@@ -15,7 +15,7 @@ strongest_uids <- function(studs, n = 10) {
 
   return((studsg %>% dplyr::group_by(uid) %>%
            summarise(nr = dplyr::n()) %>%
-           dplyr::top_n(10, nr))$uid)
+           dplyr::top_n(n, nr))$uid)
 }
 
 

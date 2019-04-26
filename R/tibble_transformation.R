@@ -1,3 +1,6 @@
+
+
+
 ### INCOMPLETE
 ## ISSUES:
 # Needs documentation and greater generality.
@@ -34,6 +37,30 @@ group_by_epoch <- function(studs, ..., keep_timestamps = TRUE, timestamp = "resp
 
 
 
+#' equalise_spacing
+#'
+#'
+#'
+#' @param studs
+#' @param FUN A function used to aggregate values when multiple
+#' observations are encountered in a time interval.
+#' @param by A character vector naming one or more
+#' of the columns of \code{studs}. The returned \code{data.frame}
+#' will have one observation (possibly NA) for each unique
+#' value of the columns specified.
+#' @param y An optional character vector specifying one or
+#' more of the columns in \code{studs} to be aggregated by \code{FUN}.
+#' @param per_student A logical. If \code{per_student = FALSE} then
+#' values are aggregated across students.
+#'
+#' @export
+equalise_spacing <- function(studs, FUN = mean, by = c("epoch", "day"),
+                             per_student = TRUE) {
+
+
+
+}
+
 
 ### INCOMPLETE
 ## ISSUES:
@@ -50,13 +77,13 @@ add_NAs <- function(studs, day = "day") {
 
   uids <- unique(studs$uid)
   e <- unique(studs$epoch)
-  el <- c("night","morning", "afternoon","evening")
+  el <- c("night", "morning", "afternoon", "evening")
   d <- studs[[day]]
-  ndays <- max(d) - min(d) + 1
+  ndays <- max(d) - min(d)
 
   studs <- data.frame(uid = rep(uids, each = length(e)*ndays),
                      epoch = e,
-                     day = rep(1:ndays, each = length(e))) %>%
+                     day = rep(0:ndays, each = length(e))) %>%
     tibble::as_tibble() %>%
     dplyr::mutate(epoch = factor(epoch, levels = el)) %>%
     dplyr::left_join(studs, by = c("uid", "epoch", "day"))
@@ -88,7 +115,7 @@ add_NAs <- function(studs, day = "day") {
 ## #'
 ## #' @examples
 ## #' p <- "C:/Users/danie/Data/StudentLife/dataset/dataset"
-## #' pam <- studentlife::read_from_SL(menu1 = 2, menu2 = 22, location = p)
+## #' pam <- studentlife::load_SL_tibble(schema = 2, table = 22, location = p)
 ## #'
 ## #' timestamp_convert(pam)
 ## #' # Compare to
@@ -116,7 +143,7 @@ add_NAs <- function(studs, day = "day") {
 #' add_days
 #'
 #'@export
-add_days <- function(studs, day1 = 83, timestamp = "resp_time") {
+add_days <- function(studs, year_day_1 = 83, timestamp = "resp_time", fill_NAs = FALSE) {
 
   if ( !(timestamp %in% names(studs)) )
     stop("Column not found, try changing the timestamp parameter")
@@ -124,9 +151,9 @@ add_days <- function(studs, day1 = 83, timestamp = "resp_time") {
   `%>%` <- dplyr::`%>%`
 
   date <- as.Date(as.POSIXct(studs[[timestamp]], origin="1970-01-01"))
+  studs <- dplyr::mutate(studs, day = as.integer(format(date, "%j")) - year_day_1)
 
-  return(studs %>% dplyr::mutate(
-         day = as.integer(format(date, "%j")) - day1))
+  return(studs)
 }
 
 
@@ -138,7 +165,8 @@ add_days <- function(studs, day1 = 83, timestamp = "resp_time") {
 #' add_epochs
 #'
 #'@export
-add_epochs <- function(studs, timestamp = "resp_time", add_days = TRUE, day1 = 83) {
+add_epochs <- function(studs, timestamp = "resp_time",
+                       add_days = TRUE, year_day_1 = 83) {
 
   if ( !(timestamp %in% names(studs)) )
     stop("Column not found, try changing the timestamp parameter")
@@ -159,7 +187,8 @@ add_epochs <- function(studs, timestamp = "resp_time", add_days = TRUE, day1 = 8
 
   if (add_days) {
 
-    studs <- studs %>% dplyr::mutate( day = as.numeric(format(as.Date(posix), "%j")) - day1 )
+    studs <- studs %>% dplyr::mutate(
+      day = as.numeric(format(as.Date(posix), "%j")) - year_day_1 )
 
   }
 
@@ -194,7 +223,7 @@ add_times <- function(studs, timestamp = "resp_time") {
 ###
 #' add_dates
 #'
-#'@export
+#' @export
 add_dates <- function(studs, timestamp = "resp_time") {
 
   if ( !(timestamp %in% names(studs)) )
@@ -254,7 +283,7 @@ add_weeks <- function(studs, timestamp = "resp_time", week1 = 11) {
 #'
 #' @examples
 #' p <- "C:/Users/danie/Data/StudentLife/dataset/dataset"
-#' pam <- studentlife::read_from_SL(menu1 = 2, menu2 = 22, location = p)
+#' pam <- studentlife::load_SL_tibble(schema = 2, table = 22, location = p)
 #' add_weekdays(timestamp_convert(pam))
 #'
 #'

@@ -35,6 +35,7 @@ summary.EMA_tbl <- function(object, ...) {
   class(s) <- "summary.EMA_tbl"
   return(s)
 }
+
 print.summary.EMA_tbl <- function(x, ...) {
 
 
