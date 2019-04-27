@@ -12,7 +12,7 @@ library(studentlife)
 download_studentlife(dest = d)
 ```
 
-Then you can use the interactive menu to browse the schemas:
+Then you can use the interactive menu to browse the tables and schemas:
 
 ```r
 studs <- studentlife::load_SL_tibble(location = d)
