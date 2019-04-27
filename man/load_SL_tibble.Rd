@@ -9,10 +9,10 @@ load_SL_tibble(schema, table, location = ".",
   csv_nrows, datafolder = "/dataset")
 }
 \arguments{
-\item{schema}{An integer. The menu 1 choice. Leave
+\item{schema}{A character string. The menu 1 choice. Leave
 blank to choose interactively.}
 
-\item{table}{An integer. The menu 2 choice. Leave
+\item{table}{A character string. The menu 2 choice. Leave
 blank to choose interactively.}
 
 \item{location}{The path to a copy of the StudentLife dataset.}

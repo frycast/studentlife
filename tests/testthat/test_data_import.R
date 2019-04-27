@@ -1,5 +1,17 @@
 testthat::context("loading SL_tibbles")
 
+##loc <- "tests/testthat/testdata/SL_testdata"
+##studs <- load_SL_tibble(schema = "sensing", table = studentlife:::menu_data$sensing[2],
+##                        location = loc, csv_nrows = 1, vars = "timestamp"); studs
+
+testthat::test_that( "load tables from sensing with vars = timestamp", {
+  loc <- "testdata/SL_testdata"
+  for (i in 1:length(menu_data$sensing)) {
+    studs <- load_SL_tibble(schema = "sensing", table = studentlife:::menu_data$sensing[i],
+                            location = loc, csv_nrows = 1, vars = "timestamp")
+    testthat::expect_true(nrow(studs) > 0)
+  }
+})
 
 testthat::test_that( "load tables from sensing", {
   loc <- "testdata/SL_testdata"
@@ -19,7 +31,6 @@ test_that( "load tables from EMA", {
   }
 })
 
-
 test_that( "load tables from education", {
   loc <- "testdata/SL_testdata"
   for (i in 1:length(menu_data$education)) {
@@ -28,7 +39,6 @@ test_that( "load tables from education", {
     testthat::expect_true(nrow(studs) > 0)
   }
 })
-
 
 test_that( "load tables from survey", {
   loc <- "testdata/SL_testdata"
@@ -47,5 +57,3 @@ test_that( "load tables from other", {
     testthat::expect_true(nrow(studs) > 0)
   }
 })
-
-
