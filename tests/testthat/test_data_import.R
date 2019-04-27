@@ -19,6 +19,7 @@ testthat::test_that( "load tables from sensing with vars = timestamp", {
     testthat::expect_true(
       "timestamp_SL_tbl" %in% class(studs_list[[!!i]])
       || "interval_SL_tbl" %in% class(studs_list[[!!i]]))
+    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
   }
 })
 
@@ -37,6 +38,7 @@ testthat::test_that( "load tables from sensing", {
     testthat::expect_true(
       "timestamp_SL_tbl" %in% class(studs_list[[!!i]])
       || "interval_SL_tbl" %in% class(studs_list[[!!i]]))
+    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
   }
 })
 
@@ -51,6 +53,7 @@ testthat::test_that( "load tables from EMA with vars = timestamp", {
     testthat::expect_true("timestamp" %in% names(studs_list[[!!i]]))
     testthat::expect_true("uid" %in% names(studs_list[[!!i]]))
     testthat::expect_s3_class(studs_list[[!!i]], "timestamp_SL_tbl")
+    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
   }
 })
 
@@ -65,6 +68,7 @@ testthat::test_that( "load tables from education", {
     if ( studentlife:::menu_data$education[i] == "deadlines" )
       testthat::expect_s3_class(studs_list[[!!i]], "dateonly_SL_tbl")
   }
+  testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
 })
 
 testthat::test_that( "load tables from survey", {
@@ -75,6 +79,7 @@ testthat::test_that( "load tables from survey", {
       schema = "survey", table = studentlife:::menu_data$survey[i],
       location = loc, csv_nrows = 1)
     testthat::expect_true(nrow(studs_list[[!!i]]) > 0)
+    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
   }
 })
 
@@ -89,6 +94,7 @@ testthat::test_that( "load tables from other", {
     testthat::expect_true("timestamp" %in% names(studs_list[[!!i]]))
     testthat::expect_true("uid" %in% names(studs_list[[!!i]]))
     testthat::expect_s3_class(studs_list[[!!i]], "timestamp_SL_tbl")
+    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
   }
 })
 

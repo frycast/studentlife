@@ -61,12 +61,12 @@ survey <- c("BigFive",
             "vr_12")
 
 # Tables that have a start_time and end_time (or 'start' and 'end') timestamp
-period <- c("conversation", "dark", "phonecharge", "phonelock")
+interval <- c("conversation", "dark", "phonecharge", "phonelock")
 
 # Tables that have a timestamp
 timestamp <- c(other,
                EMA,
-               sensing[-which(sensing %in% period)])
+               sensing[-which(sensing %in% interval)])
 
 # Tables that only have a date
 dateonly <- c("deadlines")
@@ -78,12 +78,12 @@ dateless <- c(education[-which(education %in% dateonly)],
 
 #timestamp_names <- c("timestamp", "date-time", "resp_time")
 
-time_opt_list1 <- list("period"    = c("sensing"),
+time_opt_list1 <- list("interval"  = c("sensing"),
                        "timestamp" = c("other", "EMA", "sensing"),
                        "dateonly"  = c("education"),
                        "dateless"  = c("education", "survey"))
 
-time_opt_list2 <- list("period" = period,
+time_opt_list2 <- list("interval" = interval,
                        "timestamp" = timestamp,
                        "dateonly" = dateonly,
                        "dateless" = dateless)
@@ -121,7 +121,7 @@ menu_data <- list("EMA" = EMA,
                   "other" = other,
                   "education" = education,
                   "survey" = survey,
-                  "period" = period,
+                  "interval" = interval,
                   "timestamp" = timestamp,
                   "dateonly" = dateonly,
                   "dateless" = dateless,

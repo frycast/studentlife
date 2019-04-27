@@ -11,15 +11,16 @@
 \arguments{
 \item{url}{The url for the StudentLife dataset.}
 
-\item{dest}{The destination path.}
+\item{dest}{The destination path. If the path does
+not exist it is created with \code{\link{dir.create}}}
 
 \item{unzip}{Logical. If \code{TRUE} then the
-dataset will be unzipped. Leave as default
-unless you plan to do it manually.}
+dataset will be unzipped with \code{\link{bunzip2}}.
+Leave as default unless you plan to do it manually.}
 
 \item{untar}{Logical. If \code{TRUE} then the
-dataset will be untarred. Leave as default
-unless you plan to do it manually.}
+dataset will be untarred with \code{\link{untar}}.
+Leave as default unless you plan to do it manually.}
 }
 \description{
 Download the entire StudentLife dataset
@@ -27,6 +28,13 @@ Download the entire StudentLife dataset
 \examples{
 d <- "D:/Datasets/studentlife"
 download_studentlife(dest = d)
+
+## With menu
 load_SL_tibble(location = d)
+
+## Without menu
+SL_tables
+load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+
 
 }

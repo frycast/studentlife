@@ -3,13 +3,14 @@
 #' Download the entire StudentLife dataset
 #'
 #'@param url The url for the StudentLife dataset.
-#'@param dest The destination path.
+#'@param dest The destination path. If the path does
+#'not exist it is created with \code{\link{dir.create}}
 #'@param unzip Logical. If \code{TRUE} then the
-#'dataset will be unzipped. Leave as default
-#'unless you plan to do it manually.
+#'dataset will be unzipped with \code{\link{bunzip2}}.
+#'Leave as default unless you plan to do it manually.
 #'@param untar Logical. If \code{TRUE} then the
-#'dataset will be untarred. Leave as default
-#'unless you plan to do it manually.
+#'dataset will be untarred with \code{\link{untar}}.
+#'Leave as default unless you plan to do it manually.
 #'
 #'@examples
 #'d <- "D:/Datasets/studentlife"
@@ -34,6 +35,7 @@ download_studentlife <- function(
   message("Downloading the StudentLife dataset...")
   d <- "dataset.tar.bz2"
   p <- paste0(dest, "/", d)
+  if (!dir.exists(p)) dir.create(p)
   download.file(url = url, destfile = p)
   message("Download complete")
 
@@ -89,13 +91,33 @@ download_studentlife <- function(
 #' be left as the default.
 #'
 #' @examples
-#' p <- "D:/Datasets/studentlife"
-#' students <- load_SL_tibble(location = p)
+#'d <- "D:/Datasets/studentlife"
+#'download_studentlife(dest = d)
+#'
+#'## With menu
+#'load_SL_tibble(location = d)
+#'
+#'## Without menu
+#'SL_tables
+#'PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+#'
+#'## Load less data for testing with less overhead
+#'act <- load_SL_tibble(schema = "sensing", table = "activity",
+#'                      location = d, csv_nrows = 10)
+#'
+#'## Browse all tables with timestamps (non-interval)
+#'load_SL_tibble(location = d, time_options = "timestamp", csv_nrows = 10)
+#'
+#'## Browse all tables with intervals
+#'load_SL_tibble(location = d, time_options = "interval", csv_nrows = 10)
+#'
+#'## Browse all dateless tables
+#'load_SL_tibble(location = d, time_options = "dateless", csv_nrows = 10)
 #'
 #' @export
 load_SL_tibble <- function(
   schema, table, location = ".",
-  time_options = c("period", "timestamp", "dateonly", "dateless"),
+  time_options = c("interval", "timestamp", "dateonly", "dateless"),
   vars, csv_nrows, datafolder = "/dataset") {
 
   if (!missing(vars)) {
@@ -176,12 +198,13 @@ get_txt_studs <- function(path, location, vars) {
 
   if ( !missing(vars) ) studs <- dplyr::select(studs, vars)
 
+  class(studs) <- c("SL_tbl", class(studs))
+
   if ( "date-time" %in% names(studs) ) {
     names(studs)[which(names(studs) == "date-time")] <- "timestamp"
     studs$timestamp <- as.numeric(as.POSIXct(studs$timestamp, origin="1970-01-01"))
     class(studs) <- c("timestamp_SL_tbl", class(studs))
   }
-
 
   return(studs)
 }
@@ -201,6 +224,9 @@ get_wide_csv_studs <- function(path, location, vars, csv_nrows) {
   studs$uid <- as.integer(substr(studs$uid, 2, 3))
   studs <- tibble::as_tibble(studs)
   if(!missing(vars)) studs <- dplyr::select(studs, vars)
+
+
+  class(studs) <- c("SL_tbl", class(studs))
 
   if ( name == "deadlines" ) {
 
@@ -226,7 +252,7 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
 
   if( !missing(vars) )
     if( "timestamp" %in% vars ) {
-      if( name %in% studentlife:::menu_data$period ) {
+      if( name %in% studentlife:::menu_data$interval ) {
         if ( name == "conversation" ) {
           vars[which(vars == "timestamp")] <- "start_timestamp"
           vars <- c(vars, "end_timestamp")
@@ -291,7 +317,7 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
 
   if ( !missing(vars) ) studs <- dplyr::select(studs, vars)
 
-  if( name %in% studentlife:::menu_data$period ) {
+  if( name %in% studentlife:::menu_data$interval ) {
     if ( !(name == "conversation") ) {
       if ( "start" %in% names(studs) )
         names(studs)[which(names(studs) == "start")] <- "start_timestamp"
@@ -302,6 +328,8 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
     if ( "time" %in% names(studs) )
       names(studs)[which(names(studs) == "time")] <- "timestamp"
   }
+
+  class(studs) <- c("SL_tbl", class(studs))
 
   if ("timestamp" %in% names(studs))
     class(studs) <- c("timestamp_SL_tbl", class(studs))
@@ -353,6 +381,12 @@ get_EMA_studs <- function(path, location, vars) {
   if (ds > 0) {
     message(paste0("The students dropped ",
                    " with the choice of vars were numbers ", ds, "."))
+  }
+
+  class(studs) <- c("SL_tbl", class(studs))
+
+  if ("timestamp" %in% names(studs)) {
+    class(studs) <- c("EMA_SL_tbl", "timestamp_SL_tbl", class(studs))
   }
 
   return(studs)
@@ -458,10 +492,6 @@ EMA_list_to_tibble <- function(studs, vars = "resp_time") {
   attr(studs_list, "dropped_students") <- null_ind - 1
   transfer_EMA_attrs(studs) <- studs_list
 
-  if ("timestamp" %in% names(studs)) {
-    class(studs) <- c("EMA_SL_tbl", "timestamp_SL_tbl", class(studs))
-  }
-
   return(studs)
 }
 
@@ -482,11 +512,9 @@ get_path <- function(location, menu1, menu2, time_options) {
     menu1 <- menu1_choices[[utils::menu(
       choices = menu1_choices,
       title = "Choose Menu 1 option:")]]
-
   } else {
 
     menu1 <- menu1_choices[[menu1]]
-
   }
 
   if (menu1 == "EMA") menu1 <- "EMA/response"
@@ -505,11 +533,9 @@ get_path <- function(location, menu1, menu2, time_options) {
   if ( !is.null(menu2_choices) ) {
 
     menu2 <- menu2_choices[[menu2]]
-
   } else {
 
     menu2 <- NULL
-
   }
 
   result <- paste0(menu1, "/", menu2)

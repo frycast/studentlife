@@ -5,8 +5,8 @@
 \title{load_SL_tibble}
 \usage{
 load_SL_tibble(schema, table, location = ".",
-  time_options = c("period", "timestamp", "dateonly", "dateless"), vars,
-  csv_nrows, datafolder = "/dataset")
+  time_options = c("interval", "timestamp", "dateonly", "dateless"),
+  vars, csv_nrows, datafolder = "/dataset")
 }
 \arguments{
 \item{schema}{A character string. The menu 1 choice. Leave
@@ -25,7 +25,10 @@ this parameter only has an effect when used with the interactive menu.}
 \item{vars}{Character vector of variable
 names to import for all students. Leave
 blank and this will be chosen interactively
-if necesssary.}
+if necesssary. If \code{vars} contains
+"timestamp" then effort will be made
+to convert "timestamp" to appropriate
+variable name(s) for the target table.}
 
 \item{csv_nrows}{An integer specifying the number of rows to read
 per student if the target is a csv. The largest files in StudentLife are csv
@@ -42,7 +45,27 @@ unspecified to choose interactively via a
 menu.
 }
 \examples{
-p <- "D:/Datasets/studentlife"
-students <- load_SL_tibble(location = p)
+d <- "D:/Datasets/studentlife"
+download_studentlife(dest = d)
+
+## With menu
+load_SL_tibble(location = d)
+
+## Without menu
+SL_tables
+PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+
+## Load less data for testing with less overhead
+act <- load_SL_tibble(schema = "sensing", table = "activity",
+                     location = d, csv_nrows = 10)
+
+## Browse all tables with timestamps (non-interval)
+load_SL_tibble(location = d, time_options = "timestamp", csv_nrows = 10)
+
+## Browse all tables with intervals
+load_SL_tibble(location = d, time_options = "interval", csv_nrows = 10)
+
+## Browse all dateless tables
+load_SL_tibble(location = d, time_options = "dateless", csv_nrows = 10)
 
 }
