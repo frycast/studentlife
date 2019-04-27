@@ -1,0 +1,1067 @@
+{
+    "ANTH 012": {
+        "location": "silsby-rocky",
+        "periods": [
+            {
+                "day": 1,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 3,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 5,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 2,
+                "end": "12:50",
+                "start": "12:00"
+            }
+        ]
+    },
+    "BIOL 004": {
+        "location": "lsb",
+        "periods": [
+            {
+                "day": 2,
+                "end": "11:50",
+                "start": "10:00"
+            },
+            {
+                "day": 4,
+                "end": "11:50",
+                "start": "10:00"
+            },
+            {
+                "day": 3,
+                "end": "15:50",
+                "start": "15:00"
+            }
+        ]
+    },
+    "BIOL 006": {
+        "location": "lsb",
+        "periods": [
+            {
+                "day": 2,
+                "end": "11:50",
+                "start": "10:00"
+            },
+            {
+                "day": 4,
+                "end": "11:50",
+                "start": "10:00"
+            },
+            {
+                "day": 3,
+                "end": "15:50",
+                "start": "15:00"
+            }
+        ]
+    },
+    "CHIN 033": {
+        "location": "reed",
+        "periods": [
+            {
+                "day": 1,
+                "end": "09:50",
+                "start": "09:00"
+            },
+            {
+                "day": 2,
+                "end": "09:50",
+                "start": "09:00"
+            },
+            {
+                "day": 4,
+                "end": "09:50",
+                "start": "09:00"
+            },
+            {
+                "day": 5,
+                "end": "09:50",
+                "start": "09:00"
+            },
+            {
+                "day": 3,
+                "end": "09:50",
+                "start": "09:00"
+            }
+        ]
+    },
+    "CHIN 062": {
+        "location": "kemeny",
+        "periods": [
+            {
+                "day": 2,
+                "end": "17:50",
+                "start": "16:00"
+            },
+            {
+                "day": 4,
+                "end": "17:50",
+                "start": "16:00"
+            },
+            {
+                "day": 1,
+                "end": "17:50",
+                "start": "17:00"
+            }
+        ]
+    },
+    "COSC 007": {
+        "location": "baker-berry",
+        "periods": [
+            {
+                "day": 1,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 3,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 5,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 4,
+                "end": "13:50",
+                "start": "13:00"
+            }
+        ]
+    },
+    "COSC 020": {
+        "location": "moore",
+        "periods": [
+            {
+                "day": 2,
+                "end": "15:50",
+                "start": "14:00"
+            },
+            {
+                "day": 4,
+                "end": "15:50",
+                "start": "14:00"
+            },
+            {
+                "day": 3,
+                "end": "17:05",
+                "start": "16:15"
+            }
+        ]
+    },
+    "COSC 027": {
+        "location": "sudikoff",
+        "periods": [
+            {
+                "day": 1,
+                "end": "16:50",
+                "start": "15:00"
+            },
+            {
+                "day": 1,
+                "end": "17:50",
+                "start": "17:00"
+            },
+            {
+                "day": 4,
+                "end": "17:50",
+                "start": "16:00"
+            }
+        ]
+    },
+    "COSC 050": {
+        "location": "kemeny",
+        "periods": [
+            {
+                "day": 1,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 3,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 5,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 2,
+                "end": "13:50",
+                "start": "13:00"
+            }
+        ]
+    },
+    "COSC 057": {
+        "location": "sudikoff",
+        "periods": [
+            {
+                "day": 1,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 3,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 5,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 4,
+                "end": "13:50",
+                "start": "13:00"
+            }
+        ]
+    },
+    "COSC 060": {
+        "location": "lsb",
+        "periods": [
+            {
+                "day": 1,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 3,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 5,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 4,
+                "end": "13:50",
+                "start": "13:00"
+            }
+        ]
+    },
+    "COSC 065": {
+        "location": "lsb",
+        "periods": [
+            {
+                "day": 1,
+                "end": "11:05",
+                "start": "10:00"
+            },
+            {
+                "day": 3,
+                "end": "11:05",
+                "start": "10:00"
+            },
+            {
+                "day": 5,
+                "end": "11:05",
+                "start": "10:00"
+            },
+            {
+                "day": 4,
+                "end": "12:50",
+                "start": "12:00"
+            }
+        ]
+    },
+    "COSC 069": {
+        "location": "sudikoff",
+        "periods": [
+            {
+                "day": 2,
+                "end": "17:50",
+                "start": "16:00"
+            },
+            {
+                "day": 4,
+                "end": "17:50",
+                "start": "16:00"
+            },
+            {
+                "day": 1,
+                "end": "17:50",
+                "start": "17:00"
+            }
+        ]
+    },
+    "COSC 070": {
+        "location": "sudikoff",
+        "periods": [
+            {
+                "day": 2,
+                "end": "15:50",
+                "start": "14:00"
+            },
+            {
+                "day": 4,
+                "end": "15:50",
+                "start": "14:00"
+            },
+            {
+                "day": 3,
+                "end": "17:05",
+                "start": "16:15"
+            }
+        ]
+    },
+    "COSC 077": {
+        "location": "steele",
+        "periods": [
+            {
+                "day": 2,
+                "end": "15:50",
+                "start": "14:00"
+            },
+            {
+                "day": 4,
+                "end": "15:50",
+                "start": "14:00"
+            },
+            {
+                "day": 3,
+                "end": "17:05",
+                "start": "16:15"
+            }
+        ]
+    },
+    "COSC 089 1": {
+        "location": "sudikoff",
+        "periods": [
+            {
+                "day": 1,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 3,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 5,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 2,
+                "end": "12:50",
+                "start": "12:00"
+            }
+        ]
+    },
+    "COSC 089 2": {
+        "location": "sudikoff",
+        "periods": [
+            {
+                "day": 2,
+                "end": "15:50",
+                "start": "14:00"
+            },
+            {
+                "day": 4,
+                "end": "15:50",
+                "start": "14:00"
+            },
+            {
+                "day": 3,
+                "end": "17:05",
+                "start": "16:15"
+            }
+        ]
+    },
+    "COSC 089 3": {
+        "location": "sudikoff",
+        "periods": [
+            {
+                "day": 2,
+                "end": "11:50",
+                "start": "10:00"
+            },
+            {
+                "day": 4,
+                "end": "11:50",
+                "start": "10:00"
+            },
+            {
+                "day": 3,
+                "end": "15:50",
+                "start": "15:00"
+            }
+        ]
+    },
+    "EARS 003": {
+        "location": "lsb",
+        "periods": [
+            {
+                "day": 1,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 3,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 5,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 2,
+                "end": "12:50",
+                "start": "12:00"
+            }
+        ]
+    },
+    "ECON 024": {
+        "location": "silsby-rocky",
+        "periods": [
+            {
+                "day": 1,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 3,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 5,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 4,
+                "end": "09:50",
+                "start": "09:00"
+            }
+        ]
+    },
+    "ECON 036": {
+        "location": "kemeny",
+        "periods": [
+            {
+                "day": 1,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 3,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 5,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 4,
+                "end": "09:50",
+                "start": "09:00"
+            }
+        ]
+    },
+    "ENGL 028": {
+        "location": "lsb",
+        "periods": [
+            {
+                "day": 1,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 3,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 5,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 4,
+                "end": "09:50",
+                "start": "09:00"
+            }
+        ]
+    },
+    "ENGL 047": {
+        "location": "dartmouth_hall",
+        "periods": [
+            {
+                "day": 1,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 3,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 5,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 2,
+                "end": "12:50",
+                "start": "12:00"
+            }
+        ]
+    },
+    "ENGL 067": {
+        "location": "carson-tech_services",
+        "periods": [
+            {
+                "day": 2,
+                "end": "15:50",
+                "start": "14:00"
+            },
+            {
+                "day": 4,
+                "end": "15:50",
+                "start": "14:00"
+            },
+            {
+                "day": 3,
+                "end": "17:05",
+                "start": "16:15"
+            }
+        ]
+    },
+    "ENGS 022": {
+        "location": "cummings",
+        "periods": [
+            {
+                "day": 1,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 3,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 5,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 4,
+                "end": "09:50",
+                "start": "09:00"
+            }
+        ]
+    },
+    "ENGS 025": {
+        "location": "cummings",
+        "periods": [
+            {
+                "day": 1,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 3,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 5,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 4,
+                "end": "13:50",
+                "start": "13:00"
+            }
+        ]
+    },
+    "ENGS 069": {
+        "location": "lsb",
+        "periods": [
+            {
+                "day": 1,
+                "end": "11:05",
+                "start": "10:00"
+            },
+            {
+                "day": 3,
+                "end": "11:05",
+                "start": "10:00"
+            },
+            {
+                "day": 5,
+                "end": "11:05",
+                "start": "10:00"
+            },
+            {
+                "day": 4,
+                "end": "12:50",
+                "start": "12:00"
+            }
+        ]
+    },
+    "ENGS 093": {
+        "location": "maclean",
+        "periods": [
+            {
+                "day": 1,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 3,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 5,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 2,
+                "end": "13:50",
+                "start": "13:00"
+            }
+        ]
+    },
+    "FILM 051": {
+        "location": "vac",
+        "periods": [
+            {
+                "day": 2,
+                "end": "11:50",
+                "start": "10:00"
+            },
+            {
+                "day": 4,
+                "end": "11:50",
+                "start": "10:00"
+            },
+            {
+                "day": 3,
+                "end": "15:50",
+                "start": "15:00"
+            }
+        ]
+    },
+    "GERM 001": {
+        "location": "dartmouth_hall",
+        "periods": [
+            {
+                "day": 1,
+                "end": "09:50",
+                "start": "09:00"
+            },
+            {
+                "day": 2,
+                "end": "09:50",
+                "start": "09:00"
+            },
+            {
+                "day": 4,
+                "end": "09:50",
+                "start": "09:00"
+            },
+            {
+                "day": 5,
+                "end": "09:50",
+                "start": "09:00"
+            },
+            {
+                "day": 3,
+                "end": "09:50",
+                "start": "09:00"
+            }
+        ]
+    },
+    "HIST 051": {
+        "location": "carson-tech_services",
+        "periods": [
+            {
+                "day": 1,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 3,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 5,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 2,
+                "end": "13:50",
+                "start": "13:00"
+            }
+        ]
+    },
+    "JAPN 033": {
+        "location": "batrlett",
+        "periods": [
+            {
+                "day": 1,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 3,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 5,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 2,
+                "end": "12:50",
+                "start": "12:00"
+            }
+        ]
+    },
+    "LAT 003": {
+        "location": "reed",
+        "periods": [
+            {
+                "day": 1,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 3,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 5,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 4,
+                "end": "09:50",
+                "start": "09:00"
+            }
+        ]
+    },
+    "M&SS 045": {
+        "location": "kemeny",
+        "periods": [
+            {
+                "day": 1,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 3,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 5,
+                "end": "09:50",
+                "start": "08:45"
+            },
+            {
+                "day": 4,
+                "end": "09:50",
+                "start": "09:00"
+            }
+        ]
+    },
+    "MATH 013": {
+        "location": "kemeny",
+        "periods": [
+            {
+                "day": 1,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 3,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 5,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 2,
+                "end": "13:50",
+                "start": "13:00"
+            }
+        ]
+    },
+    "MATH 022": {
+        "location": "kemeny",
+        "periods": [
+            {
+                "day": 1,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 3,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 5,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 2,
+                "end": "12:50",
+                "start": "12:00"
+            }
+        ]
+    },
+    "MATH 023": {
+        "location": "kemeny",
+        "periods": [
+            {
+                "day": 1,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 3,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 5,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 2,
+                "end": "12:50",
+                "start": "12:00"
+            }
+        ]
+    },
+    "MUS 003": {
+        "location": "hopkins",
+        "periods": [
+            {
+                "day": 2,
+                "end": "15:50",
+                "start": "14:00"
+            },
+            {
+                "day": 4,
+                "end": "15:50",
+                "start": "14:00"
+            },
+            {
+                "day": 3,
+                "end": "17:05",
+                "start": "16:15"
+            }
+        ]
+    },
+    "MUS 016": {
+        "location": "hopkins",
+        "periods": [
+            {
+                "day": 2,
+                "end": "11:50",
+                "start": "10:00"
+            },
+            {
+                "day": 4,
+                "end": "11:50",
+                "start": "10:00"
+            },
+            {
+                "day": 3,
+                "end": "15:50",
+                "start": "15:00"
+            }
+        ]
+    },
+    "NAS 008": {
+        "location": "moore",
+        "periods": [
+            {
+                "day": 1,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 3,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 5,
+                "end": "13:35",
+                "start": "12:30"
+            },
+            {
+                "day": 2,
+                "end": "13:50",
+                "start": "13:00"
+            }
+        ]
+    },
+    "NAS 035": {
+        "location": "carpenterhall",
+        "periods": [
+            {
+                "day": 1,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 3,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 5,
+                "end": "12:20",
+                "start": "11:15"
+            },
+            {
+                "day": 2,
+                "end": "12:50",
+                "start": "12:00"
+            }
+        ]
+    },
+    "PSYC 028": {
+        "location": "moore",
+        "periods": [
+            {
+                "day": 1,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 3,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 5,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 4,
+                "end": "13:50",
+                "start": "13:00"
+            }
+        ]
+    },
+    "REL 018": {
+        "location": "carson-tech_services",
+        "periods": [
+            {
+                "day": 1,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 3,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 5,
+                "end": "14:50",
+                "start": "13:45"
+            },
+            {
+                "day": 4,
+                "end": "13:50",
+                "start": "13:00"
+            }
+        ]
+    },
+    "SPAN 003": {
+        "location": "dartmouth_hall",
+        "periods": [
+            {
+                "day": 1,
+                "end": "09:50",
+                "start": "09:00"
+            },
+            {
+                "day": 2,
+                "end": "09:50",
+                "start": "09:00"
+            },
+            {
+                "day": 4,
+                "end": "09:50",
+                "start": "09:00"
+            },
+            {
+                "day": 5,
+                "end": "09:50",
+                "start": "09:00"
+            },
+            {
+                "day": 3,
+                "end": "09:50",
+                "start": "09:00"
+            }
+        ]
+    },
+    "TUCK 003": {
+        "location": "carson-tech_services",
+        "periods": [
+            {
+                "day": 2,
+                "end": "15:50",
+                "start": "14:00"
+            },
+            {
+                "day": 4,
+                "end": "15:50",
+                "start": "14:00"
+            },
+            {
+                "day": 3,
+                "end": "17:05",
+                "start": "16:15"
+            }
+        ]
+    }
+}

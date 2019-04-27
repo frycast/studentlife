@@ -58,12 +58,11 @@ download_studentlife <- function(
 #' unspecified to choose interactively via a
 #' menu.
 #'
-#' @param schema An integer. The menu 1 choice. Leave
+#' @param schema A character string. The menu 1 choice. Leave
 #' blank to choose interactively.
-#' @param table An integer. The menu 2 choice. Leave
+#' @param table A character string. The menu 2 choice. Leave
 #' blank to choose interactively.
-#' @param location The path to the top
-#' directory of the StudentLife dataset.
+#' @param location The path to a copy of the StudentLife dataset.
 #' @param time_options A character vector specifying which
 #' table types to include in the menu, organised by level
 #' of time information present. The default includes everything. Note
@@ -89,23 +88,33 @@ load_SL_tibble <- function(
   time_options = c("period", "timestamp", "dateonly", "dateless"),
   vars, csv_nrows, datafolder = "/dataset") {
 
+  if (!missing(vars)) {
+    if( !("uid" %in% vars ) ) vars <- c("uid", vars)
+  }
+
+  if (!missing(schema))
+    schema <- which(tolower(schema) == tolower(studentlife:::menu_data$menu1_choices))
+
+  if (!missing(table))
+    table <- which(tolower(table) == tolower(studentlife:::menu_data$menu2_list[[schema]]))
+
   location <- paste0(location, datafolder)
 
   path <- get_path(location, schema, table, time_options)
 
-  if ( path %in% EMA_json ) {
+  if ( path %in% studentlife:::menu_data$EMA_json ) {
 
     studs <- get_EMA_studs(path, location, vars)
 
-  } else if ( path %in% long_csv ) {
+  } else if ( path %in% studentlife:::menu_data$long_csv ) {
 
     studs <- get_long_csv_studs(path, location, vars, csv_nrows)
 
-  } else if ( path %in% wide_csv ) {
+  } else if ( path %in% studentlife:::menu_data$wide_csv ) {
 
     studs <- get_wide_csv_studs(path, location, vars, csv_nrows)
 
-  } else if ( path %in% txt ) {
+  } else if ( path %in% studentlife:::menu_data$txt ) {
 
     studs <- get_txt_studs(path, location, vars)
 
@@ -224,9 +233,9 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
     }
   }
 
-  if ( path == "sms" & missing(vars) ) {
+  if ( path == "sms" && missing(vars) ) {
     studs <- lapply(studs, function(x){
-      x <- dplyr::select(as.data.frame(x), id, device, timestamp)
+      x <- dplyr::select(as.data.frame(x), id, device, timestamp, uid)
     })
   }
 
@@ -273,7 +282,7 @@ get_EMA_studs <- function(path, location, vars) {
   ds <- paste0(ds, collapse = ", ")
 
   if (ds > 0) {
-    warning(paste0("The students dropped ",
+    message(paste0("The students dropped ",
                    " with the choice of vars were numbers ", ds, "."))
   }
 
@@ -290,8 +299,9 @@ get_path <- function(location, menu1, menu2, time_options) {
   }
 
   # Present interactive menu 1
-  menu1_restrict <- unlist(time_opt_list1[time_options], use.names = FALSE)
-  menu1_choices <- menu1_choices[which(menu1_choices %in% menu1_restrict)]
+  menu1_restrict <- unlist(studentlife:::menu_data$time_opt_list1[time_options], use.names = FALSE)
+  menu1_choices <- studentlife:::menu_data$menu1_choices[
+    which(studentlife:::menu_data$menu1_choices %in% menu1_restrict)]
   if ( missing(menu1) ) {
 
     menu1 <- menu1_choices[[utils::menu(
@@ -307,8 +317,8 @@ get_path <- function(location, menu1, menu2, time_options) {
   if (menu1 == "EMA") menu1 <- "EMA/response"
 
   # Present interactive menu 2
-  menu2_choices <- menu2_list[[menu1]]
-  menu2_restrict <- unlist(time_opt_list2[time_options], use.names = FALSE)
+  menu2_choices <- studentlife:::menu_data$menu2_list[[menu1]]
+  menu2_restrict <- unlist(studentlife:::menu_data$time_opt_list2[time_options], use.names = FALSE)
   menu2_choices <- menu2_choices[which(menu2_choices %in% menu2_restrict)]
   if ( missing(menu2) ) {
 
@@ -436,127 +446,6 @@ EMA_list_to_tibble <- function(studs, vars = "resp_time") {
 
   return(studs)
 }
-
-
-
-# Shared variables  -------------------------------------------------------
-
-
-
-EMA <- c("Activity",
-         "Administration's response",
-         "Behavior",
-         "Boston Bombing",
-         "Cancelled Classes",
-         "Class",
-         "Class 2",
-         "Comment",
-         "Dartmouth now",
-         "Dimensions",
-         "Dimensions protestors",
-         "Dining Halls",
-         "Do Campbell's jokes suck_",
-         "Events",
-         "Exercise",
-         "Green Key 1",
-         "Green Key 2",
-         "Lab",
-         "Mood",
-         "Mood 1",
-         "Mood 2",
-         "PAM",
-         "QR_Code",
-         "Sleep",
-         "Social",
-         "Stress",
-         "Study Spaces")
-
-sensing <- c("activity",
-             "audio",
-             "bluetooth",
-             "conversation",
-             "dark",
-             "gps",
-             "phonecharge",
-             "phonelock",
-             "wifi",
-             "wifi_location")
-
-other <- c("app_usage",
-           "calendar",
-           "call_log",
-           "dining",
-           "sms")
-
-education <- c("class",
-               "deadlines",
-               "grades",
-               "piazza")
-
-survey <- c("BigFive",
-            "FlourishingScale",
-            "LonelinessScale",
-            "panas",
-            "PerceivedStressScale",
-            "PHQ-9",
-            "psqi",
-            "vr_12")
-
-# Tables that have a start_time and end_time (or 'start' and 'end') timestamp
-period <- c("conversation", "dark", "phonecharge", "phonelock")
-
-# Tables that have a timestamp
-timestamp <- c(other,
-               EMA,
-               sensing[-which(sensing %in% period)])
-
-# Tables that only have a date
-dateonly <- c("deadlines")
-
-# Tables that have no indication of time
-dateless <- c(education[-which(education %in% dateonly)],
-              survey)
-
-
-#timestamp_names <- c("timestamp", "date-time", "resp_time")
-
-time_opt_list1 <- list("period"    = c("sensing"),
-                       "timestamp" = c("other", "EMA", "sensing"),
-                       "dateonly"  = c("education"),
-                       "dateless"  = c("education", "survey"))
-
-time_opt_list2 <- list("period" = period,
-                       "timestamp" = timestamp,
-                       "dateonly" = dateonly,
-                       "dateless" = dateless)
-
-# These are the schemas
-menu1_choices <- c("sensing", "EMA", "education", "survey", "other")
-
-# List of tables by schema
-menu2_list <- list("sensing" = sensing,
-                   "EMA/response" = EMA,
-                   "other" = other,
-                   "education" = education,
-                   "survey" = survey)
-
-
-## In dataset/
-
-# Open to wide csv
-wide_csv <- c(paste0("survey/",survey),
-              paste0("education/", education))
-
-# Open to txt
-txt <- c("dinning")
-
-# Open to long format student csv
-long_csv <- c("sms", "call_log", "calendar", "app_usage",
-              paste0("sensing/", menu2_list[["sensing"]]))
-
-# Open to student json
-EMA_json <- paste0("EMA/response/", menu2_list[["EMA/response"]])
-
 
 
 ## DISUSED OLD IMPORT FUNCTIONS

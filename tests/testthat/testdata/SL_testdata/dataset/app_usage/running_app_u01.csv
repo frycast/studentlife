@@ -1,0 +1,4 @@
+id	device	timestamp	RUNNING_TASKS_baseActivity_mClass	RUNNING_TASKS_baseActivity_mPackage	RUNNING_TASKS_id	RUNNING_TASKS_numActivities	RUNNING_TASKS_numRunning	RUNNING_TASKS_topActivity_mClass	RUNNING_TASKS_topActivity_mPackage
+9880c287-20a7-4256-af6e-15d670a4a8e8-18	83147b17-0754-41b9-a03a-b5a490c60372	1364097809	com.google.android.apps.paco.ExperimentManagerActivity	com.google.android.apps.paco	9	2	2	com.google.android.apps.paco.FindExperimentsActivity	com.google.android.apps.paco
+9880c287-20a7-4256-af6e-15d670a4a8e8-18	83147b17-0754-41b9-a03a-b5a490c60372	1364097809	com.android.launcher2.Launcher	com.android.launcher	2	1	1	com.android.launcher2.Launcher	com.android.launcher
+9880c287-20a7-4256-af6e-15d670a4a8e8-93	83147b17-0754-41b9-a03a-b5a490c60372	1364099009	com.google.android.apps.paco.ExperimentManagerActivity	com.google.android.apps.paco	9	2	2	com.google.android.apps.paco.FindExperimentsActivity	com.google.android.apps.paco

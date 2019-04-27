@@ -1,0 +1,14 @@
+time,provider,network_type,accuracy,latitude,longitude,altitude,bearing,speed,travelstate
+1364357797,network,wifi,20,43.7071269,-72.2933138,0,0,0,stationary
+1364358997,network,wifi,20,43.7071226,-72.2933189,0,0,0,stationary
+1364360197,network,wifi,20,43.7071656,-72.2932718,0,0,0,stationary
+1364361397,network,wifi,20,43.7071581,-72.2932852,0,0,0,stationary
+1364362597,network,wifi,20,43.707131,-72.2933199,0,0,0,stationary
+1364363797,network,wifi,20,43.7071229,-72.2932883,0,0,0,stationary
+1364365002,gps,,8,43.70718235,-72.29297598,159.5,0,0,
+1364366197,network,wifi,31.201,43.7071223,-72.293282,0,0,0,stationary
+1364367397,network,wifi,20,43.7071335,-72.2932925,0,0,0,stationary
+1364368597,network,wifi,29.711,43.7071216,-72.2932559,0,0,0,stationary
+1364369797,network,wifi,31.821,43.7071633,-72.2932513,0,0,0,stationary
+1364370997,network,wifi,20,43.707155,-72.2932815,0,0,0,stationary
+1364372198,network,wifi,20,43.7071558,-72.2932377,0,0,0,stationary

@@ -1,0 +1,85 @@
+uid,type,Little interest or pleasure in doing things,"Feeling down, depressed, hopeless.","Trouble falling or staying asleep, or sleeping too much.",Feeling tired or having little energy,Poor appetite or overeating,Feeling bad about yourself or that you are a failure or have let yourself or your family down,"Trouble concentrating on things, such as reading the newspaper or watching television",Moving or speaking so slowly that other people could have noticed. Or the opposite being so figety or restless that you have been moving around a lot more than usual,"Thoughts that you would be better off dead, or of hurting yourself",Response
+u00,pre,Not at all,Several days,Not at all,Several days,Not at all,Not at all,Not at all,Not at all,Not at all,Not difficult at all
+u01,pre,Several days,Several days,Several days,Several days,Not at all,Several days,Not at all,Not at all,Not at all,Very difficult
+u02,pre,More than half the days,Several days,More than half the days,More than half the days,More than half the days,Several days,Several days,More than half the days,Not at all,Somewhat difficult
+u03,pre,Not at all,Several days,Not at all,Not at all,Not at all,Not at all,Not at all,Several days,Not at all,Somewhat difficult
+u04,pre,Several days,Several days,Not at all,Several days,Several days,Several days,Several days,Not at all,Not at all,Somewhat difficult
+u05,pre,Not at all,Not at all,Several days,Not at all,Several days,Not at all,Not at all,Not at all,Not at all,
+u07,pre,Several days,Several days,Not at all,Several days,More than half the days,Several days,Several days,Not at all,Not at all,Not difficult at all
+u08,pre,Several days,Several days,Not at all,Not at all,Several days,Several days,Several days,Not at all,Not at all,Not difficult at all
+u09,pre,Not at all,Not at all,Several days,Several days,Several days,Not at all,Several days,Not at all,Not at all,Not difficult at all
+u10,pre,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,
+u12,pre,Not at all,Not at all,Not at all,Several days,Not at all,Not at all,Not at all,Not at all,Not at all,Not difficult at all
+u13,pre,Not at all,Several days,Not at all,Several days,Several days,Several days,Not at all,Not at all,Not at all,Not difficult at all
+u14,pre,Not at all,Not at all,Not at all,Several days,Not at all,Not at all,Not at all,Not at all,Not at all,Not difficult at all
+u15,pre,Several days,Not at all,Not at all,Several days,Several days,Not at all,Not at all,Not at all,Not at all,Not difficult at all
+u16,pre,Several days,Several days,Several days,Not at all,Not at all,Nearly every day,Not at all,Not at all,Not at all,Somewhat difficult
+u17,pre,Several days,Several days,Nearly every day,Nearly every day,Nearly every day,Several days,Not at all,Several days,Not at all,Somewhat difficult
+u18,pre,More than half the days,More than half the days,Several days,More than half the days,More than half the days,Nearly every day,Several days,Not at all,More than half the days,Very difficult
+u19,pre,Several days,Several days,Not at all,Not at all,Several days,Several days,Not at all,Not at all,Several days,Somewhat difficult
+u20,pre,Several days,Several days,Several days,Several days,Several days,Several days,Several days,Several days,Not at all,Somewhat difficult
+u22,pre,Not at all,Several days,Several days,Not at all,Not at all,Several days,Not at all,Not at all,Not at all,Not difficult at all
+u23,pre,Several days,More than half the days,Several days,More than half the days,Several days,More than half the days,More than half the days,Not at all,Not at all,Somewhat difficult
+u24,pre,Several days,Several days,Several days,Several days,Several days,Not at all,Not at all,Not at all,Not at all,Somewhat difficult
+u27,pre,Not at all,Not at all,More than half the days,Several days,Not at all,Not at all,More than half the days,Not at all,Not at all,Somewhat difficult
+u30,pre,Not at all,Not at all,Several days,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not difficult at all
+u31,pre,More than half the days,Several days,Several days,Several days,Several days,More than half the days,Several days,Several days,More than half the days,Somewhat difficult
+u32,pre,Not at all,Not at all,More than half the days,Several days,Several days,Not at all,Not at all,Not at all,Not at all,Not difficult at all
+u33,pre,Nearly every day,Nearly every day,Nearly every day,Nearly every day,Nearly every day,Nearly every day,Nearly every day,More than half the days,Not at all,Extremely difficult
+u34,pre,Not at all,Not at all,Several days,Not at all,Several days,Several days,Not at all,Not at all,Not at all,Not difficult at all
+u35,pre,Several days,Several days,Several days,Several days,Several days,Several days,Several days,Not at all,Not at all,Somewhat difficult
+u36,pre,Several days,Not at all,Not at all,Several days,Not at all,Not at all,Not at all,Not at all,Not at all,Not difficult at all
+u39,pre,Not at all,Not at all,Not at all,Several days,Not at all,Several days,Not at all,Several days,Not at all,Somewhat difficult
+u42,pre,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Several days,Not at all,Not at all,Not difficult at all
+u43,pre,Several days,Several days,Several days,Several days,Several days,Several days,Several days,Not at all,Not at all,Somewhat difficult
+u44,pre,Not at all,Not at all,Not at all,Several days,Not at all,Not at all,Not at all,Not at all,Not at all,Somewhat difficult
+u45,pre,Several days,Several days,More than half the days,Several days,Several days,Several days,Not at all,Not at all,Not at all,Not difficult at all
+u46,pre,More than half the days,Several days,More than half the days,Several days,Several days,More than half the days,Several days,Not at all,Not at all,Somewhat difficult
+u47,pre,More than half the days,Several days,Not at all,Not at all,Not at all,Not at all,More than half the days,Not at all,Not at all,Not difficult at all
+u49,pre,Not at all,Not at all,Not at all,Several days,Several days,Not at all,Not at all,Not at all,Not at all,Somewhat difficult
+u50,pre,Not at all,Several days,Not at all,More than half the days,Several days,Several days,Not at all,Several days,Several days,Not difficult at all
+u51,pre,Not at all,Not at all,Not at all,Several days,Not at all,Not at all,Not at all,Not at all,Not at all,Not difficult at all
+u52,pre,Several days,Several days,Nearly every day,Nearly every day,Nearly every day,Several days,Not at all,Not at all,Not at all,Not difficult at all
+u53,pre,Several days,Several days,More than half the days,More than half the days,Several days,Not at all,Several days,Not at all,Not at all,Somewhat difficult
+u56,pre,Not at all,Not at all,Not at all,More than half the days,Not at all,Not at all,Not at all,Not at all,Not at all,Not difficult at all
+u57,pre,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not difficult at all
+u58,pre,Several days,Several days,Not at all,Not at all,Several days,Not at all,Several days,Several days,Not at all,Not difficult at all
+u59,pre,Not at all,Not at all,Several days,More than half the days,Several days,Not at all,Not at all,Several days,Not at all,Not difficult at all
+u00,post,Not at all,Not at all,Not at all,Several days,Not at all,Several days,Several days,Not at all,Not at all,Somewhat difficult
+u01,post,Not at all,Several days,Several days,Several days,Not at all,Not at all,Not at all,Several days,Not at all,Somewhat difficult
+u02,post,More than half the days,Not at all,Not at all,Several days,Several days,Not at all,Several days,Not at all,Not at all,Somewhat difficult
+u03,post,Several days,Several days,Not at all,Several days,Not at all,Several days,Not at all,Not at all,Not at all,Somewhat difficult
+u04,post,Several days,Several days,Several days,Several days,Several days,More than half the days,Several days,Not at all,Not at all,Somewhat difficult
+u05,post,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not difficult at all
+u07,post,Several days,Several days,More than half the days,More than half the days,More than half the days,Not at all,Not at all,Not at all,Not at all,Somewhat difficult
+u09,post,Not at all,Not at all,Not at all,Not at all,Several days,Several days,Not at all,Not at all,Not at all,Not difficult at all
+u10,post,Not at all,Not at all,Not at all,Several days,Several days,Not at all,Not at all,More than half the days,Not at all,Not difficult at all
+u14,post,Not at all,Not at all,Several days,Several days,Several days,Not at all,Not at all,Not at all,Not at all,
+u15,post,Not at all,Not at all,Several days,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not difficult at all
+u16,post,Several days,More than half the days,More than half the days,Nearly every day,More than half the days,More than half the days,Not at all,Not at all,Not at all,Somewhat difficult
+u17,post,More than half the days,More than half the days,Nearly every day,Nearly every day,More than half the days,Nearly every day,Nearly every day,Not at all,Not at all,Somewhat difficult
+u18,post,More than half the days,More than half the days,Several days,More than half the days,More than half the days,Several days,Several days,Not at all,Several days,Somewhat difficult
+u19,post,Not at all,Several days,Not at all,Not at all,Several days,Several days,Not at all,Not at all,Several days,Not difficult at all
+u20,post,Several days,More than half the days,Several days,Several days,Several days,More than half the days,Not at all,Not at all,Not at all,Somewhat difficult
+u23,post,More than half the days,Nearly every day,Nearly every day,More than half the days,More than half the days,Nearly every day,More than half the days,More than half the days,More than half the days,Very difficult
+u24,post,More than half the days,Several days,Not at all,Several days,Several days,Several days,Several days,Not at all,Not at all,Somewhat difficult
+u27,post,Several days,Several days,Not at all,More than half the days,Not at all,Several days,More than half the days,Not at all,Not at all,Somewhat difficult
+u30,post,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,
+u31,post,Nearly every day,Not at all,Not at all,Not at all,Not at all,Not at all,Several days,Several days,Not at all,Not difficult at all
+u32,post,Not at all,Not at all,Several days,Several days,Not at all,Not at all,Not at all,Not at all,Not at all,Not difficult at all
+u33,post,Nearly every day,Nearly every day,Nearly every day,Nearly every day,Nearly every day,Nearly every day,Nearly every day,Nearly every day,Several days,Extremely difficult
+u34,post,Several days,Not at all,Several days,Several days,Several days,Not at all,More than half the days,Not at all,Not at all,Not difficult at all
+u35,post,Several days,Several days,Not at all,Several days,Several days,Several days,Several days,Several days,Not at all,Not difficult at all
+u36,post,Not at all,Not at all,Not at all,Several days,Not at all,Not at all,Not at all,Not at all,Not at all,Somewhat difficult
+u42,post,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not difficult at all
+u43,post,Not at all,Not at all,Several days,Several days,Several days,Not at all,Several days,Not at all,Not at all,Somewhat difficult
+u44,post,Several days,Not at all,Not at all,Several days,Not at all,Not at all,Not at all,Not at all,Not at all,Somewhat difficult
+u45,post,Not at all,Not at all,Several days,Not at all,Not at all,Not at all,Several days,Not at all,Not at all,Not difficult at all
+u47,post,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Several days,Not at all,Not difficult at all
+u49,post,Nearly every day,Not at all,More than half the days,More than half the days,Several days,Not at all,Not at all,Not at all,Not at all,Somewhat difficult
+u51,post,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,Not at all,
+u52,post,Several days,Nearly every day,Nearly every day,More than half the days,Nearly every day,Several days,Not at all,Several days,Several days,Extremely difficult
+u53,post,Not at all,Several days,Nearly every day,More than half the days,Nearly every day,Not at all,More than half the days,Not at all,Not at all,Somewhat difficult
+u56,post,Not at all,Not at all,Not at all,More than half the days,Not at all,Not at all,Several days,Not at all,Not at all,Somewhat difficult
+u58,post,Not at all,Several days,Not at all,More than half the days,More than half the days,Several days,Several days,Several days,Not at all,Not difficult at all
+u59,post,Not at all,Not at all,More than half the days,More than half the days,Several days,Not at all,Several days,Several days,Not at all,Somewhat difficult

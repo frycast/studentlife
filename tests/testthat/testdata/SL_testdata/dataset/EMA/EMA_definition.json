@@ -1,0 +1,642 @@
+[
+    {
+        "name": "Social",
+        "questions": [
+            {
+                "options": "[1]0-4 persons, [2]5-9 persons, [3]10-19 persons, [4]20-49 persons, [5]50-99 persons, [6]over 100 persons, ",
+                "question_id": "number",
+                "question_text": "How many people did you have contact with yesterday, including anyone you said hello to, chatted, talked or discussed matters with, whether you did it face-to-face, by telephone, by mail or on the internet, and whether you personally knew the person or not? Please select one of the following categories that best matches your estimate:"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Class",
+        "questions": [
+            {
+                "options": "",
+                "question_id": "course_id",
+                "question_text": "What's the class name? (e.g., CS65)"
+            },
+            {
+                "options": "[1]neutral, [2]strongly agree, [3]agree, [4]disagree, [5]strongly disagree, ",
+                "question_id": "experience",
+                "question_text": "I enjoyed the class today."
+            },
+            {
+                "options": "[1]0, [2]1, [3]2, [4]3, [5]4, [6]5, [7]6, [8]7, [9]8, [10]9, [11]10, [12]>10, ",
+                "question_id": "hours",
+                "question_text": "How many hours did you spent on coursework outside class since the last class?"
+            },
+            {
+                "options": "(Yes) 1 2 (No)",
+                "question_id": "due",
+                "question_text": "Do you have an assignment (due), quizz or exam today?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Comment",
+        "questions": [
+            {
+                "options": "",
+                "question_id": "comment",
+                "question_text": "What is on your mind today?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Stress",
+        "questions": [
+            {
+                "options": "[1]A little stressed, [2]Definitely stressed, [3]Stressed out, [4]Feeling good, [5]Feeling great, ",
+                "question_id": "level",
+                "question_text": "Right now, I am..."
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Sleep",
+        "questions": [
+            {
+                "options": "[1]<3, [2]3.5, [3]4, [4]4.5, [5]5, [6]5.5, [7]6, [8]6.5, [9]7, [10]7.5, [11]8, [12]8.5, [13]9, [14]9.5, [15]10, [16]10.5, [17]11, [18]11.5, [19]12, ",
+                "question_id": "hour",
+                "question_text": "How many hours did you sleep last night? "
+            },
+            {
+                "options": "[1]Very good, [2]Fairly good, [3]Fairly bad, [4]Very bad, ",
+                "question_id": "rate",
+                "question_text": "How would rate your overall sleep last night?"
+            },
+            {
+                "options": "[1]None, [2]Once, [3]Twice, [4]Three or more times, ",
+                "question_id": "social",
+                "question_text": "How often did you have trouble staying awake yesterday while in class, eating meals or engaging in social activity?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Activity",
+        "questions": [
+            {
+                "options": "[1]0-10%, [2]11-25%, [3]26-50%, [4]51-75%, [5]76-100%, ",
+                "question_id": "working",
+                "question_text": "alone working"
+            },
+            {
+                "options": "[1]0-10%, [2]11-25%, [3]26-50%, [4]51-75%, [5]76-100%, ",
+                "question_id": "relaxing",
+                "question_text": "alone relaxing"
+            },
+            {
+                "options": "[1]0-10%, [2]11-25%, [3]26-50%, [4]51-75%, [5]76-100%, ",
+                "question_id": "other_working",
+                "question_text": "with other people working"
+            },
+            {
+                "options": "[1]0-10%, [2]11-25%, [3]26-50%, [4]51-75%, [5]76-100%, ",
+                "question_id": "other_relaxing",
+                "question_text": "with other people relaxing"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": "location"
+            }
+        ]
+    },
+    {
+        "name": "Behavior",
+        "questions": [
+            {
+                "options": "(Not at all) 1 2 3 4 5 (Extremely)",
+                "question_id": "enthusiastic",
+                "question_text": "In the past 15 minutes, I was extraverted, enthusiastic.                (Scale: 1=Not at all; 2=A little; 3=somewhat; 4=very; 5=extremely)"
+            },
+            {
+                "options": "(Not at all) 1 2 3 4 5 (Extremely)",
+                "question_id": "critical",
+                "question_text": "......, I was critical, quarrelsome."
+            },
+            {
+                "options": "(Not at all) 1 2 3 4 5 (Extremely)",
+                "question_id": "dependable",
+                "question_text": "......, I was dependable, self-disciplined."
+            },
+            {
+                "options": "(Not at all) 1 2 3 4 5 (Extremely)",
+                "question_id": "anxious",
+                "question_text": "......, I was anxious, easily upset."
+            },
+            {
+                "options": "(Not at all) 1 2 3 4 5 (Extremely)",
+                "question_id": "experiences",
+                "question_text": "......, I was open to new experiences, complex."
+            },
+            {
+                "options": "(Not at all) 1 2 3 4 5 (Extremely)",
+                "question_id": "reserved",
+                "question_text": "......, I was reserved, quiet."
+            },
+            {
+                "options": "(Not at all) 1 2 3 4 5 (Extremely)",
+                "question_id": "sympathetic",
+                "question_text": "......, I was sympathetic, warm."
+            },
+            {
+                "options": "(Not at all) 1 2 3 4 5 (Extremely)",
+                "question_id": "disorganized",
+                "question_text": "......,  I was disorganized, careless."
+            },
+            {
+                "options": "(Not at all) 1 2 3 4 5 (Extremely)",
+                "question_id": "calm",
+                "question_text": "......, I was calm, emotionally stable."
+            },
+            {
+                "options": "(Not at all) 1 2 3 4 5 (Extremely)",
+                "question_id": "conventional",
+                "question_text": "......, I was conventional, uncreative."
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": "location"
+            }
+        ]
+    },
+    {
+        "name": "Exercise",
+        "questions": [
+            {
+                "options": "(Yes) 1 2 (No)",
+                "question_id": "have",
+                "question_text": "Did you do vigorous exercise today (don't include walking) such as run, swim, cycle, play a sport"
+            },
+            {
+                "options": "(Yes) 1 2 (No)",
+                "question_id": "schedule",
+                "question_text": "If no did you want to but couldn't because of your schedule?"
+            },
+            {
+                "options": "[1]None, [2]<30 mins, [3]30-60 mins, [4]60-90 mins, [5]>90mins, ",
+                "question_id": "exercise",
+                "question_text": "If you exercised how long did you exercise for?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            },
+            {
+                "options": "[1]None, [2]<30 mins, [3]30-60 mins, [4]60-90 mins, [5]>90mins, ",
+                "question_id": "walk",
+                "question_text": "How long did you walk for today?"
+            }
+        ]
+    },
+    {
+        "name": "Study Spaces",
+        "questions": [
+            {
+                "options": "",
+                "question_id": "place",
+                "question_text": "Where were you working (room and building)?"
+            },
+            {
+                "options": "[1]super distracted, [2]mildly distracted, [3]mildly productive, [4]super productive, ",
+                "question_id": "productivity",
+                "question_text": "Rate your productivity:"
+            },
+            {
+                "options": "[1]silent, [2]white noise, [3]loud, [4]distracting, ",
+                "question_id": "noise",
+                "question_text": "What was the ambient noise level?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Do Campbell's jokes suck?",
+        "questions": [
+            {
+                "options": "[1]Great, [2]OK, [3]Terrible, ",
+                "question_id": "think",
+                "question_text": "What do you think of Campbell's jokes:"
+            },
+            {
+                "options": "",
+                "question_id": "joke",
+                "question_text": "Do you have a joke for him:"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Events",
+        "questions": [
+            {
+                "options": "[1]1, [2]2, [3]3, [4]4, [5]5, [6]6, [7]7, ",
+                "question_id": "positive",
+                "question_text": "Think About Yesterday's Events. Rate the intensity of your Most Positive Events on a scale ranging from 1 (very weak)  to 7 (very intense)."
+            },
+            {
+                "options": "[1]1, [2]2, [3]3, [4]4, [5]5, [6]6, [7]7, ",
+                "question_id": "negative",
+                "question_text": "Rate the intensity of your Most Negative Events on a scale."
+            },
+            {
+                "options": "",
+                "question_id": "pevent",
+                "question_text": "What was the positive event (single word or short comment)?"
+            },
+            {
+                "options": "",
+                "question_id": "nevent",
+                "question_text": "What was the negative event?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Boston Bombing",
+        "questions": [
+            {
+                "options": "[1]sadness, [2]anger, [3]fear, [4]apprehension, [5]empathy for the victims, ",
+                "question_id": "boston",
+                "question_text": "How did you feel when you first heard the news about the Boston bombing?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Dimensions",
+        "questions": [
+            {
+                "options": "",
+                "question_id": "describe",
+                "question_text": "In your own words, how would you describe Dimensions to someone who knew nothing about it?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Dartmouth now",
+        "questions": [
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "empathic",
+                "question_text": "Do you feel empathic at all about Dartmouth right now, given recent events?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "appreciative",
+                "question_text": "Do you feel appreciative at all about Dartmouth right now, given recent events?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "proud",
+                "question_text": "Do you feel proud at all about Dartmouth right now, given recent events?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "disappointed",
+                "question_text": "Do you feel disappointed at all about Dartmouth right now, given recent events?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "angry",
+                "question_text": "Do you feel angry at all about Dartmouth right now, given recent events?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "saddened",
+                "question_text": "Do you feel saddened at all about Dartmouth right now, given recent events?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "frustrated",
+                "question_text": "Do you feel frustrated at all about Dartmouth right now, given recent events?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "apathetic",
+                "question_text": "Do you feel apathetic at all about Dartmouth right now, given recent events?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Dining Halls",
+        "questions": [
+            {
+                "options": "[1]Collis, [2]Hop, [3]Foco, [4]KAF, [5]Novack, [6]East Wheelock Snack Bar, [7]Off-Campus, [8]other, ",
+                "question_id": "breakfast",
+                "question_text": "Yesterday, where did you eat your breakfast:"
+            },
+            {
+                "options": "[1]Collis, [2]Hop, [3]Foco, [4]KAF, [5]Novack, [6]East Wheelock Snack Bar, [7]Off-Campus, [8]other, ",
+                "question_id": "lunch",
+                "question_text": "Yesterday, where did you eat your lunch:"
+            },
+            {
+                "options": "[1]Collis, [2]Hop, [3]Foco, [4]KAF, [5]Novack, [6]East Wheelock Snack Bar, [7]Off-Campus, [8]other, ",
+                "question_id": "dinner",
+                "question_text": "Yesterday, where did you eat your dinner:"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Lab",
+        "questions": [
+            {
+                "options": "[1]Strongly agree, [2]agree, [3]neutral, [4]disagree, [5]strongly disagree, ",
+                "question_id": "enjoy",
+                "question_text": "Did you enjoy this lab?"
+            },
+            {
+                "options": "[1]1-3, [2]3-5, [3]5-7, [4]7-9, [5]9-11, [6]11-13, [7]13-15, [8]15-17, [9]17-19, [10]19-21, [11]>21 hours, ",
+                "question_id": "duration",
+                "question_text": "How much time did you spend working on this lab?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Mood",
+        "questions": [
+            {
+                "options": "(Yes) 1 2 (No)",
+                "question_id": "happyornot",
+                "question_text": "Do you feel AT ALL happy right now?"
+            },
+            {
+                "options": "[1]a little bit, [2]somewhat, [3]very much, [4]extremely, ",
+                "question_id": "happy",
+                "question_text": "If you answered \"Yes\" on the first question, how happy do you feel? "
+            },
+            {
+                "options": "(Yes) 1 2 (No)",
+                "question_id": "sadornot",
+                "question_text": "Do you feel AT ALL sad right now? "
+            },
+            {
+                "options": "[1]a little bit, [2]somewhat, [3]very much, [4]extremely, ",
+                "question_id": "sad",
+                "question_text": "If you answered \"Yes\" on the third question, how sad do you feel?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Mood 2",
+        "questions": [
+            {
+                "options": "[1]happy, [2]stressed, [3]tired, ",
+                "question_id": "how",
+                "question_text": "How are you right now?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Cancelled Classes",
+        "questions": [
+            {
+                "options": "",
+                "question_id": "words",
+                "question_text": "In your own words, describe what you feel about today's canceled classes."
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Dimensions protestors",
+        "questions": [
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "empathic",
+                "question_text": "How empathic do you feel toward the Dimensions protestors?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "appreciative",
+                "question_text": "How appreciative do you feel toward the Dimensions protestors?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "proud",
+                "question_text": "How proud do you feel toward the Dimensions protestors?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "disappointed",
+                "question_text": "How disappointed do you feel toward the Dimensions protestors?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "angry",
+                "question_text": "How angry do you feel toward the Dimensions protestors?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "saddened",
+                "question_text": "How saddened do you feel toward the Dimensions protestors?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "frustrated",
+                "question_text": "How frustrated do you feel toward the Dimensions protestors?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "apathetic",
+                "question_text": "How apathetic do you feel toward the Dimensions protestors?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Mood 1",
+        "questions": [
+            {
+                "options": "[1]happy, [2]stressed, [3]tired, ",
+                "question_id": "tomorrow",
+                "question_text": "How do you think you will be this time tomorrow?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Class 2",
+        "questions": [
+            {
+                "options": "[1]Agree Strongly, [2]Agree Moderately, [3]Agree Slightly, [4]Disagree Slightly , [5]Disagree Moderately, [6]Disagree Strongly, ",
+                "question_id": "challenge",
+                "question_text": "Last week's lab was difficult and challenged me."
+            },
+            {
+                "options": "[1]Agree Strongly, [2]Agree Moderately, [3]Agree Slightly, [4]Disagree Slightly , [5]Disagree Moderately, [6]Disagree Strongly, ",
+                "question_id": "effort",
+                "question_text": "I put a great deal of effort into the course last week."
+            },
+            {
+                "options": "[1]A, [2]A-, [3]B+, [4]B, [5]B-, [6]C+, [7]C, [8]C-, ",
+                "question_id": "grade",
+                "question_text": "I expect to get the following grade for this course."
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Administration's response",
+        "questions": [
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "empathic",
+                "question_text": "Do you feel empathic at all about the administration's response to the events following the Dimensions protest?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "appreciative",
+                "question_text": "Do you feel appreciative at all about the administration's response to the events following the Dimensions protest?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "proud",
+                "question_text": "Do you feel proud at all about the administration's response to the events following the Dimensions protest?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "disappointed",
+                "question_text": "Do you feel disappointed at all about the administration's response to the events following the Dimensions protest?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "angry",
+                "question_text": "Do you feel angry at all about the administration's response to the events following the Dimensions protest?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "saddened",
+                "question_text": "Do you feel saddened at all about the administration's response to the events following the Dimensions protest?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "frustrated",
+                "question_text": "Do you feel frustrated at all about the administration's response to the events following the Dimensions protest?"
+            },
+            {
+                "options": "[1]Not at all, [2]Slightly, [3]Moderately, [4]Very, [5]Extremely, ",
+                "question_id": "apathetic",
+                "question_text": "Do you feel apathetic at all about the administration's response to the events following the Dimensions protest?"
+            },
+            {
+                "options": "",
+                "question_id": "location",
+                "question_text": ""
+            }
+        ]
+    },
+    {
+        "name": "Green Key 2",
+        "questions": [
+            {
+                "options": "[1]Seeing old friends, [2]Parties, [3]Music performances, [4]Service, [5]Weather, [6]End of term, ",
+                "question_id": "excited",
+                "question_text": "Which of the following are you *most* excited about for Green Key? [Check all, or chose 1 or more]"
+            }
+        ]
+    },
+    {
+        "name": "Green Key 1",
+        "questions": [
+            {
+                "options": "",
+                "question_id": "meaning",
+                "question_text": "What does Green Key mean to you?"
+            }
+        ]
+    }
+]

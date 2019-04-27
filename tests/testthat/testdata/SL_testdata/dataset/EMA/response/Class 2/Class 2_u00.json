@@ -1,0 +1,23 @@
+[
+    {
+        "challenge": "1",
+        "effort": "1",
+        "grade": "4",
+        "location": "43.75924116,-72.32919107",
+        "resp_time": 1366870367
+    },
+    {
+        "challenge": "3",
+        "effort": "4",
+        "grade": "5",
+        "location": "48.88597611,2.34306365",
+        "resp_time": 1367859110
+    },
+    {
+        "challenge": "1",
+        "effort": "1",
+        "grade": "1",
+        "location": "43.75930193,-72.32937522",
+        "resp_time": 1369008971
+    }
+]

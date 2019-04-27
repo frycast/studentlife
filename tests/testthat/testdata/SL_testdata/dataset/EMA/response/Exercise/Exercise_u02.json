@@ -1,0 +1,94 @@
+[
+    {
+        "exercise": "3",
+        "have": "1",
+        "resp_time": 1364875952,
+        "schedule": "null",
+        "walk": "2"
+    },
+    {
+        "exercise": "3",
+        "have": "1",
+        "resp_time": 1365127525,
+        "schedule": "1",
+        "walk": "3"
+    },
+    {
+        "exercise": "1",
+        "have": "2",
+        "resp_time": 1365294805,
+        "schedule": "2",
+        "walk": "2"
+    },
+    {
+        "exercise": "1",
+        "have": "2",
+        "resp_time": 1365379453,
+        "schedule": "2",
+        "walk": "2"
+    },
+    {
+        "exercise": "3",
+        "have": "1",
+        "location": "43.70700651,-72.29317331",
+        "resp_time": 1366344047,
+        "schedule": "2",
+        "walk": "3"
+    },
+    {
+        "exercise": "1",
+        "have": "2",
+        "location": "43.70725865,-72.29291875",
+        "resp_time": 1366509629,
+        "schedule": "2",
+        "walk": "3"
+    },
+    {
+        "exercise": "3",
+        "have": "1",
+        "location": "Unknown",
+        "resp_time": 1366783234,
+        "schedule": "2",
+        "walk": "3"
+    },
+    {
+        "exercise": "1",
+        "have": "2",
+        "location": "43.70699798,-72.29314193",
+        "resp_time": 1367107323,
+        "schedule": "2",
+        "walk": "2"
+    },
+    {
+        "exercise": "1",
+        "have": "2",
+        "location": "43.70683195,-72.28737158",
+        "resp_time": 1367288291,
+        "schedule": "2",
+        "walk": "2"
+    },
+    {
+        "exercise": "3",
+        "have": "1",
+        "location": "43.70719676,-72.29315695",
+        "resp_time": 1367825688,
+        "schedule": "2",
+        "walk": "2"
+    },
+    {
+        "exercise": "1",
+        "have": "2",
+        "location": "43.70713777,-72.29296993",
+        "resp_time": 1368677499,
+        "schedule": "2",
+        "walk": "2"
+    },
+    {
+        "exercise": "3",
+        "have": "1",
+        "location": "43.70725622,-72.29354946",
+        "resp_time": 1368590425,
+        "schedule": "2",
+        "walk": "3"
+    }
+]

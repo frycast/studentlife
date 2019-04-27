@@ -20,3 +20,5 @@ Imports:
     tibble (>= 2.0.1),
     R.utils (>= 2.8.0)
 RoxygenNote: 6.1.1
+Suggests: 
+    testthat

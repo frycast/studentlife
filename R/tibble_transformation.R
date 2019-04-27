@@ -41,7 +41,7 @@ group_by_epoch <- function(studs, ..., keep_timestamps = TRUE, timestamp = "resp
 #'
 #'
 #'
-#' @param studs
+#' @param studs A data.frame or SL_tibble
 #' @param FUN A function used to aggregate values when multiple
 #' observations are encountered in a time interval.
 #' @param by A character vector naming one or more

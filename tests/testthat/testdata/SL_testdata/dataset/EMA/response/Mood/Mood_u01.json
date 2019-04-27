@@ -1,0 +1,18 @@
+[
+    {
+        "happy": "2",
+        "happyornot": "1",
+        "location": "43.70673326,-72.28908826",
+        "resp_time": 1366878848,
+        "sad": "1",
+        "sadornot": "1"
+    },
+    {
+        "happy": "2",
+        "happyornot": "1",
+        "location": "43.70670928,-72.28905161",
+        "resp_time": 1368693668,
+        "sad": "1",
+        "sadornot": "1"
+    }
+]

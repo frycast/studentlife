@@ -1,0 +1,86 @@
+uid,type,"1. In the last month, how often have you been upset because of something that happened unexpectedly?","2. In the last month, how often have you felt that you were unable to control the important things in your life?","3. In the last month, how often have you felt nervous and ""stressed""?","4. In the last month, how often have you felt confident about your ability to handle your personal problems?","5. In the last month, how often have you felt that things were going your way?","6. In the last month, how often have you found that you could not cope with all the things that you had to do?","7. In the last month, how often have you been able to control irritations in your life?","8. In the last month, how often have you felt that you were on top of things?","9. In the last month, how often have you been angered because of things that were outside of your control?","10. In the last month, how often have you felt difficulties were piling up so high that you could not overcome them?"
+u00,pre,Sometime,Sometime,Fairly often,Fairly often,Sometime,Very often,Sometime,Sometime,Fairly often,Fairly often
+u01,pre,Sometime,Sometime,Sometime,Sometime,Fairly often,Sometime,Fairly often,Fairly often,Almost never,Almost never
+u02,pre,Fairly often,Sometime,Sometime,Fairly often,Almost never,Sometime,Almost never,Sometime,Sometime,Almost never
+u03,pre,Sometime,Almost never,Sometime,Almost never,Sometime,Never,Almost never,Never,Never,Never
+u04,pre,Almost never,Almost never,Fairly often,Sometime,Sometime,Fairly often,Sometime,Almost never,Sometime,Sometime
+u05,pre,Almost never,Sometime,Almost never,Very often,Very often,Almost never,Fairly often,Very often,Almost never,Never
+u07,pre,Sometime,Almost never,Fairly often,Very often,Very often,Almost never,Fairly often,Fairly often,Sometime,Almost never
+u08,pre,Sometime,Fairly often,Very often,Sometime,Sometime,Sometime,Fairly often,Sometime,Sometime,Fairly often
+u09,pre,Almost never,Almost never,Sometime,Sometime,Fairly often,Almost never,Fairly often,Sometime,Almost never,Almost never
+u10,pre,Fairly often,Fairly often,Fairly often,Fairly often,Fairly often,Sometime,Almost never,Very often,Fairly often,Almost never
+u12,pre,Almost never,Almost never,Sometime,Fairly often,Fairly often,Almost never,Fairly often,Fairly often,Almost never,Almost never
+u13,pre,Almost never,Fairly often,Very often,Almost never,Almost never,Almost never,Almost never,Never,Sometime,Almost never
+u14,pre,Almost never,Never,Sometime,Fairly often,Sometime,Almost never,Very often,Very often,Almost never,Almost never
+u15,pre,Fairly often,Sometime,Fairly often,Sometime,Sometime,Sometime,Sometime,Sometime,Sometime,Sometime
+u16,pre,Fairly often,Very often,Very often,Fairly often,Sometime,Sometime,Sometime,Fairly often,Sometime,Fairly often
+u17,pre,Fairly often,Very often,Very often,Sometime,Almost never,Very often,Sometime,Never,Fairly often,Very often
+u18,pre,Fairly often,Fairly often,Fairly often,Fairly often,Almost never,Fairly often,Almost never,Sometime,Fairly often,Fairly often
+u19,pre,Almost never,Sometime,Sometime,Almost never,Sometime,Almost never,Almost never,Sometime,Sometime,Sometime
+u20,pre,Almost never,Almost never,Sometime,Fairly often,Sometime,Sometime,Very often,Sometime,Almost never,Sometime
+u22,pre,Almost never,Never,Almost never,Very often,Sometime,Never,Fairly often,Very often,Almost never,Never
+u23,pre,Fairly often,Fairly often,Very often,Sometime,Sometime,Fairly often,Sometime,Sometime,Fairly often,Fairly often
+u24,pre,Sometime,Almost never,Fairly often,Fairly often,Fairly often,Sometime,Sometime,Almost never,Sometime,Almost never
+u27,pre,Sometime,Sometime,Fairly often,Fairly often,Sometime,Sometime,Sometime,Sometime,Almost never,Almost never
+u30,pre,Sometime,Sometime,Sometime,Very often,Fairly often,Almost never,Very often,Very often,Almost never,Never
+u31,pre,Very often,Very often,,Almost never,Sometime,Almost never,Fairly often,Almost never,Sometime,Sometime
+u32,pre,Never,Never,Sometime,Very often,Fairly often,Never,Very often,Very often,Never,Never
+u33,pre,Fairly often,Very often,Very often,Almost never,Almost never,Very often,Almost never,Never,Sometime,Fairly often
+u34,pre,Almost never,Almost never,Sometime,Fairly often,Fairly often,Sometime,Fairly often,Sometime,Sometime,Almost never
+u35,pre,Sometime,Sometime,Almost never,Fairly often,Fairly often,Sometime,Very often,Sometime,Almost never,Sometime
+u36,pre,Almost never,Almost never,Sometime,Fairly often,Fairly often,Almost never,Fairly often,Sometime,Almost never,Almost never
+u42,pre,Sometime,Fairly often,Very often,Almost never,Almost never,Sometime,Sometime,Sometime,Almost never,Sometime
+u43,pre,Sometime,Fairly often,Fairly often,Fairly often,Sometime,Sometime,Fairly often,Sometime,Fairly often,Sometime
+u44,pre,Almost never,Sometime,Sometime,Sometime,Sometime,Almost never,Sometime,Almost never,Sometime,Almost never
+u45,pre,Sometime,Fairly often,Sometime,Almost never,,Almost never,Never,Sometime,Fairly often,Almost never
+u46,pre,Very often,Fairly often,Sometime,Almost never,Sometime,Very often,Never,Sometime,Very often,Fairly often
+u47,pre,Sometime,Almost never,Fairly often,Fairly often,Fairly often,Almost never,Sometime,Fairly often,Almost never,Almost never
+u49,pre,Sometime,Sometime,Sometime,Fairly often,Fairly often,Sometime,Very often,Sometime,Sometime,Sometime
+u50,pre,Almost never,Almost never,Almost never,Never,Sometime,Almost never,Sometime,Sometime,Fairly often,Sometime
+u51,pre,Almost never,Almost never,Sometime,Sometime,Sometime,Almost never,Fairly often,Sometime,Almost never,Almost never
+u52,pre,Sometime,Very often,Very often,Almost never,Fairly often,Sometime,Very often,Sometime,Almost never,Fairly often
+u53,pre,Fairly often,Fairly often,Very often,Sometime,Sometime,Sometime,Fairly often,Sometime,Sometime,Sometime
+u54,pre,Sometime,Sometime,Fairly often,Fairly often,Sometime,Sometime,Sometime,Sometime,Almost never,Sometime
+u56,pre,Almost never,Almost never,Almost never,Fairly often,Fairly often,Sometime,Fairly often,Fairly often,Almost never,Almost never
+u57,pre,Almost never,Sometime,Sometime,Very often,Fairly often,Never,Fairly often,Fairly often,Almost never,Never
+u58,pre,Sometime,Fairly often,Very often,Fairly often,Almost never,Almost never,Very often,Almost never,Sometime,Almost never
+u59,pre,Sometime,Fairly often,Sometime,Sometime,Sometime,Fairly often,Very often,Fairly often,Sometime,Almost never
+u00,post,Almost never,Sometime,Sometime,Fairly often,Sometime,Sometime,Fairly often,Sometime,Almost never,Almost never
+u01,post,Almost never,Sometime,Sometime,Fairly often,Fairly often,Sometime,Sometime,Fairly often,Sometime,Sometime
+u02,post,Sometime,Sometime,Very often,Fairly often,Sometime,Very often,Sometime,Sometime,Fairly often,Fairly often
+u03,post,Almost never,Sometime,Very often,Sometime,Almost never,Fairly often,Almost never,Almost never,Almost never,Sometime
+u04,post,Sometime,Almost never,Very often,Fairly often,Sometime,Almost never,Fairly often,Sometime,Almost never,Sometime
+u05,post,Sometime,Almost never,Almost never,Fairly often,Fairly often,Never,Very often,Fairly often,Never,Never
+u07,post,Sometime,Fairly often,Very often,Fairly often,Almost never,Fairly often,Almost never,Almost never,Fairly often,Fairly often
+u09,post,Almost never,Sometime,Very often,Fairly often,Fairly often,Sometime,Fairly often,Sometime,Almost never,Sometime
+u10,post,Sometime,Almost never,Fairly often,Very often,Fairly often,Sometime,Sometime,Very often,Sometime,Sometime
+u14,post,Sometime,Almost never,Fairly often,Sometime,Fairly often,Almost never,Very often,Very often,Sometime,Sometime
+u15,post,Almost never,Almost never,Sometime,Fairly often,Fairly often,Never,Fairly often,Sometime,Sometime,Never
+u16,post,Very often,Very often,Very often,Sometime,Sometime,Sometime,Fairly often,Fairly often,Sometime,Very often
+u17,post,Fairly often,Very often,Very often,Sometime,Almost never,Very often,Almost never,Never,Very often,Fairly often
+u18,post,Fairly often,Fairly often,Very often,Sometime,Sometime,Sometime,Fairly often,Sometime,Sometime,Fairly often
+u19,post,Fairly often,Fairly often,Very often,Fairly often,Fairly often,Sometime,Sometime,Fairly often,Sometime,Sometime
+u20,post,Sometime,Sometime,Fairly often,Sometime,Fairly often,Sometime,Very often,Sometime,Sometime,Sometime
+u23,post,Fairly often,Sometime,Fairly often,Fairly often,Sometime,Sometime,Sometime,Sometime,Fairly often,Sometime
+u24,post,Almost never,Almost never,Sometime,Sometime,Fairly often,Almost never,Fairly often,Sometime,Sometime,Almost never
+u27,post,Sometime,Sometime,Very often,Sometime,Sometime,Fairly often,Sometime,Sometime,Sometime,Sometime
+u30,post,Almost never,Almost never,Sometime,Fairly often,Fairly often,Sometime,Fairly often,Fairly often,Almost never,Almost never
+u31,post,Fairly often,Sometime,Almost never,Almost never,Almost never,Sometime,Sometime,Never,Almost never,Never
+u32,post,Almost never,Fairly often,Sometime,Very often,Fairly often,Almost never,Very often,Very often,Never,Never
+u33,post,Fairly often,Very often,Very often,Almost never,Almost never,Very often,Almost never,Almost never,Sometime,Very often
+u34,post,Almost never,Almost never,Sometime,Fairly often,Fairly often,Sometime,Fairly often,Sometime,Almost never,Sometime
+u35,post,Almost never,Sometime,Sometime,Sometime,Sometime,Almost never,Fairly often,Sometime,Almost never,Sometime
+u36,post,Sometime,Almost never,Sometime,Fairly often,Sometime,Sometime,Almost never,Almost never,Almost never,Almost never
+u42,post,Almost never,Sometime,Almost never,Sometime,Sometime,Almost never,Sometime,Sometime,Almost never,Almost never
+u43,post,Almost never,Sometime,Almost never,Sometime,Fairly often,Almost never,Fairly often,Fairly often,Sometime,Almost never
+u44,post,Sometime,Sometime,Sometime,Sometime,Sometime,Sometime,Sometime,Almost never,Sometime,Almost never
+u45,post,Almost never,Sometime,Almost never,Almost never,Sometime,Sometime,Almost never,Sometime,Sometime,Sometime
+u46,post,Fairly often,Sometime,Very often,Sometime,Almost never,Very often,Sometime,Sometime,Very often,Very often
+u47,post,Sometime,Sometime,Fairly often,Almost never,Almost never,Fairly often,Almost never,Almost never,Very often,Sometime
+u49,post,Almost never,Almost never,Sometime,Fairly often,Very often,Never,Fairly often,Very often,Almost never,Almost never
+u51,post,Almost never,Almost never,Fairly often,Fairly often,Fairly often,Almost never,Fairly often,Fairly often,Almost never,Almost never
+u52,post,Sometime,Very often,Very often,Almost never,Fairly often,Fairly often,Almost never,Almost never,Sometime,Very often
+u53,post,Sometime,Sometime,Fairly often,Sometime,Sometime,Sometime,Fairly often,Sometime,Sometime,Sometime
+u54,post,Very often,Very often,Fairly often,Sometime,Sometime,Sometime,Fairly often,Never,Sometime,Sometime
+u56,post,Almost never,Sometime,Almost never,Fairly often,Very often,Almost never,Fairly often,Fairly often,Never,Almost never
+u59,post,Sometime,Sometime,Sometime,Fairly often,Fairly often,Sometime,Fairly often,Fairly often,Almost never,Never

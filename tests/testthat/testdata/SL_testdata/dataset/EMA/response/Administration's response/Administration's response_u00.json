@@ -1,0 +1,50 @@
+[
+    {
+        "angry": "4",
+        "apathetic": "1",
+        "appreciative": "3",
+        "disappointed": "3",
+        "empathic": "2",
+        "frustrated": "5",
+        "location": "43.7593102,-72.32920832",
+        "proud": "3",
+        "resp_time": 1367094592,
+        "saddened": "4"
+    },
+    {
+        "angry": "4",
+        "apathetic": "1",
+        "appreciative": "1",
+        "disappointed": "5",
+        "empathic": "1",
+        "frustrated": "4",
+        "location": "43.75926182,-72.32910699",
+        "proud": "1",
+        "resp_time": 1366959026,
+        "saddened": "5"
+    },
+    {
+        "angry": "1",
+        "apathetic": "1",
+        "appreciative": "3",
+        "disappointed": "4",
+        "empathic": "1",
+        "frustrated": "3",
+        "location": "43.70097956,-72.28942263",
+        "proud": "1",
+        "resp_time": 1367008754,
+        "saddened": "5"
+    },
+    {
+        "angry": "1",
+        "apathetic": "1",
+        "appreciative": "1",
+        "disappointed": "1",
+        "empathic": "1",
+        "frustrated": "1",
+        "location": "43.63321754,-72.3016832",
+        "proud": "1",
+        "resp_time": 1376356089,
+        "saddened": "1"
+    }
+]

@@ -1,0 +1,93 @@
+[
+    {
+        "location": "43.75872078,-72.32869187",
+        "null": "1",
+        "place": "sudi",
+        "productivity": "3",
+        "resp_time": 1366345813
+    },
+    {
+        "location": "43.70806183,-72.28452186",
+        "null": "1",
+        "place": "king Arthur cafe\n",
+        "productivity": "4",
+        "resp_time": 1366412455
+    },
+    {
+        "location": "43.71472383,-72.30880637",
+        "null": "1",
+        "place": "library",
+        "productivity": "3",
+        "resp_time": 1366519916
+    },
+    {
+        "location": "43.75957917,-72.32886943",
+        "null": "2",
+        "place": "homr",
+        "productivity": "2",
+        "resp_time": 1366589824
+    },
+    {
+        "location": "43.70381516,-72.28813609",
+        "null": "1",
+        "place": "nowhere",
+        "productivity": "1",
+        "resp_time": 1366776382
+    },
+    {
+        "location": "43.70411717,-72.2890889",
+        "null": "4",
+        "place": "sukdicoff room 319",
+        "productivity": "1",
+        "resp_time": 1366689670
+    },
+    {
+        "location": "43.70863122,-72.28437025",
+        "noise": "1",
+        "place": "office",
+        "productivity": "3",
+        "resp_time": 1367276016
+    },
+    {
+        "location": "Unknown",
+        "noise": "3",
+        "place": "home",
+        "productivity": "2",
+        "resp_time": 1367192219
+    },
+    {
+        "location": "Unknown",
+        "noise": "3",
+        "place": "pub",
+        "productivity": "2",
+        "resp_time": 1367624621
+    },
+    {
+        "location": "48.84434287,2.3817956",
+        "noise": "3",
+        "place": "nowhere",
+        "productivity": "1",
+        "resp_time": 1367783683
+    },
+    {
+        "location": "43.75935707,-72.32903883",
+        "noise": "4",
+        "place": "home\n",
+        "productivity": "3",
+        "resp_time": 1368158565
+    },
+    {
+        "location": "43.71874558,-72.31528314",
+        "noise": "2",
+        "place": "homw",
+        "productivity": "3",
+        "resp_time": 1368418046
+    },
+    {
+        "location": "43.75933273,-72.32894416",
+        "noise": "1",
+        "place": "",
+        "productivity": "1",
+        "resp_time": 1368504847
+    }
+]
