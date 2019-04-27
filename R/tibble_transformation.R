@@ -114,7 +114,7 @@ add_NAs <- function(studs, day = "day") {
 ## #' and evening (6pm-12am).
 ## #'
 ## #' @examples
-## #' p <- "C:/Users/danie/Data/StudentLife/dataset/dataset"
+## #' p <- "D:/Datasets/studentlife"
 ## #' pam <- studentlife::load_SL_tibble(schema = 2, table = 22, location = p)
 ## #'
 ## #' timestamp_convert(pam)
@@ -282,7 +282,7 @@ add_weeks <- function(studs, timestamp = "resp_time", week1 = 11) {
 #' number of days since the start of the study.
 #'
 #' @examples
-#' p <- "C:/Users/danie/Data/StudentLife/dataset/dataset"
+#' p <- "D:/Datasets/studentlife"
 #' pam <- studentlife::load_SL_tibble(schema = 2, table = 22, location = p)
 #' add_weekdays(timestamp_convert(pam))
 #'

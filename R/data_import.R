@@ -1,53 +1,53 @@
-#### INCOMPLETE
-## ISSUES:
-# The folder "Do Campbell's Jokes Suck?" causes
-# an issue with utils::untar
-#  In dir.create(path, showWarnings = TRUE, recursive = TRUE, ...) :
-#    cannot create dir 'dataset\EMA\response\Do Campbell's jokes suck?', reason 'Invalid argument'
-#
-#
-####
 #' download_studentlife
 #'
-#' Downloads the entire StudentLife dataset
+#' Download the entire StudentLife dataset
 #'
-#'@param url The url for the StudentLife dataset
-#'@param dest_prefix The prefix for the destination path
-#'@param destfile The destination filename
+#'@param url The url for the StudentLife dataset.
+#'@param dest The destination path.
+#'@param unzip Logical. If \code{TRUE} then the
+#'dataset will be unzipped. Leave as default
+#'unless you plan to do it manually.
+#'@param untar Logical. If \code{TRUE} then the
+#'dataset will be untarred. Leave as default
+#'unless you plan to do it manually.
 #'
 #'@examples
-#'p <- "C:/Users/danie/Data/StudentLife/dataset"
-#'d <- "dataset"
-#'download_studentlife(dest_prefix = p, destfile = d)
-#'load_SL_tibble(location = paste0(p, "/", d))
+#'d <- "D:/Datasets/studentlife"
+#'download_studentlife(dest = d)
+#'load_SL_tibble(location = d)
 #'
-#'
+#'@export
 
 download_studentlife <- function(
   url = "https://studentlife.cs.dartmouth.edu/dataset/dataset.tar.bz2",
-  dest_prefix = ".",
-  destfile = "dataset") {
+  dest = ".",
+  unzip = TRUE,
+  untar = TRUE) {
 
+  message("Downloading the StudentLife dataset...")
   d <- "dataset.tar.bz2"
-  p <- paste0(dest_prefix, "/", d)
-  download.file(url = url, p)
+  p <- paste0(dest, "/", d)
+  download.file(url = url, destfile = p)
+  message("Download complete")
 
-  message("Unzipping the dataset...")
-  R.utils::bunzip2(p, remove = FALSE, skip = TRUE)
+  if (unzip) {
+    message("Unzipping the StudentLife dataset...")
+    R.utils::bunzip2(p, remove = FALSE, skip = TRUE)
+    message("Unzip complete")
+    message(paste0("You may now wish to delete ",
+                   "dataset.tar.bz2 ",
+                   "to save disk space")) }
 
-  d <- "dataset.tar"
-  p <- paste0(dest_prefix, "/", d)
-  message("Untarring the dataset...")
-  utils::untar(p)
-
-  message("done")
+  if (untar) {
+    d <- "dataset.tar"
+    p <- paste0(dest, "/", d)
+    message("Untarring the StudentLife dataset...")
+    utils::untar(p, exdir = dest)
+    message("Untar complete")
+    message(paste0("You may now wish to delete ",
+                   "dataset.tar ",
+                   "to save disk space")) }
 }
-
-
-
-
-
-
 
 
 
@@ -63,7 +63,7 @@ download_studentlife <- function(
 #' @param table An integer. The menu 2 choice. Leave
 #' blank to choose interactively.
 #' @param location The path to the top
-#' directory of the StudentLife dataset
+#' directory of the StudentLife dataset.
 #' @param time_options A character vector specifying which
 #' table types to include in the menu, organised by level
 #' of time information present. The default includes everything. Note
@@ -75,18 +75,23 @@ download_studentlife <- function(
 #' @param csv_nrows An integer specifying the number of rows to read
 #' per student if the target is a csv. The largest files in StudentLife are csv
 #' files, so this allows code testing with less overhead.
+#' @param datafolder Specifies the subfolder of \code{location}
+#' that contains the relevant data. This should normally
+#' be left as the default.
 #'
 #' @examples
-#' p <- "D:/Datasets/studentlife/dataset"
+#' p <- "D:/Datasets/studentlife"
 #' students <- load_SL_tibble(location = p)
 #'
 #' @export
 load_SL_tibble <- function(
   schema, table, location = ".",
   time_options = c("period", "timestamp", "dateonly", "dateless"),
-  vars, csv_nrows) {
+  vars, csv_nrows, datafolder = "/dataset") {
 
-  path <- get_path(schema, table, time_options)
+  location <- paste0(location, datafolder)
+
+  path <- get_path(location, schema, table, time_options)
 
   if ( path %in% EMA_json ) {
 
@@ -242,7 +247,7 @@ get_EMA_studs <- function(path, location, vars) {
   studs <- EMA_to_list(location, path)
 
   if ( missing(vars) ) {
-    # Create a menu to choose vars
+    # Create a graphical menu to choose vars
 
     vars_list <- attributes(studs)$vars_present
 
@@ -277,7 +282,7 @@ get_EMA_studs <- function(path, location, vars) {
 
 
 
-get_path <- function(menu1, menu2, time_options) {
+get_path <- function(location, menu1, menu2, time_options) {
 
   if ( missing(menu1) & !missing(menu2) ) {
     stop(paste0("if menu2 is specified then menu1 ",
@@ -383,8 +388,9 @@ EMA_to_list <- function(location, path) {
   } else {
     EMA_definition <- jsonlite::fromJSON(
       paste0(location,"/EMA/EMA_definition.json"), flatten = TRUE)
+    EMA_names <- gsub("\\?", "_", EMA_definition$name)
     EMA_questions <- EMA_definition[
-      which(EMA_definition$name == name),2][[1]]
+      which(EMA_names == name),2][[1]]
     EMA_questions <- tibble::as_tibble(EMA_questions)
     EMA_questions <- EMA_questions[-which(EMA_questions$question_id == "location"),]
   }
@@ -434,6 +440,8 @@ EMA_list_to_tibble <- function(studs, vars = "resp_time") {
 
 
 # Shared variables  -------------------------------------------------------
+
+
 
 EMA <- c("Activity",
          "Administration's response",
