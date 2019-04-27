@@ -14,7 +14,14 @@
 #'@examples
 #'d <- "D:/Datasets/studentlife"
 #'download_studentlife(dest = d)
+#'
+#'## With menu
 #'load_SL_tibble(location = d)
+#'
+#'## Without menu
+#'SL_tables
+#'load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+#'
 #'
 #'@export
 
@@ -172,6 +179,7 @@ get_txt_studs <- function(path, location, vars) {
   if ( "date-time" %in% names(studs) ) {
     names(studs)[which(names(studs) == "date-time")] <- "timestamp"
     studs$timestamp <- as.numeric(as.POSIXct(studs$timestamp, origin="1970-01-01"))
+    class(studs) <- c("timestamp_SL_tbl", class(studs))
   }
 
 
@@ -194,6 +202,13 @@ get_wide_csv_studs <- function(path, location, vars, csv_nrows) {
   studs <- tibble::as_tibble(studs)
   if(!missing(vars)) studs <- dplyr::select(studs, vars)
 
+  if ( name == "deadlines" ) {
+
+    studs <- tidyr::gather(studs, date, deadlines, -c(uid))
+    studs$date <- as.Date(as.POSIXct(substr(studs$date,2,11), format = "%Y.%m.%d"))
+
+    class(studs) <- c("dateonly_SL_tbl", class(studs))
+  }
 
   return(studs)
 }
@@ -287,6 +302,12 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
     if ( "time" %in% names(studs) )
       names(studs)[which(names(studs) == "time")] <- "timestamp"
   }
+
+  if ("timestamp" %in% names(studs))
+    class(studs) <- c("timestamp_SL_tbl", class(studs))
+
+  if ("start_timestamp" %in% names(studs) && "end_timestamp" %in% names(studs))
+    class(studs) <- c("interval_SL_tbl", class(studs))
 
   return(studs)
 }
@@ -436,7 +457,10 @@ EMA_list_to_tibble <- function(studs, vars = "resp_time") {
 
   attr(studs_list, "dropped_students") <- null_ind - 1
   transfer_EMA_attrs(studs) <- studs_list
-  class(studs) <- c("EMA_tbl", class(studs))
+
+  if ("timestamp" %in% names(studs)) {
+    class(studs) <- c("EMA_SL_tbl", "timestamp_SL_tbl", class(studs))
+  }
 
   return(studs)
 }

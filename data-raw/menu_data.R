@@ -135,3 +135,7 @@ menu_data <- list("EMA" = EMA,
                   "EMA_json" = EMA_json)
 
 usethis::use_data(menu_data, internal = TRUE, overwrite = TRUE)
+
+SL_tables <- menu2_list
+names(SL_tables) <- menu1_choices
+usethis::use_data(SL_tables, internal = FALSE, overwrite = TRUE)
