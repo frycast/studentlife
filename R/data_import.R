@@ -137,6 +137,11 @@ get_txt_studs <- function(path, location, vars) {
 
   `%>%` <- dplyr::`%>%`
 
+  if ( !missing(vars) )
+    if ( "timestamp" %in% vars )
+      vars[which(vars) == "timestamp"] <- "date-time"
+
+
   pr <- paste0(location, "/", path, "/", "u")
   paths <- c(paste0(pr, "0", seq(0,9), ".txt"),
              paste0(pr, seq(10,59), ".txt"))
@@ -163,6 +168,12 @@ get_txt_studs <- function(path, location, vars) {
     tibble::as_tibble()
 
   if ( !missing(vars) ) studs <- dplyr::select(studs, vars)
+
+  if ( "date-time" %in% names(studs) ) {
+    names(studs)[which(names(studs) == "date-time")] <- "timestamp"
+    studs$timestamp <- as.numeric(as.POSIXct(studs$timestamp, origin="1970-01-01"))
+  }
+
 
   return(studs)
 }
@@ -265,6 +276,18 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
 
   if ( !missing(vars) ) studs <- dplyr::select(studs, vars)
 
+  if( name %in% studentlife:::menu_data$period ) {
+    if ( !(name == "conversation") ) {
+      if ( "start" %in% names(studs) )
+        names(studs)[which(names(studs) == "start")] <- "start_timestamp"
+      if ( "end" %in% names(studs) )
+        names(studs)[which(names(studs) == "end")] <- "end_timestamp"
+    }
+  } else if ( name %in% c("bt","gps","wifi","wifi_location") ) {
+    if ( "time" %in% names(studs) )
+      names(studs)[which(names(studs) == "time")] <- "timestamp"
+  }
+
   return(studs)
 }
 
@@ -314,62 +337,6 @@ get_EMA_studs <- function(path, location, vars) {
   return(studs)
 }
 
-
-
-get_path <- function(location, menu1, menu2, time_options) {
-
-  if ( missing(menu1) & !missing(menu2) ) {
-    stop(paste0("if menu2 is specified then menu1 ",
-                "must be specified also"))
-  }
-
-  # Present interactive menu 1
-  menu1_restrict <- unlist(studentlife:::menu_data$time_opt_list1[time_options], use.names = FALSE)
-  menu1_choices <- studentlife:::menu_data$menu1_choices[
-    which(studentlife:::menu_data$menu1_choices %in% menu1_restrict)]
-  if ( missing(menu1) ) {
-
-    menu1 <- menu1_choices[[utils::menu(
-      choices = menu1_choices,
-      title = "Choose Menu 1 option:")]]
-
-  } else {
-
-    menu1 <- menu1_choices[[menu1]]
-
-  }
-
-  if (menu1 == "EMA") menu1 <- "EMA/response"
-
-  # Present interactive menu 2
-  menu2_choices <- studentlife:::menu_data$menu2_list[[menu1]]
-  menu2_restrict <- unlist(studentlife:::menu_data$time_opt_list2[time_options], use.names = FALSE)
-  menu2_choices <- menu2_choices[which(menu2_choices %in% menu2_restrict)]
-  if ( missing(menu2) ) {
-
-      menu2 <- utils::menu(
-        choices = menu2_choices,
-        title = "Choose Menu 2 option:")
-  }
-
-  if ( !is.null(menu2_choices) ) {
-
-    menu2 <- menu2_choices[[menu2]]
-
-  } else {
-
-    menu2 <- NULL
-
-  }
-
-  result <- paste0(menu1, "/", menu2)
-  result <- get_name_from_path(result, split = 'other/')
-
-  if ( result == "dining" ) result <- "dinning"
-
-  return(result)
-}
-
 EMA_to_list <- function(location, path) {
 
   `%>%` <- dplyr::`%>%`
@@ -381,7 +348,7 @@ EMA_to_list <- function(location, path) {
   studs <- list()
   missing_studs <- 0
   for (i in 1:60) {
-    if(file.exists(paths[i])) {
+    if( file.exists(paths[i]) && readLines(paths[i], 1, warn = FALSE) != "[]") {
       this_stud <- jsonlite::fromJSON(paths[i])
       this_stud$uid <- i - 1
       studs[[length(studs)+1]] <- this_stud
@@ -464,11 +431,67 @@ EMA_list_to_tibble <- function(studs, vars = "resp_time") {
     dplyr::bind_rows() %>%
     tibble::as_tibble()
 
+  if ( "resp_time" %in% names(studs) )
+    names(studs)[which(names(studs) == "resp_time")] <- "timestamp"
+
   attr(studs_list, "dropped_students") <- null_ind - 1
-
   transfer_EMA_attrs(studs) <- studs_list
-
   class(studs) <- c("EMA_tbl", class(studs))
 
   return(studs)
+}
+
+
+get_path <- function(location, menu1, menu2, time_options) {
+
+  if ( missing(menu1) & !missing(menu2) ) {
+    stop(paste0("if menu2 is specified then menu1 ",
+                "must be specified also"))
+  }
+
+  # Present interactive menu 1
+  menu1_restrict <- unlist(studentlife:::menu_data$time_opt_list1[time_options], use.names = FALSE)
+  menu1_choices <- studentlife:::menu_data$menu1_choices[
+    which(studentlife:::menu_data$menu1_choices %in% menu1_restrict)]
+  if ( missing(menu1) ) {
+
+    menu1 <- menu1_choices[[utils::menu(
+      choices = menu1_choices,
+      title = "Choose Menu 1 option:")]]
+
+  } else {
+
+    menu1 <- menu1_choices[[menu1]]
+
+  }
+
+  if (menu1 == "EMA") menu1 <- "EMA/response"
+
+  # Present interactive menu 2
+  menu2_choices <- studentlife:::menu_data$menu2_list[[menu1]]
+  menu2_restrict <- unlist(studentlife:::menu_data$time_opt_list2[time_options], use.names = FALSE)
+  menu2_choices <- menu2_choices[which(menu2_choices %in% menu2_restrict)]
+  if ( missing(menu2) ) {
+
+    menu2 <- utils::menu(
+      choices = menu2_choices,
+      title = "Choose Menu 2 option:")
+  }
+
+  if ( !is.null(menu2_choices) ) {
+
+    menu2 <- menu2_choices[[menu2]]
+
+  } else {
+
+    menu2 <- NULL
+
+  }
+
+  result <- paste0(menu1, "/", menu2)
+  result <- get_name_from_path(result, split = 'other/')
+
+  if ( result == "dining" ) result <- "dinning"
+
+  return(result)
 }

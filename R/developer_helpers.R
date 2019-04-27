@@ -8,13 +8,11 @@
   return(to)
 }
 
-
 get_name_from_path <- function(path, split = '/') {
   splat <- unlist(strsplit(path, split=split, fixed=TRUE))
   name <- splat[length(splat)]
   return(name)
 }
-
 
 generate_paths <- function(location, path, name, ext = ".csv") {
   pr <- paste0(location, "/", path, "/", name, "_u")
