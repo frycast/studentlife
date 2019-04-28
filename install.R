@@ -1,1 +1,1 @@
-install.packages(c("dplyr", "jsonlite", "tibble", "R.utils"))
+install.packages(c("readr", "tidyr", "dplyr", "jsonlite", "tibble", "R.utils"))
