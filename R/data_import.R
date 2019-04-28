@@ -205,7 +205,8 @@ get_txt_studs <- function(path, location, vars) {
 
   if ( "date-time" %in% names(studs) ) {
     names(studs)[which(names(studs) == "date-time")] <- "timestamp"
-    studs$timestamp <- as.numeric(as.POSIXct(studs$timestamp, origin="1970-01-01"))
+    studs$timestamp <- as.numeric(
+      as.POSIXct(studs$timestamp, origin="1970-01-01"))
     class(studs) <- c("timestamp_SL_tbl", class(studs))
   }
 
@@ -234,7 +235,8 @@ get_wide_csv_studs <- function(path, location, vars, csv_nrows) {
   if ( name == "deadlines" ) {
 
     studs <- tidyr::gather(studs, "date", "deadlines", -c("uid"))
-    studs$date <- as.Date(as.POSIXct(substr(studs$date,2,11), format = "%Y.%m.%d"))
+    studs$date <- as.Date(
+      as.POSIXct(substr(studs$date,2,11), format = "%Y.%m.%d"))
 
     class(studs) <- c("dateonly_SL_tbl", class(studs))
   }
@@ -298,7 +300,8 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
     for (i in 1:60) {
       if(file.exists(paths[i])) {
         this_stud <- suppressMessages(
-          readr::read_csv(file = paths[i], progress = FALSE, n_max = csv_nrows))
+          readr::read_csv(
+            file = paths[i], progress = FALSE, n_max = csv_nrows))
         this_stud$uid <- i - 1
         studs[[length(studs)+1]] <- this_stud
       } else {
@@ -309,7 +312,8 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
 
   if ( path == "sms" && missing(vars) ) {
     studs <- lapply(studs, function(x){
-      x <- dplyr::select(as.data.frame(x), "id", "device", "timestamp", "uid")
+      x <- dplyr::select(
+        as.data.frame(x), "id", "device", "timestamp", "uid")
     })
   }
 
@@ -406,7 +410,8 @@ EMA_to_list <- function(location, path) {
   studs <- list()
   missing_studs <- 0
   for (i in 1:60) {
-    if( file.exists(paths[i]) && readLines(paths[i], 1, warn = FALSE) != "[]") {
+    if( file.exists(paths[i])
+        && readLines(paths[i], 1, warn = FALSE) != "[]") {
       this_stud <- jsonlite::fromJSON(paths[i])
       this_stud$uid <- i - 1
       studs[[length(studs)+1]] <- this_stud
@@ -433,11 +438,12 @@ EMA_to_list <- function(location, path) {
   ## Get EMA definition information
   if (name == "PAM") {
 
-    EMA_questions <- paste0("Refer to: Pollak, J. P., Adams, P., & Gay, G.",
-                            " (2011, May). PAM: a photographic affect meter",
-                            " for frequent, in situ measurement of affect.",
-                            " In Proceedings of the SIGCHI conference on Human",
-                            " factors in computing systems (pp. 725-734). ACM.")
+    EMA_questions <-
+      paste0("Refer to: Pollak, J. P., Adams, P., & Gay, G.",
+             " (2011, May). PAM: a photographic affect meter",
+             " for frequent, in situ measurement of affect.",
+             " In Proceedings of the SIGCHI conference on Human",
+             " factors in computing systems (pp. 725-734). ACM.")
 
   } else if (name == "QR") {
 
@@ -453,7 +459,8 @@ EMA_to_list <- function(location, path) {
     EMA_questions <- EMA_definition[
       which(EMA_names == name),2][[1]]
     EMA_questions <- tibble::as_tibble(EMA_questions)
-    EMA_questions <- EMA_questions[-which(EMA_questions$question_id == "location"),]
+    EMA_questions <- EMA_questions[
+      -which(EMA_questions$question_id == "location"),]
   }
 
   attr(studs, "missing_students") <- missing_studs
@@ -507,7 +514,8 @@ get_path <- function(location, menu1, menu2, time_options) {
   }
 
   # Present interactive menu 1
-  menu1_restrict <- unlist(menu_data$time_opt_list1[time_options], use.names = FALSE)
+  menu1_restrict <- unlist(
+    menu_data$time_opt_list1[time_options], use.names = FALSE)
   menu1_choices <- menu_data$menu1_choices[
     which(menu_data$menu1_choices %in% menu1_restrict)]
   if ( missing(menu1) ) {
@@ -524,8 +532,10 @@ get_path <- function(location, menu1, menu2, time_options) {
 
   # Present interactive menu 2
   menu2_choices <- menu_data$menu2_list[[menu1]]
-  menu2_restrict <- unlist(menu_data$time_opt_list2[time_options], use.names = FALSE)
-  menu2_choices <- menu2_choices[which(menu2_choices %in% menu2_restrict)]
+  menu2_restrict <- unlist(
+    menu_data$time_opt_list2[time_options], use.names = FALSE)
+  menu2_choices <- menu2_choices[
+    which(menu2_choices %in% menu2_restrict)]
   if ( missing(menu2) ) {
 
     menu2 <- utils::menu(

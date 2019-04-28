@@ -10,7 +10,7 @@ Authors@R: c(person("Daniel", "Fryer",
                      comment = c(ORCID = "0000-0001-6032-0522")))
 Description: These functions are being used by the package author 
     for investigation into the StudentLife dataset. 
-Depends: R (>= 3.5.1)
+Depends: R (>= 3.5.0)
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
