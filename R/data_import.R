@@ -161,7 +161,8 @@ load_SL_tibble <- function(
 }
 
 
-
+############################################################################
+############################################################################
 # Helper functions ---------------------------------
 
 
@@ -171,7 +172,7 @@ get_txt_studs <- function(path, location, vars) {
 
   if ( !missing(vars) )
     if ( "timestamp" %in% vars )
-      vars[which(vars) == "timestamp"] <- "date-time"
+      vars[which(vars == "timestamp")] <- "date-time"
 
 
   pr <- paste0(location, "/", path, "/", "u")
