@@ -1,4 +1,4 @@
-[![Travis-CI Build Status](https://travis-ci.org/frycast/studentlife.svg?branch=master)](https://travis-ci.org/frycast/studentlife) ![Travis-CI Build Status](http://www.r-pkg.org/badges/version/studentlife)
+[![Travis-CI Build Status](https://travis-ci.org/frycast/studentlife.svg?branch=master)](https://travis-ci.org/frycast/studentlife) ![Travis-CI Build Status](http://www.r-pkg.org/badges/version/studentlife) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/frycast/studentlife/master)
 
 ### Install from GitHub with
 ```r
