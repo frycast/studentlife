@@ -1,3 +1,5 @@
+[![Travis-CI Build Status](https://travis-ci.org/frycast/studentlife.svg?branch=master)](https://travis-ci.org/frycast/studentlife)
+
 ### Install from GitHub with
 ```r
 # install.packages("devtools")
