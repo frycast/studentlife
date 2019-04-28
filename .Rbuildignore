@@ -1,2 +1,4 @@
+^tests$
+^install\.R$
 ^.*\.Rproj$
 ^\.Rproj\.user$
