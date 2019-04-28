@@ -37,7 +37,7 @@ download_studentlife <- function(
   d <- "dataset.tar.bz2"
   p <- paste0(dest, "/", d)
   if (!dir.exists(p)) dir.create(p)
-  download.file(url = url, destfile = p)
+  utils::download.file(url = url, destfile = p)
   message("Download complete")
 
   if (unzip) {
@@ -128,28 +128,28 @@ load_SL_tibble <- function(
   }
 
   if (!missing(schema))
-    schema <- which(tolower(schema) == tolower(studentlife:::menu_data$menu1_choices))
+    schema <- which(tolower(schema) == tolower(menu_data$menu1_choices))
 
   if (!missing(table))
-    table <- which(tolower(table) == tolower(studentlife:::menu_data$menu2_list[[schema]]))
+    table <- which(tolower(table) == tolower(menu_data$menu2_list[[schema]]))
 
   location <- paste0(location, datafolder)
 
   path <- get_path(location, schema, table, time_options)
 
-  if ( path %in% studentlife:::menu_data$EMA_json ) {
+  if ( path %in% menu_data$EMA_json ) {
 
     studs <- get_EMA_studs(path, location, vars)
 
-  } else if ( path %in% studentlife:::menu_data$long_csv ) {
+  } else if ( path %in% menu_data$long_csv ) {
 
     studs <- get_long_csv_studs(path, location, vars, csv_nrows)
 
-  } else if ( path %in% studentlife:::menu_data$wide_csv ) {
+  } else if ( path %in% menu_data$wide_csv ) {
 
     studs <- get_wide_csv_studs(path, location, vars, csv_nrows)
 
-  } else if ( path %in% studentlife:::menu_data$txt ) {
+  } else if ( path %in% menu_data$txt ) {
 
     studs <- get_txt_studs(path, location, vars)
 
@@ -221,7 +221,7 @@ get_wide_csv_studs <- function(path, location, vars, csv_nrows) {
   args <- list(file = full_path)
   cn <- c("uid", "class1", "class2", "class3", "class4")
   if (name == "class") {args$col.names = cn; args$header = FALSE}
-  if (!missing(csv_nrows)) args$nrows = csv_nrows
+  # if (!missing(csv_nrows)) args$nrows = csv_nrows
   studs <- do.call(utils::read.csv, args)
 
   studs$uid <- as.integer(substr(studs$uid, 2, 3))
@@ -233,7 +233,7 @@ get_wide_csv_studs <- function(path, location, vars, csv_nrows) {
 
   if ( name == "deadlines" ) {
 
-    studs <- tidyr::gather(studs, date, deadlines, -c(uid))
+    studs <- tidyr::gather(studs, "date", "deadlines", -c("uid"))
     studs$date <- as.Date(as.POSIXct(substr(studs$date,2,11), format = "%Y.%m.%d"))
 
     class(studs) <- c("dateonly_SL_tbl", class(studs))
@@ -255,7 +255,7 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
 
   if( !missing(vars) )
     if( "timestamp" %in% vars ) {
-      if( name %in% studentlife:::menu_data$interval ) {
+      if( name %in% menu_data$interval ) {
         if ( name == "conversation" ) {
           vars[which(vars == "timestamp")] <- "start_timestamp"
           vars <- c(vars, "end_timestamp")
@@ -309,7 +309,7 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
 
   if ( path == "sms" && missing(vars) ) {
     studs <- lapply(studs, function(x){
-      x <- dplyr::select(as.data.frame(x), id, device, timestamp, uid)
+      x <- dplyr::select(as.data.frame(x), "id", "device", "timestamp", "uid")
     })
   }
 
@@ -320,7 +320,7 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
 
   if ( !missing(vars) ) studs <- dplyr::select(studs, vars)
 
-  if( name %in% studentlife:::menu_data$interval ) {
+  if( name %in% menu_data$interval ) {
     if ( !(name == "conversation") ) {
       if ( "start" %in% names(studs) )
         names(studs)[which(names(studs) == "start")] <- "start_timestamp"
@@ -366,7 +366,7 @@ get_EMA_studs <- function(path, location, vars) {
 
     if ( length(vars_opt) > 1 ) {
 
-      choice <- menu(choices = vars_opt,
+      choice <- utils::menu(choices = vars_opt,
                      title = "Choose vars:",
                      graphics = TRUE)
       vars <- vars_list[[choice]]
@@ -507,9 +507,9 @@ get_path <- function(location, menu1, menu2, time_options) {
   }
 
   # Present interactive menu 1
-  menu1_restrict <- unlist(studentlife:::menu_data$time_opt_list1[time_options], use.names = FALSE)
-  menu1_choices <- studentlife:::menu_data$menu1_choices[
-    which(studentlife:::menu_data$menu1_choices %in% menu1_restrict)]
+  menu1_restrict <- unlist(menu_data$time_opt_list1[time_options], use.names = FALSE)
+  menu1_choices <- menu_data$menu1_choices[
+    which(menu_data$menu1_choices %in% menu1_restrict)]
   if ( missing(menu1) ) {
 
     menu1 <- menu1_choices[[utils::menu(
@@ -523,8 +523,8 @@ get_path <- function(location, menu1, menu2, time_options) {
   if (menu1 == "EMA") menu1 <- "EMA/response"
 
   # Present interactive menu 2
-  menu2_choices <- studentlife:::menu_data$menu2_list[[menu1]]
-  menu2_restrict <- unlist(studentlife:::menu_data$time_opt_list2[time_options], use.names = FALSE)
+  menu2_choices <- menu_data$menu2_list[[menu1]]
+  menu2_restrict <- unlist(menu_data$time_opt_list2[time_options], use.names = FALSE)
   menu2_choices <- menu2_choices[which(menu2_choices %in% menu2_restrict)]
   if ( missing(menu2) ) {
 
