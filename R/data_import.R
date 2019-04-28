@@ -13,6 +13,7 @@
 #'Leave as default unless you plan to do it manually.
 #'
 #'@examples
+#'\donttest{
 #'d <- "D:/Datasets/studentlife"
 #'download_studentlife(dest = d)
 #'
@@ -22,7 +23,7 @@
 #'## Without menu
 #'SL_tables
 #'load_SL_tibble(schema = "EMA", table = "PAM", location = d)
-#'
+#'}
 #'
 #'@export
 
@@ -91,6 +92,7 @@ download_studentlife <- function(
 #' be left as the default.
 #'
 #' @examples
+#' \donttest{
 #'d <- "D:/Datasets/studentlife"
 #'download_studentlife(dest = d)
 #'
@@ -113,6 +115,7 @@ download_studentlife <- function(
 #'
 #'## Browse all dateless tables
 #'load_SL_tibble(location = d, time_options = "dateless", csv_nrows = 10)
+#'}
 #'
 #' @export
 load_SL_tibble <- function(

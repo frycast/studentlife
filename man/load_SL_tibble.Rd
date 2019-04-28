@@ -45,6 +45,7 @@ unspecified to choose interactively via a
 menu.
 }
 \examples{
+\donttest{
 d <- "D:/Datasets/studentlife"
 download_studentlife(dest = d)
 
@@ -67,5 +68,6 @@ load_SL_tibble(location = d, time_options = "interval", csv_nrows = 10)
 
 ## Browse all dateless tables
 load_SL_tibble(location = d, time_options = "dateless", csv_nrows = 10)
+}
 
 }

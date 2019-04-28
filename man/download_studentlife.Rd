@@ -26,6 +26,7 @@ Leave as default unless you plan to do it manually.}
 Download the entire StudentLife dataset
 }
 \examples{
+\donttest{
 d <- "D:/Datasets/studentlife"
 download_studentlife(dest = d)
 
@@ -35,6 +36,6 @@ load_SL_tibble(location = d)
 ## Without menu
 SL_tables
 load_SL_tibble(schema = "EMA", table = "PAM", location = d)
-
+}
 
 }
