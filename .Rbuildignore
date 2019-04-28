@@ -1,3 +1,4 @@
+^paper\.md$
 ^\.travis\.yml$
 ^tests$
 ^install\.R$
