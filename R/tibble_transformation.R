@@ -1,23 +1,36 @@
 
 
 
-#### INCOMPLETE
-### ISSUES:
-## Needs documentation and greater generality.
-##
-####
-##'group_by_epoch
-##'
-##' Group by day and epoch with mean response
-##'
-##' @param ... Arguments passed to summarise for group aggregation
-##' @param timestamp Character string determining what column contains
-##' timestamps for keeping if \code{keep_timestamps = TRUE}
-##'
-##'@export
-#group_by_epoch <- function(studs, ..., keep_timestamps = TRUE, timestamp = "resp_time") {
+##### INCOMPLETE
+#### ISSUES:
+### Needs documentation and greater generality.
+###
+#####
+# #'group_by_epoch
+# #'
+# #' Group by day and epoch with mean response
+# #'
+# #' @param ... Arguments passed to summarise for group aggregation
+# #'
+# #'@export
+#group_by_epoch <- function(studs, ..., keep_timestamps = TRUE) {
 #
 #  `%>%` <- dplyr::`%>%`
+#
+#  if (class(studs) == "timestamp_SL_tibble") {
+#
+#
+#  }
+#
+#  if (class(studs) == "interval_SL_tibble") {
+#
+#  }
+#
+#  if (class(studs) == "dateonly_SL_tibble") {
+#
+#  }
+#
+#
 #
 #  if ( keep_timestamps ) {
 #    studsg <- studs %>% dplyr::group_by(uid, day, epoch) %>%
@@ -34,34 +47,268 @@
 #
 #  return(studsg)
 #}
+
+
+
+
+
+# #' regularise_time
+# #'
+# #' Transform an \code{SL_tibble} (as produced by \code{\link{load_SL_tibble}})
+# #' in such a way that the intervals between observations are all equal.
+# #'
+# #' @param studs An \code{SL_tibble} as returned
+# #' by the function \code{\link{load_SL_tibble}}.
+# #' @param FUN A function used to aggregate values when multiple
+# #' observations are encountered in a time interval.
+# #' @param blocks A character vector naming one or more
+# #' of the columns of \code{studs}. The returned \code{data.frame}
+# #' will have one observation (possibly NA) for each unique
+# #' value of the columns specified.
+# #' @param y An optional character vector specifying one or
+# #' more of the columns in \code{studs} to be aggregated by \code{FUN}.
+# #' @param per_student A logical. If \code{per_student = FALSE} then
+# #' values are aggregated across students.
+# #' @param na.action A character vector indicating the action to take when
+# #' regularisation leads to null values (i.e., empty time blocks).
+# #' The currently available actions are "NA" (set empty blocks
+# #' to \code{NA}) and "drop" (remove observations on empty blocks).
+# #' @param ... Arguments passed to \code{FUN}
+# #'
+# #' @export
+# regularise_time <- function(studs, FUN = mean, blocks = c("epoch", "day"), y,
+#                        per_student = TRUE, na.action = "NA", ...) {
+#
+#    confirm_SL_tibble(studs)
+#
+#    if ( !(blocks %in% names(studs)) ) {
+#
+#      for ( var in blocks ) {
 #
 #
 #
-##' equalise_spacing
-##'
-##'
-##'
-##' @param studs A data.frame or SL_tibble
-##' @param FUN A function used to aggregate values when multiple
-##' observations are encountered in a time interval.
-##' @param by A character vector naming one or more
-##' of the columns of \code{studs}. The returned \code{data.frame}
-##' will have one observation (possibly NA) for each unique
-##' value of the columns specified.
-##' @param y An optional character vector specifying one or
-##' more of the columns in \code{studs} to be aggregated by \code{FUN}.
-##' @param per_student A logical. If \code{per_student = FALSE} then
-##' values are aggregated across students.
-##'
-##' @export
-#equalise_spacing <- function(studs, FUN = mean, by = c("epoch", "day"),
-#                             per_student = TRUE) {
+#      }
 #
 #
+#       stop(paste0("The columns specified by the blocks parameter are",
+#                  " not present in studs"))
 #
-#}
+#    }
 #
 #
+#    if (class(studs) == "timestamp_SL_tibble") {
+#
+#    }
+#
+#    if (class(studs) == "interval_SL_tibble") {
+#
+#    }
+#
+#    if (class(studs) == "dateonly_SL_tibble") {
+#
+#    }
+#
+#
+#  }
+#
+#
+# regularise_time(studs)
+
+
+
+#'add_block_labels
+#'
+#'Classify observations from an \code{SL_tibble}
+#'into block labels using available
+#'date-time information. See more information
+#'about "blocks" under the details section.
+#'
+#'Block label types can be one or more of "epoch"
+#'(giving labels morning, evening, afternoon and night),
+#'"day" (giving number of days since the first day of the
+#'StudentLife study),
+#'"week" (giving number of weeks since the first week of the
+#'StudentLife study),
+#'"weekday" (giving the day of the week),
+#'"month" (giving number of months since the start of the
+#'StudentLife study) and "date". The StudentLife study
+#'started on 2013-03-24
+#'
+#'@param studs An \code{SL_tibble} as returned
+#' by the function \code{\link{load_SL_tibble}}.
+#'@param type A character vector of block label types
+#'to include. Can be one or more of "epoch", "day",
+#'"week", "weekday", "month" and "date". Any block label types that
+#'are not inferrable from the available date-time data are ignored.
+#'@param interval A character string that decides how block
+#'membership is decided when \code{stude} is of class
+#'\code{interval_SL_tibble}. Can be either "start"
+#'(use \code{start_timestamp}),
+#'"end" (use \code{end_timestamp}) or "middle" (use the midpoint between
+#'\code{start_timestamp} and \code{end_timestamp}).
+#'@param warning Logical. If \code{TRUE} then a warning is produced
+#'whenever a block label type is not inferrable from the
+#'available date-time data.
+#'
+#'@export
+
+add_block_labels <- function(
+  studs, type = c("epoch", "day", "week", "weekday", "month", "date"),
+  interval = "start", warning = TRUE) {
+
+  day_0 <- julian(getOption("studentlife_start_date"), origin = as.Date("2013-01-01"))[1]
+  week_0 <- floor(day_0/7)
+
+  interval <- tolower(interval)
+  type <- tolower(type)
+
+  timestamp <- NULL
+  date <- NULL
+
+  if ( "interval_SL_tibble" %in% class(studs) ) {
+
+    if (!confirm_interval_SL_tibble(studs))
+      stop("corrupt interval_SL_tibble")
+
+    if ( interval == "start" )
+      timestamp <- studs$start_timestamp else
+        if ( interval == "end" )
+          timestamp <- studs$end_timestamp else
+            if ( interval == "middle" )
+              timestamp <- (studs$start_timestamp + studs$start_timestamp)/2
+
+  } else if ( "timestamp_SL_tibble" %in% class(studs) ) {
+
+    if (!confirm_timestamp_SL_tibble(studs))
+      stop("corrupt timestamp_SL_tibble")
+
+    timestamp <- studs$timestamp
+
+  } else if ( "dateonly_SL_tibble" %in% class(studs) ) {
+
+    if (!confirm_dateonly_SL_tibble(studs))
+      stop("corrupt dateonly_SL_tibble")
+
+    date <- studs$date
+
+  }
+
+  if ( !is.null(timestamp) )
+    date <- as.Date(as.POSIXct(studs[["timestamp"]], origin="1970-01-01"))
+
+  if ( "epoch" %in% type ) {
+
+    if( !is.null(timestamp) ) {
+
+      epochs <- c("night","morning","afternoon","evening")
+      ub <- c(6, 12, 18, 24)
+      hours <- as.integer(strftime(timestamp, format="%H"))
+      epc <- purrr::map_chr(hours, function(x){
+        epochs[which(x <= ub)[1]]
+      })
+
+      studs$epoch <- factor(epc, levels = epochs)
+
+    } else {
+
+      if (warning)
+        warning("not enough date-time information to derive epoch")
+
+    }
+
+  }
+
+  if ( "day" %in% type ) {
+
+    if ( !is.null(date) ) {
+
+      studs$date <- as.integer(format(date, "%j")) - day_0
+
+    } else {
+
+      if (warning)
+        warning("not enough date-time information to derive day")
+
+    }
+
+  }
+
+  if ( "week" %in% type ) {
+
+    if ( !is.null(date) ) {
+
+      studs$week <- as.numeric(format(date, "%W")) - week_0
+
+    } else {
+
+      if (warning)
+        warning("not enough date-time information to derive week")
+
+    }
+
+  }
+
+  if ( "weekday" %in% type ) {
+
+    if ( !is.null(date) ) {
+
+      studs$weekday <- factor(
+        weekdays(date, abbreviate = TRUE),
+        levels = c("Mon","Tue","Wed","Thu","Fri","Sat","Sun"))
+
+    } else {
+
+      if (warning)
+        warning("not enough date-time information to derive weekday")
+
+    }
+
+  }
+
+  if ( "month" %in% type ) {
+
+    if ( !is.null(date) ) {
+
+      studs$month <- factor(
+        months(date, abbreviate = TRUE),
+        levels = c("Jan","Feb","Mar","Apr","May","Jun",
+                   "Jul","Aug","Sep","Oct","Nov","Dec"))
+
+    } else {
+
+      if (warning)
+        warning("not enough date-time information to derive month")
+
+    }
+
+  }
+
+  if ( "date" %in% type ) {
+
+    if ( !is.null(date) ) {
+
+      studs$date <- date
+
+    } else {
+
+      if (warning)
+        warning("not enough date-time information to derive date")
+
+    }
+
+  }
+
+
+  return(studs)
+}
+
+
+
+
+
+
+
+
 #### INCOMPLETE
 ### ISSUES:
 ## Needs documentation and greater generality.

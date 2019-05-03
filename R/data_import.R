@@ -74,8 +74,10 @@ download_studentlife <- function(
 #' blank to choose interactively.
 #' @param location The path to a copy of the StudentLife dataset.
 #' @param time_options A character vector specifying which
-#' table types to include in the menu, organised by level
-#' of time information present. The default includes everything. Note
+#' table types (out of "interval", "timestamp", "dateonly" and "dateless")
+#' to include in the menu. This allows you to restrict menu options
+#' according to the amount of date-time information present in the data.
+#' The default includes all data. Note
 #' this parameter only has an effect when used with the interactive menu.
 #' @param vars Character vector of variable
 #' names to import for all students. Leave
@@ -90,6 +92,16 @@ download_studentlife <- function(
 #' @param datafolder Specifies the subfolder of \code{location}
 #' that contains the relevant data. This should normally
 #' be left as the default.
+#'
+#' @return
+#' An object of class \code{SL_tibble} is returned. These inherit
+#' properties from class \code{\link{tibble}} and
+#' class \code{\link{data.frame}}.
+#' Depending on the date-time information available, the object
+#' may also be a \code{timestamp_SL_tibble},
+#' \code{interval_SL_tibble} or
+#' \code{dateonly_SL_tibble} (which are all
+#' subclasses of \code{SL_tibble}).
 #'
 #' @examples
 #' \donttest{
@@ -122,6 +134,8 @@ load_SL_tibble <- function(
   schema, table, location = ".",
   time_options = c("interval", "timestamp", "dateonly", "dateless"),
   vars, csv_nrows, datafolder = "/dataset") {
+
+  time_options <- tolower(time_options)
 
   if (!missing(vars)) {
     if( !("uid" %in% vars ) ) vars <- c("uid", vars)
@@ -231,15 +245,20 @@ get_wide_csv_studs <- function(path, location, vars, csv_nrows) {
   if(!missing(vars)) studs <- dplyr::select(studs, vars)
 
 
-  class(studs) <- c("SL_tbl", class(studs))
-
-  if ( name == "deadlines" ) {
+  if ( name %in% menu_data$dateonly ) {
 
     studs <- tidyr::gather(studs, "date", "deadlines", -c("uid"))
     studs$date <- as.Date(
       as.POSIXct(substr(studs$date,2,11), format = "%Y.%m.%d"))
 
+    class(studs) <- c("SL_tbl", class(studs))
+
     class(studs) <- c("dateonly_SL_tbl", class(studs))
+
+  } else {
+
+    class(studs) <- c("SL_tbl", class(studs))
+
   }
 
   return(studs)

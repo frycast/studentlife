@@ -18,8 +18,10 @@ blank to choose interactively.}
 \item{location}{The path to a copy of the StudentLife dataset.}
 
 \item{time_options}{A character vector specifying which
-table types to include in the menu, organised by level
-of time information present. The default includes everything. Note
+table types (out of "interval", "timestamp", "dateonly" and "dateless")
+to include in the menu. This allows you to restrict menu options
+according to the amount of date-time information present in the data.
+The default includes all data. Note
 this parameter only has an effect when used with the interactive menu.}
 
 \item{vars}{Character vector of variable
@@ -37,6 +39,16 @@ files, so this allows code testing with less overhead.}
 \item{datafolder}{Specifies the subfolder of \code{location}
 that contains the relevant data. This should normally
 be left as the default.}
+}
+\value{
+An object of class \code{SL_tibble} is returned. These inherit
+properties from class \code{\link{tibble}} and
+class \code{\link{data.frame}}.
+Depending on the date-time information available, the object
+may also be a \code{timestamp_SL_tibble},
+\code{interval_SL_tibble} or
+\code{dateonly_SL_tibble} (which are all
+subclasses of \code{SL_tibble}).
 }
 \description{
 Import a chosen StudentLife table as
