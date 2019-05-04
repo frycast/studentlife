@@ -50,9 +50,6 @@ print.summary.EMA_tbl <- function(x, ...) {
 
 }
 
-
-
-
 #rbind.timestamp_SL_tbl <-
 #cbind.timestamp_SL_tbl <-
 

@@ -6,10 +6,10 @@
 #'@param dest The destination path. If the path does
 #'not exist it is created with \code{\link{dir.create}}
 #'@param unzip Logical. If \code{TRUE} then the
-#'dataset will be unzipped with \code{\link{bunzip2}}.
+#'dataset will be unzipped with \code{\link[R.utils]{bunzip2}}.
 #'Leave as default unless you plan to do it manually.
 #'@param untar Logical. If \code{TRUE} then the
-#'dataset will be untarred with \code{\link{untar}}.
+#'dataset will be untarred with \code{\link[utils]{untar}}.
 #'Leave as default unless you plan to do it manually.
 #'
 #'@examples
@@ -95,7 +95,7 @@ download_studentlife <- function(
 #'
 #' @return
 #' An object of class \code{SL_tibble} is returned. These inherit
-#' properties from class \code{\link{tibble}} and
+#' properties from class \code{\link[tibble]{tibble}} and
 #' class \code{\link{data.frame}}.
 #' Depending on the date-time information available, the object
 #' may also be a \code{timestamp_SL_tibble},
@@ -151,6 +151,11 @@ load_SL_tibble <- function(
     if( !("uid" %in% vars ) ) vars <- c("uid", vars)
   }
 
+  if ( missing(schema) & !missing(table) ) {
+    stop(paste0("if table is specified then schema ",
+                "must be specified also"))
+  }
+
   if (!missing(schema))
     schema <- which(tolower(schema) == tolower(menu_data$menu1_choices))
 
@@ -181,6 +186,11 @@ load_SL_tibble <- function(
 
   studs$uid <- factor(studs$uid, levels = 0:59)
 
+  attr(studs, "schema") <- attr(path, "schema")
+  attr(studs, "table") <- attr(path, "table")
+
+  names(studs) <- clean_strings(names(studs))
+
   return(studs)
 }
 
@@ -189,6 +199,57 @@ load_SL_tibble <- function(
 ############################################################################
 # Helper functions ---------------------------------
 
+get_path <- function(location, menu1, menu2, time_options) {
+
+
+  # Present interactive menu 1
+  menu1_restrict <- unlist(
+    menu_data$time_opt_list1[time_options], use.names = FALSE)
+  menu1_choices <- menu_data$menu1_choices[
+    which(menu_data$menu1_choices %in% menu1_restrict)]
+  if ( missing(menu1) ) {
+
+    menu1 <- menu1_choices[[utils::menu(
+      choices = menu1_choices,
+      title = "Choose Menu 1 option:")]]
+  } else {
+
+    menu1 <- menu1_choices[[menu1]]
+  }
+
+  schema <- menu1
+
+  if (menu1 == "EMA") menu1 <- "EMA/response"
+
+  # Present interactive menu 2
+  menu2_choices <- menu_data$menu2_list[[menu1]]
+  menu2_restrict <- unlist(
+    menu_data$time_opt_list2[time_options], use.names = FALSE)
+  menu2_choices <- menu2_choices[
+    which(menu2_choices %in% menu2_restrict)]
+  if ( missing(menu2) ) {
+
+    menu2 <- utils::menu(
+      choices = menu2_choices,
+      title = "Choose Menu 2 option:")
+  }
+
+  if (is.null(menu2_choices))
+    stop("No tables found in specified schema")
+
+  menu2 <- menu2_choices[[menu2]]
+  table <- menu2
+
+  result <- paste0(menu1, "/", menu2)
+  result <- get_name_from_path(result, split = 'other/')
+
+  if ( result == "dining" ) result <- "dinning"
+
+  attr(result, "schema") <- schema
+  attr(result, "table") <- table
+
+  return(result)
+}
 
 get_txt_studs <- function(path, location, vars) {
 
@@ -533,58 +594,4 @@ EMA_list_to_tibble <- function(studs, vars = "resp_time") {
   transfer_EMA_attrs(studs) <- studs_list
 
   return(studs)
-}
-
-
-get_path <- function(location, menu1, menu2, time_options) {
-
-  if ( missing(menu1) & !missing(menu2) ) {
-    stop(paste0("if menu2 is specified then menu1 ",
-                "must be specified also"))
-  }
-
-  # Present interactive menu 1
-  menu1_restrict <- unlist(
-    menu_data$time_opt_list1[time_options], use.names = FALSE)
-  menu1_choices <- menu_data$menu1_choices[
-    which(menu_data$menu1_choices %in% menu1_restrict)]
-  if ( missing(menu1) ) {
-
-    menu1 <- menu1_choices[[utils::menu(
-      choices = menu1_choices,
-      title = "Choose Menu 1 option:")]]
-  } else {
-
-    menu1 <- menu1_choices[[menu1]]
-  }
-
-  if (menu1 == "EMA") menu1 <- "EMA/response"
-
-  # Present interactive menu 2
-  menu2_choices <- menu_data$menu2_list[[menu1]]
-  menu2_restrict <- unlist(
-    menu_data$time_opt_list2[time_options], use.names = FALSE)
-  menu2_choices <- menu2_choices[
-    which(menu2_choices %in% menu2_restrict)]
-  if ( missing(menu2) ) {
-
-    menu2 <- utils::menu(
-      choices = menu2_choices,
-      title = "Choose Menu 2 option:")
-  }
-
-  if ( !is.null(menu2_choices) ) {
-
-    menu2 <- menu2_choices[[menu2]]
-  } else {
-
-    menu2 <- NULL
-  }
-
-  result <- paste0(menu1, "/", menu2)
-  result <- get_name_from_path(result, split = 'other/')
-
-  if ( result == "dining" ) result <- "dinning"
-
-  return(result)
 }

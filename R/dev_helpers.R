@@ -7,7 +7,6 @@ options_check <- function(par, opt) {
   }
 }
 
-
 `transfer_EMA_attrs<-` <- function(to, ..., value) {
 
   attr(to, "dropped_students") <- attr(value, "dropped_students")
@@ -30,20 +29,30 @@ generate_paths <- function(location, path, name, ext = ".csv") {
              paste0(pr, seq(10,59), ext))
 }
 
-
 confirm_SL_tibble <- function(studs) {
 
   if ( !("SL_tbl" %in% class(studs)) )
-     {warning("object not of class SL_tbl"); return(FALSE)}
+    {warning("object not of class SL_tbl"); return(FALSE)}
 
   if ( !("uid" %in% names(studs)) )
-     {warning("'uid' not in SL_tbl"); return(FALSE)}
+    {warning("'uid' not in SL_tbl"); return(FALSE)}
+
+  schema <- attr(studs, "schema")
+  table <- attr(studs, "table")
+
+  if ( !(schema %in% menu_data$menu1_choices)
+       || length(schema) > 1 )
+    {warning("invalid schema name"); return(FALSE)}
+
+  sch_num <- which(menu_data$menu1_choices == schema)
+
+  if ( !(table %in% menu_data$menu2_list[[sch_num]])
+       || length(table) > 1 )
+    {warning("invalid table name"); return(FALSE)}
 
   return(TRUE)
 
 }
-
-
 
 confirm_interval_SL_tibble <- function(studs) {
 
@@ -57,7 +66,6 @@ confirm_interval_SL_tibble <- function(studs) {
 
 }
 
-
 confirm_timestamp_SL_tibble <- function(studs) {
 
   if ( !("timestamp" %in% names(studs)) )
@@ -65,7 +73,6 @@ confirm_timestamp_SL_tibble <- function(studs) {
 
   return(confirm_SL_tibble(studs))
 }
-
 
 confirm_dateonly_SL_tibble <- function(studs) {
 
@@ -75,5 +82,17 @@ confirm_dateonly_SL_tibble <- function(studs) {
   return(confirm_SL_tibble(studs))
 }
 
+confirm_reg_SL_tibble <- function(studs) {
 
+  blocks <- attributes(studs)$blocks
+
+  if ( length(blocks) == 0 )
+    {warning("blocks attribute is null"); return(FALSE)}
+
+  return(confirm_SL_tibble(studs))
+}
+
+clean_strings <- function(x) {
+  return(gsub('([[:punct:]])|\\s+','_', x))
+}
 

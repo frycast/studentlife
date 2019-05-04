@@ -1,3 +1,4 @@
+^\.covrignore$
 ^paper\.md$
 ^\.travis\.yml$
 ^tests$

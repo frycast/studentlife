@@ -52,67 +52,137 @@
 
 
 
-# #' regularise_time
-# #'
-# #' Transform an \code{SL_tibble} (as produced by \code{\link{load_SL_tibble}})
-# #' in such a way that the intervals between observations are all equal.
-# #'
-# #' @param studs An \code{SL_tibble} as returned
-# #' by the function \code{\link{load_SL_tibble}}.
-# #' @param FUN A function used to aggregate values when multiple
-# #' observations are encountered in a time interval.
-# #' @param blocks A character vector naming one or more
-# #' of the columns of \code{studs}. The returned \code{data.frame}
-# #' will have one observation (possibly NA) for each unique
-# #' value of the columns specified.
-# #' @param y An optional character vector specifying one or
-# #' more of the columns in \code{studs} to be aggregated by \code{FUN}.
-# #' @param per_student A logical. If \code{per_student = FALSE} then
-# #' values are aggregated across students.
-# #' @param na.action A character vector indicating the action to take when
-# #' regularisation leads to null values (i.e., empty time blocks).
-# #' The currently available actions are "NA" (set empty blocks
-# #' to \code{NA}) and "drop" (remove observations on empty blocks).
-# #' @param ... Arguments passed to \code{FUN}
-# #'
-# #' @export
-# regularise_time <- function(studs, FUN = mean, blocks = c("epoch", "day"), y,
-#                        per_student = TRUE, na.action = "NA", ...) {
+#' regularise_time
+#'
+#' Transform an \code{SL_tibble} (as produced by
+#' \code{\link[studentlife]{load_SL_tibble}})
+#' in such a way that the intervals between observations are all equal.
+#'
+#' @param studs An \code{SL_tibble} as returned
+#' by the function \code{\link[studentlife]{load_SL_tibble}}.
+#' @param ... Arguments passed to \code{\link[dplyr]{summarise}},
+#' used to aggregate values when multiple
+#' observations are encountered in a block. Any columns
+#' not specified here or under \code{blocks} will be dropped.
+#' @param blocks A character vector naming one or more of the
+#' block options "epoch", "day", "week", "weekday", "month" or "date".
+#' If not present as column names in
+#' \code{studs}, an attempt will be made to infer the blocks from existing
+#' time information with \code{\link[studentlife]{add_block_labels}}.
+#' The returned \code{data.frame} will
+#' have one observation (possibly \code{NA}) for each block.
+#' @param empty_block A character vector indicating the action to take when
+#' no observations are present in a block of time.
+#' The currently available actions are "NA" (create an observation
+#' of \code{NA}) or "drop" (remove blocks that have no observations).
+#' @param study_duration Integer. The duration of the StudentLife
+#' study in days.
+#' @param start_date Date. The date that the StudentLife study started.
+#'
+#' @examples
+#' \donttest{
+#' d <- "D:/Datasets/studentlife"
+#' download_studentlife(dest = d)
+#' studs <- load_SL_tibble(
+#'   location = d, schema = "sensing", table = "activity", csv_nrows = 10)
+#'
+#' ## We will use this soon
+#' Mode <- function(x) {
+#'   ux <- unique(x)
+#'   ux[which.max(tabulate(match(x, ux)))]
+#' }
+#'
+#' ## Use default block type and choose the most frequent activity inference
+#' ## that occurred in each block
+#' regularise_time(studs, activity_inference = Mode(activity_inference))
+#'
+#' ## Use block type (epoch, weekday)
+#' regularise_time(studs, activity_inference = Mode(activity_inference),
+#'                 block_type = c("epoch", "weekday")
+#'
+#' }
+#' @export
+regularise_time <- function(studs, ..., blocks = c("epoch", "day"),
+                            empty_block = "NA",
+                            study_duration = getOption("SL_duration"),
+                            start_date = getOption("SL_start"),
+                            epoch_labels = getOption("SL_epoch_labels"),
+                            epoch_ubs = getOption("SL_epoch_ubs")) {
+
+  confirm_SL_tibble(studs)
+
+  opt <- c("epoch", "day", "week", "weekday", "month", "date")
+  options_check(par = blocks, opt = opt)
+
+  nr <- which(!(blocks %in% names(studs)))
+  if ( length(nr) > 0 ) {
+
+    studs <- add_block_labels(studs, type = blocks[nr], start_date = start_date,
+                              epoch_labels = epoch_labels, epoch_ubs = epoch_ubs)
+  }
+
+  nr <- which(!(blocks %in% names(studs)))
+  if ( length(nr) > 0 ) {
+
+    nr_opt <- paste0(blocks[nr], collapse = ", ")
+    warning(paste0("Block(s) not present and could not be inferred: ", nr_opt))
+    blocks <- blocks[-nr]
+  }
+
+  if( !("uid" %in% blocks) ) blocks <- c("uid", blocks)
+
+  `%>%` <- dplyr::`%>%`
+
+  studsg <- studs %>% dplyr::group_by_at(blocks) %>%
+    dplyr::summarise(...) %>%
+    dplyr::ungroup()
+
+  attr(studsg, "blocks") <- blocks
+  class(studsg) <- c("reg_SL_tbl", "SL_tbl", class(studsg))
+
+  if (tolower(empty_block) == "na") {
+
+    relative <- c("epoch", "weekday")
+    absolute <- c("day", "date", "week", "month")
+
+    ranges <- list(day = 0:study_duration,
+                   week = 0:floor(study_duration/7),
+                   month = 0:floor(study_duration/30.3),
+                   date = seq(start_date, by = 1, length.out = study_duration))
+
+    ## TO DO: Find the finest absolute (according to the order above)
+    ## and take cartesian product of epoch with finest absolute.
+    ## Find the finest present of week and month and take cart prod with weekday.
+    ## Consider a warning if (epoch, day) or (epoch, date) isn't used when epoch is used.
+    ##
+
+    #    studs <- data.frame(uid = rep(uids, each = length(e)*ndays),
+    #                        epoch = e,
+    #                        day = rep(0:ndays, each = length(e))) %>%
+    #      tibble::as_tibble() %>%
+    #      dplyr::mutate(epoch = factor(epoch, levels = el)) %>%
+    #      dplyr::left_join(studs, by = c("uid", "epoch", "day"))
+  }
+
+  return(studsg)
+}
+
+
+#d <- data.frame(a = c(1,1,1,2,2,2), b = c(1,2,3,4,5,6), c = c(1,1,1,1,1,2))
 #
-#    confirm_SL_tibble(studs)
+#f <- function(studs, ..., blocks) {
 #
-#    if ( !(blocks %in% names(studs)) ) {
+#  `%>%` <- dplyr::`%>%`
 #
-#      for ( var in blocks ) {
+#  studsg <- studs %>% dplyr::group_by_at(blocks) %>%
+#    dplyr::summarise(...) %>%
+#    dplyr::ungroup()
 #
+#  return(studsg)
+#}
 #
-#
-#      }
-#
-#
-#       stop(paste0("The columns specified by the blocks parameter are",
-#                  " not present in studs"))
-#
-#    }
-#
-#
-#    if (class(studs) == "timestamp_SL_tibble") {
-#
-#    }
-#
-#    if (class(studs) == "interval_SL_tibble") {
-#
-#    }
-#
-#    if (class(studs) == "dateonly_SL_tibble") {
-#
-#    }
-#
-#
-#  }
-#
-#
-# regularise_time(studs)
+#f(studs = d, bg = sum(b), blocks = c("a","c"))
+
 
 
 
@@ -132,9 +202,14 @@
 #'"weekday" (giving the day of the week),
 #'"month" (giving integer number of months since the start of the
 #'StudentLife study, rounded down) and "date".
+#'The types "epoch" and "weekday" can repeat themselves non-consecutively
+#'throughout the study, and are thus referred to as 'relative' block
+#'label types. The types "day", "week", "month" and "date" are
+#'non-repeating during the study, and are thus referred to as 'absolute' block
+#'label types.
 #'
 #'@param studs An \code{SL_tibble} as returned
-#' by the function \code{\link{load_SL_tibble}}.
+#' by the function \code{\link[studentlife]{load_SL_tibble}}.
 #'@param type A character vector of block label types
 #'to include. Can be one or more of "epoch", "day",
 #'"week", "weekday", "month" and "date". Any block label types that
@@ -149,12 +224,17 @@
 #'whenever a block label type is not inferrable from the
 #'available date-time data.
 #'@param start_date Date. The date that the StudentLife study started.
+#'@param epoch_labels A character vector of epoch labels.
+#'@param epoch_ubs An integer vector that defines the hour that is
+#'the upper boundary of each epoch
 #'
 #'@export
 
 add_block_labels <- function(
   studs, type = c("epoch", "day", "week", "weekday", "month", "date"),
-  interval = "start", warning = TRUE, start_date = getOption("SL_start")) {
+  interval = "start", warning = TRUE, start_date = getOption("SL_start"),
+  epoch_labels = getOption("SL_epoch_labels"),
+  epoch_ubs = getOption("SL_epoch_ubs")) {
 
   interval <- tolower(interval)
   type <- tolower(type)
@@ -194,7 +274,6 @@ add_block_labels <- function(
       stop("corrupt dateonly_SL_tbl")
 
     date <- studs$date
-
   }
 
   if ( !is.null(timestamp) ) {
@@ -206,22 +285,18 @@ add_block_labels <- function(
 
     if( !is.null(timestamp) ) {
 
-      epochs <- c("nig","mor","aft","eve")
-      ub <- c(6, 12, 18, 24)
       hours <- as.integer(strftime(timestamp, format="%H"))
       epc <- purrr::map_chr(hours, function(x){
-        epochs[which(x <= ub)[1]]
+        epoch_labels[which(x <= epoch_ubs)[1]]
       })
 
-      studs$epoch <- factor(epc, levels = epochs)
+      studs$epoch <- factor(epc, levels = epoch_labels)
 
     } else {
 
       if (warning)
         warning("not enough date-time information to derive epoch")
-
     }
-
   }
 
   if ( "day" %in% type ) {
@@ -234,9 +309,7 @@ add_block_labels <- function(
 
       if (warning)
         warning("not enough date-time information to derive day")
-
     }
-
   }
 
   if ( "week" %in% type ) {
@@ -249,9 +322,7 @@ add_block_labels <- function(
 
       if (warning)
         warning("not enough date-time information to derive week")
-
     }
-
   }
 
   if ( "weekday" %in% type ) {
@@ -266,9 +337,7 @@ add_block_labels <- function(
 
       if (warning)
         warning("not enough date-time information to derive weekday")
-
     }
-
   }
 
   if ( "month" %in% type ) {
@@ -279,14 +348,11 @@ add_block_labels <- function(
         months(date, abbreviate = TRUE),
         levels = c("Jan","Feb","Mar","Apr","May","Jun",
                    "Jul","Aug","Sep","Oct","Nov","Dec"))
-
     } else {
 
       if (warning)
         warning("not enough date-time information to derive month")
-
     }
-
   }
 
   if ( "date" %in% type ) {
@@ -299,17 +365,35 @@ add_block_labels <- function(
 
       if (warning)
         warning("not enough date-time information to derive date")
-
     }
-
   }
-
 
   return(studs)
 }
 
 
 
+# Helper functions --------------------------------------------------------
+
+#add_NAs <- function(studs, finest_block = "epoch") {
+#
+#  `%>%` <- dplyr::`%>%`
+#
+#  uids <- unique(studs$uid)
+#  e <- unique(studs$epoch)
+#  el <- c("nig", "mor", "aft", "eve")
+#  d <- studs[[day]]
+#  ndays <- max(d) - min(d)
+#
+#  studs <- data.frame(uid = rep(uids, each = length(e)*ndays),
+#                     epoch = e,
+#                     day = rep(0:ndays, each = length(e))) %>%
+#    tibble::as_tibble() %>%
+#    dplyr::mutate(epoch = factor(epoch, levels = el)) %>%
+#    dplyr::left_join(studs, by = c("uid", "epoch", "day"))
+#
+#  return(studs)
+#}
 
 
 

@@ -161,50 +161,73 @@ testthat::test_that( "load tables from other with vars = timestamp", {
 
 
 
-testthat::context("SL_tbl trans")
+testthat::context("SL_tbl transform")
 
-trans_lists <- load_lists
+abl_lists <- load_lists
 for (n in names(load_lists)) {
   for ( i in 1:length(load_lists[[n]]) ) {
-    trans_lists[[n]][[i]] <-
+    abl_lists[[n]][[i]] <-
       suppressWarnings(add_block_labels(load_lists[[n]][[i]]))
   }
 }
 
+rt_lists <- load_lists
+for (n in names(load_lists)) {
+  for ( i in 1:length(load_lists[[n]]) ) {
+    rt_lists[[n]][[i]] <-
+      suppressWarnings(regularise_time(load_lists[[n]][[i]]))
+  }
+}
+
+
+
+
 testthat::test_that(
   "add_block_labels behaves well with timestamp and interval", {
-  ti <- which(strsplit(names(trans_lists),1,1) %in% c("s","a","o"))
+  ti <- which(strsplit(names(abl_lists),1,1) %in% c("s","a","o"))
   types <- c("epoch", "day", "week", "weekday", "month", "date")
-  for (n in names(trans_lists)[ti]) {
-    for ( i in 1:length(trans_lists[[n]]) ) {
-       testthat::expect_true(nrow(trans_lists[[!!n]][[!!i]]) > 0)
-       testthat::expect_s3_class(trans_lists[[!!n]][[!!i]], "SL_tbl")
-       testthat::expect_true(all(types %in% names(trans_lists[[!!n]][[!!i]])))
+  for (n in names(abl_lists)[ti]) {
+    for ( i in 1:length(abl_lists[[n]]) ) {
+       testthat::expect_true(nrow(abl_lists[[!!n]][[!!i]]) > 0)
+       testthat::expect_s3_class(abl_lists[[!!n]][[!!i]], "SL_tbl")
+       testthat::expect_true(all(types %in% names(abl_lists[[!!n]][[!!i]])))
        testthat::expect_true(suppressWarnings(
-         confirm_interval_SL_tibble(trans_lists[[!!n]][[!!i]])
-         || confirm_timestamp_SL_tibble(trans_lists[[!!n]][[!!i]])))
+         confirm_interval_SL_tibble(abl_lists[[!!n]][[!!i]])
+         || confirm_timestamp_SL_tibble(abl_lists[[!!n]][[!!i]])))
     }
   }
 })
 
 testthat::test_that(
   "add_block_labels behaves well with dateonly and dateless", {
-  ti <- which(strsplit(names(trans_lists),1,1) %in% c("e", "u"))
+  ti <- which(strsplit(names(abl_lists),1,1) %in% c("e", "u"))
   types <- c("day", "week", "weekday", "month", "date")
-  for (n in names(trans_lists)[ti]) {
+  for (n in names(abl_lists)[ti]) {
     for (i in 1:length(menu_data$education)) {
-      testthat::expect_true(nrow(trans_lists[[!!n]][[!!i]]) > 0)
-      testthat::expect_s3_class(trans_lists[[!!n]][[!!i]], "SL_tbl")
+      testthat::expect_true(nrow(abl_lists[[!!n]][[!!i]]) > 0)
+      testthat::expect_s3_class(abl_lists[[!!n]][[!!i]], "SL_tbl")
       if ( strsplit(n,1,1) == "e"
            && studentlife:::menu_data$education[i] == "deadlines" ) {
         testthat::expect_s3_class(
-          trans_lists[[!!n]][[!!i]], "dateonly_SL_tbl")
+          abl_lists[[!!n]][[!!i]], "dateonly_SL_tbl")
         testthat::expect_true(
-          confirm_dateonly_SL_tibble(trans_lists[[!!n]][[!!i]]))
+          confirm_dateonly_SL_tibble(abl_lists[[!!n]][[!!i]]))
         testthat::expect_true(
-          all(types %in% names(trans_lists[[!!n]][[!!i]])))
+          all(types %in% names(abl_lists[[!!n]][[!!i]])))
       }
     }
   }
+})
+
+testthat::test_that(
+  "regularise_time behaves as expected", {
+    for (n in names(rt_lists)) {
+      for ( i in 1:length(rt_lists[[n]]) ) {
+        testthat::expect_true(nrow(rt_lists[[!!n]][[!!i]]) > 0)
+        testthat::expect_s3_class(rt_lists[[!!n]][[!!i]], "SL_tbl")
+        testthat::expect_true(suppressWarnings(
+          confirm_reg_SL_tibble(rt_lists[[!!n]][[!!i]])))
+      }
+    }
 })
 
