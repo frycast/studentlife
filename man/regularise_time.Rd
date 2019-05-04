@@ -7,7 +7,7 @@
 regularise_time(studs, ..., blocks = c("epoch", "day"),
   empty_block = "NA", study_duration = getOption("SL_duration"),
   start_date = getOption("SL_start"),
-  epoch_labels = getOption("SL_epochs"),
+  epoch_labels = getOption("SL_epoch_labels"),
   epoch_ubs = getOption("SL_epoch_ubs"))
 }
 \arguments{
@@ -36,32 +36,14 @@ of \code{NA}) or "drop" (remove blocks that have no observations).}
 study in days.}
 
 \item{start_date}{Date. The date that the StudentLife study started.}
+
+\item{epoch_labels}{A character vector of epoch labels.}
+
+\item{epoch_ubs}{An integer vector that defines the hour that is
+the upper boundary of each epoch.}
 }
 \description{
 Transform an \code{SL_tibble} (as produced by
 \code{\link[studentlife]{load_SL_tibble}})
 in such a way that the intervals between observations are all equal.
-}
-\examples{
-\donttest{
-d <- "D:/Datasets/studentlife"
-download_studentlife(dest = d)
-studs <- load_SL_tibble(
-  location = d, schema = "sensing", table = "activity", csv_nrows = 10)
-
-## We will use this soon
-Mode <- function(x) {
-  ux <- unique(x)
-  ux[which.max(tabulate(match(x, ux)))]
-}
-
-## Use default block type and choose the most frequent activity inference
-## that occurred in each block
-regularise_time(studs, activity_inference = Mode(activity_inference))
-
-## Use block type (epoch, weekday)
-regularise_time(studs, activity_inference = Mode(activity_inference),
-                block_type = c("epoch", "weekday")
-
-}
 }

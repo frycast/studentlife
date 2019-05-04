@@ -49,9 +49,29 @@
 #}
 
 
-
-
-
+#### THESE EXAMPLES ARE FOR regularise_time
+# #' @examples
+# #' \donttest{
+# #' d <- "D:/Datasets/studentlife"
+# #' download_studentlife(dest = d)
+# #' studs <- load_SL_tibble(
+# #'   location = d, schema = "sensing", table = "activity", csv_nrows = 10)
+# #'
+# #' ## We will use this soon
+# #' Mode <- function(x) {
+# #'   ux <- unique(x)
+# #'   ux[which.max(tabulate(match(x, ux)))]
+# #' }
+# #'
+# #' ## Use default block type and choose the most frequent activity inference
+# #' ## that occurred in each block
+# #' regularise_time(studs, activity_inference = Mode(activity_inference))
+# #'
+# #' ## Use block type (epoch, weekday)
+# #' regularise_time(studs, activity_inference = Mode(activity_inference),
+# #'                 block_type = c("epoch", "weekday")
+# #'
+# #' }
 #' regularise_time
 #'
 #' Transform an \code{SL_tibble} (as produced by
@@ -78,29 +98,10 @@
 #' @param study_duration Integer. The duration of the StudentLife
 #' study in days.
 #' @param start_date Date. The date that the StudentLife study started.
+#' @param epoch_labels A character vector of epoch labels.
+#' @param epoch_ubs An integer vector that defines the hour that is
+#' the upper boundary of each epoch.
 #'
-#' @examples
-#' \donttest{
-#' d <- "D:/Datasets/studentlife"
-#' download_studentlife(dest = d)
-#' studs <- load_SL_tibble(
-#'   location = d, schema = "sensing", table = "activity", csv_nrows = 10)
-#'
-#' ## We will use this soon
-#' Mode <- function(x) {
-#'   ux <- unique(x)
-#'   ux[which.max(tabulate(match(x, ux)))]
-#' }
-#'
-#' ## Use default block type and choose the most frequent activity inference
-#' ## that occurred in each block
-#' regularise_time(studs, activity_inference = Mode(activity_inference))
-#'
-#' ## Use block type (epoch, weekday)
-#' regularise_time(studs, activity_inference = Mode(activity_inference),
-#'                 block_type = c("epoch", "weekday")
-#'
-#' }
 #' @export
 regularise_time <- function(studs, ..., blocks = c("epoch", "day"),
                             empty_block = "NA",

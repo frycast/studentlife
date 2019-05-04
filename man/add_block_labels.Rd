@@ -7,7 +7,7 @@
 add_block_labels(studs, type = c("epoch", "day", "week", "weekday",
   "month", "date"), interval = "start", warning = TRUE,
   start_date = getOption("SL_start"),
-  epoch_labels = getOption("SL_epochs"),
+  epoch_labels = getOption("SL_epoch_labels"),
   epoch_ubs = getOption("SL_epoch_ubs"))
 }
 \arguments{
