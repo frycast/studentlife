@@ -1,148 +1,210 @@
-testthat::context("loading SL_tibbles")
+testthat::context("SL_tbl load")
 
 #loc <- "tests/testthat/testdata/SL_testdata"
-#studs <- load_SL_tibble(schema = "sensing", table = studentlife:::menu_data$sensing[1],
-#                        location = loc, csv_nrows = 1, vars = "timestamp"); studs
+
+loc <- "testdata/SL_testdata"
+load_list_s1 <- list()
+load_list_s2 <- list()
+load_list_s3 <- list()
+for (i in 1:length(menu_data$sensing)) {
+  load_list_s1[[i]] <- load_SL_tibble(
+    schema = "sensing", table = studentlife:::menu_data$sensing[i],
+    location = loc, csv_nrows = 1, vars = "timestamp")
+  load_list_s2[[i]] <- load_SL_tibble(
+    schema = "sensing", table = studentlife:::menu_data$sensing[i],
+    location = loc, csv_nrows = 1)
+  load_list_s3[[i]] <- load_SL_tibble(
+    schema = "sensing", table = studentlife:::menu_data$sensing[i],
+    location = loc)
+}
+load_list_a1 <- list()
+load_list_a2 <- list()
+for (i in 1:length(menu_data$EMA)) {
+  load_list_a1[[i]] <- load_SL_tibble(
+    schema = "EMA", table = studentlife:::menu_data$EMA[i],
+    location = loc, csv_nrows = 1, vars = "timestamp")
+  load_list_a2[[i]] <- load_SL_tibble(
+    schema = "EMA", table = studentlife:::menu_data$EMA[i],
+    location = loc, csv_nrows = 1, vars = "timestamp")
+}
+load_list_e1 <- list()
+for (i in 1:length(menu_data$education)) {
+  load_list_e1[[i]] <- load_SL_tibble(
+    schema = "education", table = studentlife:::menu_data$education[i],
+    location = loc, csv_nrows = 1)
+}
+load_list_u1 <- list()
+load_list_u2 <- list()
+for (i in 1:length(menu_data$survey)) {
+  load_list_u1[[i]] <- load_SL_tibble(
+    schema = "survey", table = studentlife:::menu_data$survey[i],
+    location = loc, csv_nrows = 1)
+  load_list_u2[[i]] <- load_SL_tibble(
+    schema = "survey", table = studentlife:::menu_data$survey[i],
+    location = loc, vars = "uid")
+}
+load_list_o1 <- list()
+load_list_o2 <- list()
+for (i in 1:length(menu_data$other)) {
+  load_list_o1[[i]] <- load_SL_tibble(
+    schema = "other", table = studentlife:::menu_data$other[i],
+    location = loc, csv_nrows = 1)
+}
+for (i in 1:length(menu_data$other)) {
+  load_list_o2[[i]] <- load_SL_tibble(
+    schema = "other", table = studentlife:::menu_data$other[i],
+    location = loc, csv_nrows = 1, vars = "timestamp")
+}
+
+load_lists <- list(s1 = load_list_s1,
+                   s1 = load_list_s2,
+                   s1 = load_list_s3,
+                   a1 = load_list_a1,
+                   a2 = load_list_a2,
+                   e1 = load_list_e1,
+                   u1 = load_list_u1,
+                   u2 = load_list_u2,
+                   o1 = load_list_o1,
+                   o2 = load_list_o2)
 
 testthat::test_that( "load tables from sensing with vars = timestamp", {
-  loc <- "testdata/SL_testdata"
-  studs_list <- list()
   for (i in 1:length(menu_data$sensing)) {
-    studs_list[[i]] <- load_SL_tibble(
-      schema = "sensing", table = studentlife:::menu_data$sensing[i],
-      location = loc, csv_nrows = 1, vars = "timestamp")
-    testthat::expect_true(nrow(studs_list[[!!i]]) > 0)
-    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
+    testthat::expect_true(nrow(load_list_s1[[!!i]]) > 0)
+    testthat::expect_s3_class(load_list_s1[[!!i]], "SL_tbl")
     testthat::expect_true(suppressWarnings(
-      confirm_interval_SL_tibble(studs_list[[!!i]])
-      || confirm_timestamp_SL_tibble(studs_list[[!!i]])))
+      confirm_interval_SL_tibble(load_list_s1[[!!i]])
+      || confirm_timestamp_SL_tibble(load_list_s1[[!!i]])))
   }
 })
 
 testthat::test_that( "load tables from sensing", {
-  loc <- "testdata/SL_testdata"
-  studs_list <- list()
   for (i in 1:length(menu_data$sensing)) {
-    studs_list[[i]] <- load_SL_tibble(
-      schema = "sensing", table = studentlife:::menu_data$sensing[i],
-      location = loc, csv_nrows = 1)
-    testthat::expect_true(nrow(studs_list[[!!i]]) > 0)
-    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
+    testthat::expect_true(nrow(load_list_s2[[!!i]]) > 0)
+    testthat::expect_s3_class(load_list_s2[[!!i]], "SL_tbl")
     testthat::expect_true(suppressWarnings(
-      confirm_interval_SL_tibble(studs_list[[!!i]])
-      || confirm_timestamp_SL_tibble(studs_list[[!!i]])))
+      confirm_interval_SL_tibble(load_list_s2[[!!i]])
+      || confirm_timestamp_SL_tibble(load_list_s2[[!!i]])))
   }
 })
 
 testthat::test_that( "load tables from sensing with missing csv_nrows", {
-  loc <- "testdata/SL_testdata"
-  studs_list <- list()
   for (i in 1:length(menu_data$sensing)) {
-    studs_list[[i]] <- load_SL_tibble(
-      schema = "sensing", table = studentlife:::menu_data$sensing[i],
-      location = loc)
-    testthat::expect_true(nrow(studs_list[[!!i]]) > 0)
-    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
+    testthat::expect_true(nrow(load_list_s3[[!!i]]) > 0)
+    testthat::expect_s3_class(load_list_s3[[!!i]], "SL_tbl")
     testthat::expect_true(suppressWarnings(
-      confirm_interval_SL_tibble(studs_list[[!!i]])
-      || confirm_timestamp_SL_tibble(studs_list[[!!i]])))
+      confirm_interval_SL_tibble(load_list_s3[[!!i]])
+      || confirm_timestamp_SL_tibble(load_list_s3[[!!i]])))
   }
 })
 
 testthat::test_that( "load tables from EMA with vars = timestamp", {
-  loc <- "testdata/SL_testdata"
-  studs_list <- list()
   for (i in 1:length(menu_data$EMA)) {
-    studs_list[[i]] <- load_SL_tibble(
-      schema = "EMA", table = studentlife:::menu_data$EMA[i],
-      location = loc, csv_nrows = 1, vars = "timestamp")
-    testthat::expect_true(nrow(studs_list[[!!i]]) > 0)
-    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
-    testthat::expect_s3_class(studs_list[[!!i]], "timestamp_SL_tbl")
-    testthat::expect_true(confirm_timestamp_SL_tibble(studs_list[[!!i]]))
+    testthat::expect_true(nrow(load_list_a1[[!!i]]) > 0)
+    testthat::expect_s3_class(load_list_a1[[!!i]], "SL_tbl")
+    testthat::expect_s3_class(load_list_a1[[!!i]], "timestamp_SL_tbl")
+    testthat::expect_true(confirm_timestamp_SL_tibble(load_list_a1[[!!i]]))
   }
 })
 
 testthat::test_that( "load tables from EMA with vars = uid", {
-  loc <- "testdata/SL_testdata"
-  studs_list <- list()
   for (i in 1:length(menu_data$EMA)) {
-    studs_list[[i]] <- load_SL_tibble(
-      schema = "EMA", table = studentlife:::menu_data$EMA[i],
-      location = loc, csv_nrows = 1, vars = "timestamp")
-    testthat::expect_true(nrow(studs_list[[!!i]]) > 0)
-    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
-    testthat::expect_s3_class(studs_list[[!!i]], "timestamp_SL_tbl")
-    testthat::expect_true(confirm_timestamp_SL_tibble(studs_list[[!!i]]))
+    testthat::expect_true(nrow(load_list_a2[[!!i]]) > 0)
+    testthat::expect_s3_class(load_list_a2[[!!i]], "SL_tbl")
+    testthat::expect_s3_class(load_list_a2[[!!i]], "timestamp_SL_tbl")
+    testthat::expect_true(confirm_timestamp_SL_tibble(load_list_a2[[!!i]]))
   }
 })
 
 testthat::test_that( "load tables from education", {
-  loc <- "testdata/SL_testdata"
-  studs_list <- list()
   for (i in 1:length(menu_data$education)) {
-    studs_list[[i]] <- load_SL_tibble(
-      schema = "education", table = studentlife:::menu_data$education[i],
-      location = loc, csv_nrows = 1)
-    testthat::expect_true(nrow(studs_list[[!!i]]) > 0)
-    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
+    testthat::expect_true(nrow(load_list_e1[[!!i]]) > 0)
+    testthat::expect_s3_class(load_list_e1[[!!i]], "SL_tbl")
     if ( studentlife:::menu_data$education[i] == "deadlines" ) {
-      testthat::expect_s3_class(studs_list[[!!i]], "dateonly_SL_tbl")
-      testthat::expect_true(confirm_dateonly_SL_tibble(studs_list[[!!i]]))
+      testthat::expect_s3_class(load_list_e1[[!!i]], "dateonly_SL_tbl")
+      testthat::expect_true(confirm_dateonly_SL_tibble(load_list_e1[[!!i]]))
     }
   }
 })
 
 testthat::test_that( "load tables from survey", {
-  loc <- "testdata/SL_testdata"
-  studs_list <- list()
   for (i in 1:length(menu_data$survey)) {
-    studs_list[[i]] <- load_SL_tibble(
-      schema = "survey", table = studentlife:::menu_data$survey[i],
-      location = loc, csv_nrows = 1)
-    testthat::expect_true(nrow(studs_list[[!!i]]) > 0)
-    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
+    testthat::expect_true(nrow(load_list_u1[[!!i]]) > 0)
+    testthat::expect_s3_class(load_list_u1[[!!i]], "SL_tbl")
   }
 })
 
 
-testthat::test_that( "load tables from survey with vars = uid and csv_nrows missing", {
-  loc <- "testdata/SL_testdata"
-  studs_list <- list()
+testthat::test_that(
+  "load tables from survey with vars = uid and csv_nrows missing", {
   for (i in 1:length(menu_data$survey)) {
-    studs_list[[i]] <- load_SL_tibble(
-      schema = "survey", table = studentlife:::menu_data$survey[i],
-      location = loc, vars = "uid")
-    testthat::expect_true(nrow(studs_list[[!!i]]) > 0)
-    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
+    testthat::expect_true(nrow(load_list_u2[[!!i]]) > 0)
+    testthat::expect_s3_class(load_list_u2[[!!i]], "SL_tbl")
   }
 })
 
 testthat::test_that( "load tables from other", {
-  loc <- "testdata/SL_testdata"
-  studs_list <- list()
   for (i in 1:length(menu_data$other)) {
-    studs_list[[i]] <- load_SL_tibble(
-      schema = "other", table = studentlife:::menu_data$other[i],
-      location = loc, csv_nrows = 1)
-    testthat::expect_true(nrow(studs_list[[!!i]]) > 0)
-    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
-    testthat::expect_true(confirm_timestamp_SL_tibble(studs_list[[!!i]]))
+    testthat::expect_true(nrow(load_list_o1[[!!i]]) > 0)
+    testthat::expect_s3_class(load_list_o1[[!!i]], "SL_tbl")
+    testthat::expect_true(confirm_timestamp_SL_tibble(load_list_o1[[!!i]]))
   }
 })
-
 
 testthat::test_that( "load tables from other with vars = timestamp", {
-  loc <- "testdata/SL_testdata"
-  studs_list <- list()
   for (i in 1:length(menu_data$other)) {
-    studs_list[[i]] <- load_SL_tibble(
-      schema = "other", table = studentlife:::menu_data$other[i],
-      location = loc, csv_nrows = 1, vars = "timestamp")
-    testthat::expect_true(nrow(studs_list[[!!i]]) > 0)
-    testthat::expect_s3_class(studs_list[[!!i]], "SL_tbl")
-    testthat::expect_true(confirm_timestamp_SL_tibble(studs_list[[!!i]]))
+    testthat::expect_true(nrow(load_list_o2[[!!i]]) > 0)
+    testthat::expect_s3_class(load_list_o2[[!!i]], "SL_tbl")
+    testthat::expect_true(confirm_timestamp_SL_tibble(load_list_o2[[!!i]]))
   }
 })
 
+
+
+
+testthat::context("SL_tbl trans")
+
+trans_lists <- load_lists
+for (n in names(load_lists)) {
+  for ( i in 1:length(load_lists[[n]]) ) {
+    trans_lists[[n]][[i]] <-
+      suppressWarnings(add_block_labels(load_lists[[n]][[i]]))
+  }
+}
+
+testthat::test_that(
+  "add_block_labels behaves well with timestamp and interval", {
+  ti <- which(strsplit(names(trans_lists),1,1) %in% c("s","a","o"))
+  types <- c("epoch", "day", "week", "weekday", "month", "date")
+  for (n in names(trans_lists)[ti]) {
+    for ( i in 1:length(trans_lists[[n]]) ) {
+       testthat::expect_true(nrow(trans_lists[[!!n]][[!!i]]) > 0)
+       testthat::expect_s3_class(trans_lists[[!!n]][[!!i]], "SL_tbl")
+       testthat::expect_true(all(types %in% names(trans_lists[[!!n]][[!!i]])))
+       testthat::expect_true(suppressWarnings(
+         confirm_interval_SL_tibble(trans_lists[[!!n]][[!!i]])
+         || confirm_timestamp_SL_tibble(trans_lists[[!!n]][[!!i]])))
+    }
+  }
+})
+
+testthat::test_that(
+  "add_block_labels behaves well with dateonly and dateless", {
+  ti <- which(strsplit(names(trans_lists),1,1) %in% c("e", "u"))
+  types <- c("day", "week", "weekday", "month", "date")
+  for (n in names(trans_lists)[ti]) {
+    for (i in 1:length(menu_data$education)) {
+      testthat::expect_true(nrow(trans_lists[[!!n]][[!!i]]) > 0)
+      testthat::expect_s3_class(trans_lists[[!!n]][[!!i]], "SL_tbl")
+      if ( strsplit(n,1,1) == "e"
+           && studentlife:::menu_data$education[i] == "deadlines" ) {
+        testthat::expect_s3_class(
+          trans_lists[[!!n]][[!!i]], "dateonly_SL_tbl")
+        testthat::expect_true(
+          confirm_dateonly_SL_tibble(trans_lists[[!!n]][[!!i]]))
+        testthat::expect_true(
+          all(types %in% names(trans_lists[[!!n]][[!!i]])))
+      }
+    }
+  }
+})
 

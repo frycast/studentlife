@@ -125,14 +125,13 @@
 #'
 #'Block label types can be one or more of "epoch"
 #'(giving labels morning, evening, afternoon and night),
-#'"day" (giving number of days since the first day of the
+#'"day" (giving number of days since the \code{start_date} of the
 #'StudentLife study),
-#'"week" (giving number of weeks since the first week of the
-#'StudentLife study),
+#'"week" (giving integer number of weeks since the first week of the
+#'StudentLife study, rounded downs),
 #'"weekday" (giving the day of the week),
-#'"month" (giving number of months since the start of the
-#'StudentLife study) and "date". The StudentLife study
-#'started on 2013-03-24
+#'"month" (giving integer number of months since the start of the
+#'StudentLife study, rounded down) and "date".
 #'
 #'@param studs An \code{SL_tibble} as returned
 #' by the function \code{\link{load_SL_tibble}}.
@@ -149,26 +148,31 @@
 #'@param warning Logical. If \code{TRUE} then a warning is produced
 #'whenever a block label type is not inferrable from the
 #'available date-time data.
+#'@param start_date Date. The date that the StudentLife study started.
 #'
 #'@export
 
 add_block_labels <- function(
   studs, type = c("epoch", "day", "week", "weekday", "month", "date"),
-  interval = "start", warning = TRUE) {
-
-  day_0 <- julian(getOption("studentlife_start_date"), origin = as.Date("2013-01-01"))[1]
-  week_0 <- floor(day_0/7)
+  interval = "start", warning = TRUE, start_date = getOption("SL_start")) {
 
   interval <- tolower(interval)
   type <- tolower(type)
+  opt <- c("epoch", "day", "week", "weekday", "month", "date")
+  options_check(par = type, opt = opt)
+  opt <- c("start", "end", "middle")
+  options_check(par = interval, opt = opt)
+
+  day_0 <- julian(start_date, origin = as.Date("2013-01-01"))[1] + 1
+  week_0 <- floor(day_0/7)
 
   timestamp <- NULL
   date <- NULL
 
-  if ( "interval_SL_tibble" %in% class(studs) ) {
+  if ( "interval_SL_tbl" %in% class(studs) ) {
 
     if (!confirm_interval_SL_tibble(studs))
-      stop("corrupt interval_SL_tibble")
+      stop("corrupt interval_SL_tbl")
 
     if ( interval == "start" )
       timestamp <- studs$start_timestamp else
@@ -177,30 +181,32 @@ add_block_labels <- function(
             if ( interval == "middle" )
               timestamp <- (studs$start_timestamp + studs$start_timestamp)/2
 
-  } else if ( "timestamp_SL_tibble" %in% class(studs) ) {
+  } else if ( "timestamp_SL_tbl" %in% class(studs) ) {
 
     if (!confirm_timestamp_SL_tibble(studs))
-      stop("corrupt timestamp_SL_tibble")
+      stop("corrupt timestamp_SL_tbl")
 
     timestamp <- studs$timestamp
 
-  } else if ( "dateonly_SL_tibble" %in% class(studs) ) {
+  } else if ( "dateonly_SL_tbl" %in% class(studs) ) {
 
     if (!confirm_dateonly_SL_tibble(studs))
-      stop("corrupt dateonly_SL_tibble")
+      stop("corrupt dateonly_SL_tbl")
 
     date <- studs$date
 
   }
 
-  if ( !is.null(timestamp) )
-    date <- as.Date(as.POSIXct(studs[["timestamp"]], origin="1970-01-01"))
+  if ( !is.null(timestamp) ) {
+    timestamp <- as.POSIXct(timestamp, origin = "1970-01-01")
+    date <- as.Date(timestamp)
+  }
 
   if ( "epoch" %in% type ) {
 
     if( !is.null(timestamp) ) {
 
-      epochs <- c("night","morning","afternoon","evening")
+      epochs <- c("nig","mor","aft","eve")
       ub <- c(6, 12, 18, 24)
       hours <- as.integer(strftime(timestamp, format="%H"))
       epc <- purrr::map_chr(hours, function(x){
@@ -222,7 +228,7 @@ add_block_labels <- function(
 
     if ( !is.null(date) ) {
 
-      studs$date <- as.integer(format(date, "%j")) - day_0
+      studs$day <- as.integer(format(date, "%j")) - day_0
 
     } else {
 
@@ -314,10 +320,10 @@ add_block_labels <- function(
 ## Needs documentation and greater generality.
 ##
 ####
-##' add_NAs
-##'
-##'
-##' @export
+# #' add_NAs
+# #'
+# #'
+# #' @export
 #add_NAs <- function(studs, day = "day") {
 #
 #  `%>%` <- dplyr::`%>%`
@@ -387,9 +393,9 @@ add_block_labels <- function(
 ## Needing documentation
 ##
 ####
-##' add_days
-##'
-##'@export
+# #' add_days
+# #'
+# #'@export
 #add_days <- function(studs, year_day_1 = 83, timestamp = "resp_time", fill_NAs = FALSE) {
 #
 #  if ( !(timestamp %in% names(studs)) )
@@ -409,9 +415,9 @@ add_block_labels <- function(
 ## Needing documentation
 ##
 ####
-##' add_epochs
-##'
-##'@export
+# #' add_epochs
+# #'
+# #'@export
 #add_epochs <- function(studs, timestamp = "resp_time",
 #                       add_days = TRUE, year_day_1 = 83) {
 #
@@ -449,7 +455,7 @@ add_block_labels <- function(
 ####
 ##' add_times
 ##'
-##'@export
+# #'@export
 #add_times <- function(studs, timestamp = "resp_time") {
 #
 #  if ( !(timestamp %in% names(studs)) )
@@ -470,7 +476,7 @@ add_block_labels <- function(
 ####
 ##' add_dates
 ##'
-##' @export
+# #' @export
 #add_dates <- function(studs, timestamp = "resp_time") {
 #
 #  if ( !(timestamp %in% names(studs)) )
@@ -496,9 +502,9 @@ add_block_labels <- function(
 ##'
 ##' Extract a week variable from the timestamp column
 ##' specified by the
-##' \code{timestamp} parameter
+# #' \code{timestamp} parameter
 ##'
-##'@export
+# #'@export
 #add_weeks <- function(studs, timestamp = "resp_time", week1 = 11) {
 #
 #  if ( !(timestamp %in% names(studs)) )
@@ -523,19 +529,19 @@ add_block_labels <- function(
 ##' called "day" that is a factor representing the
 ##' day of the week.
 ##'
-##' @param studs A data.frame with a column representing number
-##' of days since the start of the study.
-##' @param day The name of the column that represents the
-##' number of days since the start of the study.
-##'
-##' @examples
-##' p <- "D:/Datasets/studentlife"
-##' pam <- studentlife::load_SL_tibble(schema = 2, table = 22, location = p)
-##' add_weekdays(timestamp_convert(pam))
-##'
-##'
-##'
-##'@export
+# #' @param studs A data.frame with a column representing number
+# #' of days since the start of the study.
+# #' @param day The name of the column that represents the
+# #' number of days since the start of the study.
+# #'
+# #' @examples
+# #' p <- "D:/Datasets/studentlife"
+# #' pam <- studentlife::load_SL_tibble(schema = 2, table = 22, location = p)
+# #' add_weekdays(timestamp_convert(pam))
+# #'
+# #'
+# #'
+# #'@export
 #add_weekdays <- function(studs, day = "day") {
 #
 #  if ( !(day %in% names(studs)) )
@@ -566,15 +572,15 @@ add_block_labels <- function(
 ##' The 4 valence / arousal categories are: low (1),
 ##' med-low (2), high-low (3), high (4).
 ##'
-##'@param studs A data.frame with a column representing
-##'Photographic Affect Meter (PAM) score.
-##'@param pam_name Character. The name of the column
-##'representing PAM.
-##'@param types Character vector containing the categories,
-##'one or more of "quadrant", "valence" and "arousal" into
-##'which to code PAM scores.
-##'
-##' @export
+# #'@param studs A data.frame with a column representing
+# #'Photographic Affect Meter (PAM) score.
+# #'@param pam_name Character. The name of the column
+# #'representing PAM.
+# #'@param types Character vector containing the categories,
+# #'one or more of "quadrant", "valence" and "arousal" into
+# #'which to code PAM scores.
+# #'
+# #' @export
 #PAM_categorise <- function(studs, pam_name = "picture_idx",
 #                           types = c("quadrant", "valence", "arousal") ) {
 #  ub <- c(4, 8, 12, 16)

@@ -133,9 +133,19 @@ download_studentlife <- function(
 load_SL_tibble <- function(
   schema, table, location = ".",
   time_options = c("interval", "timestamp", "dateonly", "dateless"),
-  vars, csv_nrows, datafolder = "/dataset") {
+  vars, csv_nrows, datafolder = "dataset") {
 
   time_options <- tolower(time_options)
+  datafolder <- paste0("/", datafolder)
+
+  opt <- c("interval", "timestamp", "dateonly", "dateless")
+  options_check(par = time_options, opt = opt)
+
+  if ( !dir.exists(location) )
+    stop("the directory specified by location parameter does not exist")
+
+  if ( !dir.exists(paste0(location, datafolder)) )
+    stop(paste0("the location does not have a subfolder named ", datafolder))
 
   if (!missing(vars)) {
     if( !("uid" %in% vars ) ) vars <- c("uid", vars)

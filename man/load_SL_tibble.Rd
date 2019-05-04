@@ -6,7 +6,7 @@
 \usage{
 load_SL_tibble(schema, table, location = ".",
   time_options = c("interval", "timestamp", "dateonly", "dateless"),
-  vars, csv_nrows, datafolder = "/dataset")
+  vars, csv_nrows, datafolder = "dataset")
 }
 \arguments{
 \item{schema}{A character string. The menu 1 choice. Leave

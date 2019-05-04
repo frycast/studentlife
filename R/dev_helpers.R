@@ -1,6 +1,11 @@
-# The day and week (in year) that StudentLife study started
-options("studentlife_start_date" = as.Date("2013-03-24"))
-
+options_check <- function(par, opt) {
+  par_name <- deparse(substitute(par))
+  nr <- which(!(par %in% opt))
+  if (length(nr) > 0) {
+    nr_opt <- paste0(par[nr], collapse = ", ")
+    stop(paste0(par_name, "(s) not recognised: ", nr_opt))
+  }
+}
 
 
 `transfer_EMA_attrs<-` <- function(to, ..., value) {

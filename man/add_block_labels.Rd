@@ -5,7 +5,8 @@
 \title{add_block_labels}
 \usage{
 add_block_labels(studs, type = c("epoch", "day", "week", "weekday",
-  "month", "date"), interval = "start", warning = TRUE)
+  "month", "date"), interval = "start", warning = TRUE,
+  start_date = getOption("SL_start"))
 }
 \arguments{
 \item{studs}{An \code{SL_tibble} as returned
@@ -26,6 +27,8 @@ membership is decided when \code{stude} is of class
 \item{warning}{Logical. If \code{TRUE} then a warning is produced
 whenever a block label type is not inferrable from the
 available date-time data.}
+
+\item{start_date}{Date. The date that the StudentLife study started.}
 }
 \description{
 Classify observations from an \code{SL_tibble}
@@ -36,12 +39,11 @@ about "blocks" under the details section.
 \details{
 Block label types can be one or more of "epoch"
 (giving labels morning, evening, afternoon and night),
-"day" (giving number of days since the first day of the
+"day" (giving number of days since the \code{start_date} of the
 StudentLife study),
-"week" (giving number of weeks since the first week of the
-StudentLife study),
+"week" (giving integer number of weeks since the first week of the
+StudentLife study, rounded downs),
 "weekday" (giving the day of the week),
-"month" (giving number of months since the start of the
-StudentLife study) and "date". The StudentLife study
-started on 2013-03-24
+"month" (giving integer number of months since the start of the
+StudentLife study, rounded down) and "date".
 }
