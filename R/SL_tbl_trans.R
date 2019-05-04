@@ -179,7 +179,7 @@ add_block_labels <- function(
         if ( interval == "end" )
           timestamp <- studs$end_timestamp else
             if ( interval == "middle" )
-              timestamp <- (studs$start_timestamp + studs$start_timestamp)/2
+              timestamp <- (studs$start_timestamp + studs$end_timestamp)/2
 
   } else if ( "timestamp_SL_tbl" %in% class(studs) ) {
 
