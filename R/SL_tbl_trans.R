@@ -158,10 +158,6 @@ regularise_time <- function(
       studs, type = c("date","epoch"), start_date = start_date,
       epoch_levels = epoch_levels, epoch_ubs = epoch_ubs))
 
-#  if (limit_date_range) {
-#    date_range <- seq(from = min(studs$date), to = max(studs$date), by = 1)
-#  }
-
   if ("epoch" %in% names(studs)){
     full <- data.frame(
       uid = factor(
@@ -177,12 +173,6 @@ regularise_time <- function(
         levels = levels(uid_range)),
       date = rep(date_range, each = length(epoch_levels)))
     studsg <- dplyr::left_join(full, studs, by = c("uid", "date"))
-  } else {
-    full <- data.frame(
-      uid = factor(
-        rep(uid_range, each = length(date_range)),
-        levels = levels(uid_range)))
-    studsg <- dplyr::left_join(full, studs, by = c("uid"))
   }
 
   if ( all(c("date","uid") %in% names(studsg)) ) {
@@ -202,8 +192,6 @@ regularise_time <- function(
 
   if ( all(c("date","uid") %in% names(studsg)) ) {
     class(studsg) <- c("reg_SL_tbl", "dateonly_SL_tbl", "SL_tbl", class(studsg))
-  } else {
-    class(studsg) <- c("reg_SL_tbl", "SL_tbl", class(studsg))
   }
 
   transfer_SL_tbl_attrs(studsg) <- studs
