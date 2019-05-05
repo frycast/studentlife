@@ -92,6 +92,8 @@ download_studentlife <- function(
 #' @param datafolder Specifies the subfolder of \code{location}
 #' that contains the relevant data. This should normally
 #' be left as the default.
+#' @param uid_range An integer vector. The range of uids in
+#' the StudentLife study.
 #'
 #' @return
 #' An object of class \code{SL_tibble} is returned. These inherit
@@ -133,7 +135,8 @@ download_studentlife <- function(
 load_SL_tibble <- function(
   schema, table, location = ".",
   time_options = c("interval", "timestamp", "dateonly", "dateless"),
-  vars, csv_nrows, datafolder = "dataset") {
+  vars, csv_nrows, datafolder = "dataset",
+  uid_range = getOption("SL_uids")) {
 
   time_options <- tolower(time_options)
   datafolder <- paste0("/", datafolder)
@@ -184,7 +187,7 @@ load_SL_tibble <- function(
 
   }
 
-  studs$uid <- factor(studs$uid, levels = 0:59)
+  studs$uid <- factor(studs$uid, levels = uid_range)
 
   attr(studs, "schema") <- attr(path, "schema")
   attr(studs, "table") <- attr(path, "table")

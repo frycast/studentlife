@@ -174,13 +174,23 @@ for (n in names(load_lists)) {
 rt_lists <- load_lists
 for (n in names(load_lists)) {
   for ( i in 1:length(load_lists[[n]]) ) {
-    rt_lists[[n]][[i]] <-
-      suppressWarnings(regularise_time(load_lists[[n]][[i]]))
+    studs <- load_lists[[n]][[i]]
+    tname <- attr(studs, "table")
+    time_info <- c(menu_data$timestamp, menu_data$interval)
+    if ( tname %in% time_info ) {
+      rt_lists[[n]][[i]] <-
+        suppressWarnings(regularise_time(
+          studs, uid_range = studs$uid,
+          date_range = seq(getOption("SL_start"), length.out = 20, by = 1)))
+    } else if ( tname %in% menu_data$dateonly ) {
+      rt_lists[[n]][[i]] <-
+        suppressWarnings(regularise_time(
+          studs, uid_range = studs$uid,
+          date_range = seq(getOption("SL_start"), length.out = 20, by = 1),
+          blocks = c("day", "week", "weekday", "month", "date")))
+    }
   }
 }
-
-
-
 
 testthat::test_that(
   "add_block_labels behaves well with timestamp and interval", {
@@ -223,10 +233,15 @@ testthat::test_that(
   "regularise_time behaves as expected", {
     for (n in names(rt_lists)) {
       for ( i in 1:length(rt_lists[[n]]) ) {
-        testthat::expect_true(nrow(rt_lists[[!!n]][[!!i]]) > 0)
-        testthat::expect_s3_class(rt_lists[[!!n]][[!!i]], "SL_tbl")
-        testthat::expect_true(suppressWarnings(
-          confirm_reg_SL_tibble(rt_lists[[!!n]][[!!i]])))
+        studs <- load_lists[[n]][[i]]
+        tname <- attr(studs, "table")
+        td_info <- c(menu_data$timestamp, menu_data$interval, menu_data$dateonly)
+        if ( tname %in% td_info ) {
+          testthat::expect_true(nrow(rt_lists[[!!n]][[!!i]]) > 0)
+          testthat::expect_s3_class(rt_lists[[!!n]][[!!i]], "SL_tbl")
+          testthat::expect_true(suppressWarnings(
+            confirm_reg_SL_tibble(rt_lists[[!!n]][[!!i]])))
+        }
       }
     }
 })

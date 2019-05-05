@@ -5,14 +5,17 @@
 \title{regularise_time}
 \usage{
 regularise_time(studs, ..., blocks = c("epoch", "day"),
-  empty_block = "NA", study_duration = getOption("SL_duration"),
+  study_duration = getOption("SL_duration"),
   start_date = getOption("SL_start"),
-  epoch_labels = getOption("SL_epoch_labels"),
-  epoch_ubs = getOption("SL_epoch_ubs"))
+  epoch_levels = getOption("SL_epoch_levels"),
+  epoch_ubs = getOption("SL_epoch_ubs"),
+  uid_range = getOption("SL_uids"), date_range = seq(from = start_date,
+  by = 1, length.out = study_duration))
 }
 \arguments{
 \item{studs}{An \code{SL_tibble} as returned
-by the function \code{\link[studentlife]{load_SL_tibble}}.}
+by the function \code{\link[studentlife]{load_SL_tibble}}.
+The \code{SL_tibble} must have some date-time information.}
 
 \item{...}{Arguments passed to \code{\link[dplyr]{summarise}},
 used to aggregate values when multiple
@@ -27,23 +30,29 @@ time information with \code{\link[studentlife]{add_block_labels}}.
 The returned \code{data.frame} will
 have one observation (possibly \code{NA}) for each block.}
 
-\item{empty_block}{A character vector indicating the action to take when
-no observations are present in a block of time.
-The currently available actions are "NA" (create an observation
-of \code{NA}) or "drop" (remove blocks that have no observations).}
-
 \item{study_duration}{Integer. The duration of the StudentLife
-study in days.}
+study in days. This parameter does nothing if \code{limit_date_range}
+it \code{TRUE}.}
 
 \item{start_date}{Date. The date that the StudentLife study started.}
 
-\item{epoch_labels}{A character vector of epoch labels.}
+\item{epoch_levels}{A character vector of epoch labels.}
 
 \item{epoch_ubs}{An integer vector that defines the hour that is
 the upper boundary of each epoch.}
+
+\item{uid_range}{An integer vector. The range of uids in
+the StudentLife study.}
+
+\item{date_range}{A vector of dates to be
+used if \code{limit_date_range} is \code{FALSE}.}
 }
 \description{
 Transform an \code{SL_tibble} (as produced by
 \code{\link[studentlife]{load_SL_tibble}})
 in such a way that the intervals between observations are all equal.
+}
+\examples{
+## Give an example with custom epochs
+
 }

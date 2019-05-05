@@ -1,6 +1,4 @@
 
-
-
 EMA <- c("Activity",
          "Administration's response",
          "Behavior",

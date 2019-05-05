@@ -6,7 +6,8 @@
 \usage{
 load_SL_tibble(schema, table, location = ".",
   time_options = c("interval", "timestamp", "dateonly", "dateless"),
-  vars, csv_nrows, datafolder = "dataset")
+  vars, csv_nrows, datafolder = "dataset",
+  uid_range = getOption("SL_uids"))
 }
 \arguments{
 \item{schema}{A character string. The menu 1 choice. Leave
@@ -39,6 +40,9 @@ files, so this allows code testing with less overhead.}
 \item{datafolder}{Specifies the subfolder of \code{location}
 that contains the relevant data. This should normally
 be left as the default.}
+
+\item{uid_range}{An integer vector. The range of uids in
+the StudentLife study.}
 }
 \value{
 An object of class \code{SL_tibble} is returned. These inherit

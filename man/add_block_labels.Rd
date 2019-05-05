@@ -7,7 +7,7 @@
 add_block_labels(studs, type = c("epoch", "day", "week", "weekday",
   "month", "date"), interval = "start", warning = TRUE,
   start_date = getOption("SL_start"),
-  epoch_labels = getOption("SL_epoch_labels"),
+  epoch_levels = getOption("SL_epoch_levels"),
   epoch_ubs = getOption("SL_epoch_ubs"))
 }
 \arguments{
@@ -32,7 +32,7 @@ available date-time data.}
 
 \item{start_date}{Date. The date that the StudentLife study started.}
 
-\item{epoch_labels}{A character vector of epoch labels.}
+\item{epoch_levels}{A character vector of epoch levels.}
 
 \item{epoch_ubs}{An integer vector that defines the hour that is
 the upper boundary of each epoch}
@@ -53,9 +53,4 @@ StudentLife study, rounded downs),
 "weekday" (giving the day of the week),
 "month" (giving integer number of months since the start of the
 StudentLife study, rounded down) and "date".
-The types "epoch" and "weekday" can repeat themselves non-consecutively
-throughout the study, and are thus referred to as 'relative' block
-label types. The types "day", "week", "month" and "date" are
-non-repeating during the study, and are thus referred to as 'absolute' block
-label types.
 }

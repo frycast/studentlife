@@ -50,6 +50,84 @@ print.summary.EMA_tbl <- function(x, ...) {
 
 }
 
+
+## Examples writing generics
+
+# ## HERE ARE SOME GENERICS THAT PROTECT INTEGRITY OF CLASSES
+
+# `$<-.timestamp_SL_tbl` <- function (x, name, value)
+# {
+#   if (name == "timestamp") {
+#
+#     warning(paste0("Wimestamp was tampered with so the ",
+#                    "timestamp_SL_tbl class was dropped"))
+#     class(x) <- class(x)[which(class(x) != "timestamp_SL_tbl")]
+#   }
+#
+#   NextMethod("$<-")
+# }
+#
+## EXAMPLE
+# studs <- studs_t
+# studs$thing <- 1
+# class(studs)
+# studs$timestamp <- 1
+# class(studs)
+
+# `$<-.interval_SL_tbl` <- function (x, name, value)
+# {
+#   if (name == "start_timestamp" || name == "end_timestamp") {
+#
+#     warning(paste0("Timestamp was tampered with so the ",
+#                    "interval_SL_tbl class was dropped"))
+#     class(x) <- class(x)[which(class(x) != "interval_SL_tbl")]
+#   }
+#
+#   NextMethod("$<-")
+# }
+
+# `$<-.dateonly_SL_tbl` <- function (x, name, value)
+# {
+#   if (name == "date") {
+#
+#     warning(paste0("Date was tampered with so the ",
+#                    "dateonly_SL_tbl class was dropped"))
+#     class(x) <- class(x)[which(class(x) != "dateonly_SL_tbl")]
+#   }
+#
+#   NextMethod("$<-")
+# }
+
+
+
+
+# studs <- studs_t
+# studs$thing <- 1
+# class(studs)
+# studs$timestamp <- 1
+# class(studs)
+
+
+
+
+# summary.SL_tbl <- function (x, ...)
+# {
+#   print("hi")
+#
+#   NextMethod("summary")
+# }
+#
+# summary(studs)
+#
+# rm(`$<-.SL_tbl`)
+#
+#
+# regularise_time <- function(x) {
+#   UseMethod("regularise_time")
+# }
+
+
+
 #rbind.timestamp_SL_tbl <-
 #cbind.timestamp_SL_tbl <-
 

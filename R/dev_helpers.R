@@ -7,6 +7,17 @@ options_check <- function(par, opt) {
   }
 }
 
+`transfer_SL_tbl_attrs<-` <- function(to, ..., value) {
+
+  if(!confirm_SL_tibble(value))
+    stop("value is not an SL_tbl")
+
+  attr(to, "schema") <- attr(value, "schema")
+  attr(to, "table") <- attr(value, "table")
+
+  return(to)
+}
+
 `transfer_EMA_attrs<-` <- function(to, ..., value) {
 
   attr(to, "dropped_students") <- attr(value, "dropped_students")
@@ -16,6 +27,7 @@ options_check <- function(par, opt) {
 
   return(to)
 }
+
 
 get_name_from_path <- function(path, split = '/') {
   splat <- unlist(strsplit(path, split=split, fixed=TRUE))
@@ -36,6 +48,11 @@ confirm_SL_tibble <- function(studs) {
 
   if ( !("uid" %in% names(studs)) )
     {warning("'uid' not in SL_tbl"); return(FALSE)}
+
+  uids <- studs$uid
+
+  if ( !is.factor(uids) || !(levels(uids) %in% getOption("SL_uids")) )
+    {warning("'uid' is not factor with correct levels"); return(FALSE)}
 
   schema <- attr(studs, "schema")
   table <- attr(studs, "table")
@@ -76,6 +93,9 @@ confirm_timestamp_SL_tibble <- function(studs) {
 
 confirm_dateonly_SL_tibble <- function(studs) {
 
+  # Note that a dateonly_SL_tbl may contain epoch information
+  # if it was derived from a formerly timestamped SL_tbl
+
   if ( !("date" %in% names(studs)) )
     {warning("'date' not in dateonly_SL_tbl"); return(FALSE)}
 
@@ -87,7 +107,7 @@ confirm_reg_SL_tibble <- function(studs) {
   blocks <- attributes(studs)$blocks
 
   if ( length(blocks) == 0 )
-    {warning("blocks attribute is null"); return(FALSE)}
+    {warning("blocks attribute is empty"); return(FALSE)}
 
   return(confirm_SL_tibble(studs))
 }
