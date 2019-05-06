@@ -189,8 +189,9 @@ load_SL_tibble <- function(
 
   studs$uid <- factor(studs$uid, levels = uid_range)
 
-  attr(studs, "schema") <- attr(path, "schema")
-  attr(studs, "table") <- attr(path, "table")
+  studs <- structure(
+    studs, schema = attr(path, "schema"),
+    table = attr(path, "table"))
 
   names(studs) <- clean_strings(names(studs))
 
@@ -248,8 +249,7 @@ get_path <- function(location, menu1, menu2, time_options) {
 
   if ( result == "dining" ) result <- "dinning"
 
-  attr(result, "schema") <- schema
-  attr(result, "table") <- table
+  result <- structure(result, schema = schema, table = table)
 
   return(result)
 }
@@ -557,10 +557,11 @@ EMA_to_list <- function(location, path) {
       -pmatch("location", EMA_questions$question_id),]
   }
 
-  attr(studs, "missing_students") <- missing_studs
-  attr(studs, "vars_present") <- vars_present
-  attr(studs, "EMA_name") <- name
-  attr(studs, "EMA_questions") <- EMA_questions
+  studs <- structure(
+    studs, missing_students = missing_studs,
+    vars_present = vars_present,
+    EMA_name = name,
+    EMA_questions = EMA_questions)
 
   return(studs)
 }

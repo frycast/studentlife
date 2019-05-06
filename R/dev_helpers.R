@@ -12,18 +12,21 @@ options_check <- function(par, opt) {
   if(!confirm_SL_tibble(value))
     stop("value is not an SL_tbl")
 
-  attr(to, "schema") <- attr(value, "schema")
-  attr(to, "table") <- attr(value, "table")
+  to <- structure(
+    to, schema = attr(value, "schema"),
+    table = attr(value, "table"))
 
   return(to)
 }
 
 `transfer_EMA_attrs<-` <- function(to, ..., value) {
 
-  attr(to, "dropped_students") <- attr(value, "dropped_students")
-  attr(to, "missing_students") <- attr(value, "missing_students")
-  attr(to, "EMA_name") <- attr(value, "EMA_name")
-  attr(to, "EMA_questions") <- attr(value, "EMA_questions")
+
+  to <- structure(
+    to, dropped_students = attr(value, "dropped_students"),
+    missing_students = attr(value, "missing_students"),
+    EMA_name = attr(value, "EMA_name"),
+    EMA_questions = attr(value, "EMA_questions"))
 
   return(to)
 }
