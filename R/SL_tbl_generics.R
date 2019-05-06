@@ -53,13 +53,13 @@ print.summary.EMA_tbl <- function(x, ...) {
 
 ## Examples writing generics
 
-# ## HERE ARE SOME GENERICS THAT PROTECT INTEGRITY OF CLASSES
-
+# # ## HERE ARE SOME GENERICS THAT PROTECT INTEGRITY OF CLASSES
+#
 # `$<-.timestamp_SL_tbl` <- function (x, name, value)
 # {
 #   if (name == "timestamp") {
 #
-#     warning(paste0("Wimestamp was tampered with so the ",
+#     warning(paste0(name, " was tampered with so the ",
 #                    "timestamp_SL_tbl class was dropped"))
 #     class(x) <- class(x)[which(class(x) != "timestamp_SL_tbl")]
 #   }
@@ -67,40 +67,54 @@ print.summary.EMA_tbl <- function(x, ...) {
 #   NextMethod("$<-")
 # }
 #
-## EXAMPLE
-# studs <- studs_t
-# studs$thing <- 1
-# class(studs)
-# studs$timestamp <- 1
-# class(studs)
-
 # `$<-.interval_SL_tbl` <- function (x, name, value)
 # {
 #   if (name == "start_timestamp" || name == "end_timestamp") {
 #
-#     warning(paste0("Timestamp was tampered with so the ",
+#     warning(paste0(name, " was tampered with so the ",
 #                    "interval_SL_tbl class was dropped"))
 #     class(x) <- class(x)[which(class(x) != "interval_SL_tbl")]
 #   }
 #
 #   NextMethod("$<-")
 # }
-
+#
 # `$<-.dateonly_SL_tbl` <- function (x, name, value)
 # {
 #   if (name == "date") {
 #
-#     warning(paste0("Date was tampered with so the ",
+#     warning(paste0(name, " was tampered with so the ",
 #                    "dateonly_SL_tbl class was dropped"))
 #     class(x) <- class(x)[which(class(x) != "dateonly_SL_tbl")]
 #   }
 #
 #   NextMethod("$<-")
 # }
-
-
-
-
+#
+#
+#
+# studs <- studs_t
+# studs$thing <- 1
+# class(studs)
+# studs$timestamp <- 1
+# class(studs)
+#
+# studs1 <- studs_p
+# studs2 <- studs_p
+# studs$thing <- 1
+# class(studs1)
+# studs1$start_timestamp <- 1
+# class(studs1)
+# class(studs2)
+# studs2$end_timestamp <- 1
+# class(studs2)
+#
+# studs <- studs_d
+# studs$thing <- 1
+# class(studs)
+# studs$date <- 1
+# class(studs)
+#
 # studs <- studs_t
 # studs$thing <- 1
 # class(studs)

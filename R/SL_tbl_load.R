@@ -160,10 +160,10 @@ load_SL_tibble <- function(
   }
 
   if (!missing(schema))
-    schema <- which(tolower(schema) == tolower(menu_data$menu1_choices))
+    schema <- pmatch(tolower(schema), tolower(menu_data$menu1_choices))
 
   if (!missing(table))
-    table <- which(tolower(table) == tolower(menu_data$menu2_list[[schema]]))
+    table <- pmatch(tolower(table), tolower(menu_data$menu2_list[[schema]]))
 
   location <- paste0(location, datafolder)
 
@@ -260,7 +260,7 @@ get_txt_studs <- function(path, location, vars) {
 
   if ( !missing(vars) )
     if ( "timestamp" %in% vars )
-      vars[which(vars == "timestamp")] <- "date-time"
+      vars[pmatch("timestamp", vars)] <- "date-time"
 
 
   pr <- paste0(location, "/", path, "/", "u")
@@ -293,7 +293,7 @@ get_txt_studs <- function(path, location, vars) {
   class(studs) <- c("SL_tbl", class(studs))
 
   if ( "date-time" %in% names(studs) ) {
-    names(studs)[which(names(studs) == "date-time")] <- "timestamp"
+    names(studs)[pmatch("date-time", names(studs))] <- "timestamp"
     studs$timestamp <- as.numeric(
       as.POSIXct(studs$timestamp, origin="1970-01-01"))
     class(studs) <- c("timestamp_SL_tbl", class(studs))
@@ -353,14 +353,14 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
     if( "timestamp" %in% vars ) {
       if( name %in% menu_data$interval ) {
         if ( name == "conversation" ) {
-          vars[which(vars == "timestamp")] <- "start_timestamp"
+          vars[pmatch("timestamp", vars)] <- "start_timestamp"
           vars <- c(vars, "end_timestamp")
         } else {
-          vars[which(vars == "timestamp")] <- "start"
+          vars[pmatch("timestamp", vars)] <- "start"
           vars <- c(vars, "end")
         }
       } else if ( name %in% c("bt","gps","wifi","wifi_location") ) {
-        vars[which(vars == "timestamp")] <- "time"
+        vars[pmatch("timestamp", vars)] <- "time"
       }
     }
 
@@ -421,13 +421,13 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
   if( name %in% menu_data$interval ) {
     if ( !(name == "conversation") ) {
       if ( "start" %in% names(studs) )
-        names(studs)[which(names(studs) == "start")] <- "start_timestamp"
+        names(studs)[pmatch("start", names(studs))] <- "start_timestamp"
       if ( "end" %in% names(studs) )
-        names(studs)[which(names(studs) == "end")] <- "end_timestamp"
+        names(studs)[pmatch("end", names(studs))] <- "end_timestamp"
     }
   } else if ( name %in% c("bt","gps","wifi","wifi_location") ) {
     if ( "time" %in% names(studs) )
-      names(studs)[which(names(studs) == "time")] <- "timestamp"
+      names(studs)[pmatch("time", names(studs))] <- "timestamp"
   }
 
   class(studs) <- c("SL_tbl", class(studs))
@@ -447,7 +447,7 @@ get_EMA_studs <- function(path, location, vars) {
 
   if (!missing(vars) ) {
     if ("timestamp" %in% vars) {
-      vars[which(vars == "timestamp")] <- "resp_time"
+      vars[pmatch("timestamp", vars)] <- "resp_time"
     }
   }
 
@@ -551,10 +551,10 @@ EMA_to_list <- function(location, path) {
       paste0(location,"/EMA/EMA_definition.json"), flatten = TRUE)
     EMA_names <- gsub("\\?", "_", EMA_definition$name)
     EMA_questions <- EMA_definition[
-      which(EMA_names == name),2][[1]]
+      pmatch(name, EMA_names),2][[1]]
     EMA_questions <- tibble::as_tibble(EMA_questions)
     EMA_questions <- EMA_questions[
-      -which(EMA_questions$question_id == "location"),]
+      -pmatch("location", EMA_questions$question_id),]
   }
 
   attr(studs, "missing_students") <- missing_studs
@@ -591,7 +591,7 @@ EMA_list_to_tibble <- function(studs, vars = "resp_time") {
     tibble::as_tibble()
 
   if ( "resp_time" %in% names(studs) )
-    names(studs)[which(names(studs) == "resp_time")] <- "timestamp"
+    names(studs)[pmatch("resp_time", names(studs))] <- "timestamp"
 
   attr(studs_list, "dropped_students") <- null_ind - 1
   transfer_EMA_attrs(studs) <- studs_list
