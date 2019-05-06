@@ -1,54 +1,4 @@
 
-
-
-##### INCOMPLETE
-#### ISSUES:
-### Needs documentation and greater generality.
-###
-#####
-# #'group_by_epoch
-# #'
-# #' Group by day and epoch with mean response
-# #'
-# #' @param ... Arguments passed to summarise for group aggregation
-# #'
-# #'@export
-#group_by_epoch <- function(studs, ..., keep_timestamps = TRUE) {
-#
-#  `%>%` <- dplyr::`%>%`
-#
-#  if (class(studs) == "timestamp_SL_tibble") {
-#
-#
-#  }
-#
-#  if (class(studs) == "interval_SL_tibble") {
-#
-#  }
-#
-#  if (class(studs) == "dateonly_SL_tibble") {
-#
-#  }
-#
-#
-#
-#  if ( keep_timestamps ) {
-#    studsg <- studs %>% dplyr::group_by(uid, day, epoch) %>%
-#      dplyr::summarise(
-#        ..., median_timestamp = as.integer(median(get(timestamp)))) %>%
-#      dplyr::ungroup()
-#
-#  } else {
-#    studsg <- studs %>% dplyr::group_by(uid, day, epoch) %>%
-#      dplyr::summarise(...) %>%
-#      dplyr::ungroup()
-#
-#  }
-#
-#  return(studsg)
-#}
-
-
 #### THESE EXAMPLES ARE FOR regularise_time
 # #' @examples
 # #' \donttest{
@@ -201,23 +151,6 @@ regularise_time <- function(
 }
 
 
-#d <- data.frame(a = c(1,1,1,2,2,2), b = c(1,2,3,4,5,6), c = c(1,1,1,1,1,2))
-#
-#f <- function(studs, ..., blocks) {
-#
-#  `%>%` <- dplyr::`%>%`
-#
-#  studsg <- studs %>% dplyr::group_by_at(blocks) %>%
-#    dplyr::summarise(...) %>%
-#    dplyr::ungroup()
-#
-#  return(studsg)
-#}
-#
-#f(studs = d, bg = sum(b), blocks = c("a","c"))
-
-
-
 
 #'add_block_labels
 #'
@@ -266,7 +199,6 @@ add_block_labels <- function(
 
   interval <- tolower(interval)
   type <- tolower(type)
-  #opt <- c("epoch", "day", "week", "weekday", "month", "date")
   opt <- c("month", "week", "day", "date", "weekday", "epoch")
   options_check(par = type, opt = opt)
   opt <- c("start", "end", "middle")
@@ -388,7 +320,9 @@ add_block_labels <- function(
 
     if ( !is.null(date) ) {
 
-      studs$date <- date
+      oc <- class(studs)
+      suppressWarnings(studs$date <- date)
+      class(studs) <- oc
 
     } else {
 

@@ -246,3 +246,71 @@ testthat::test_that(
     }
 })
 
+
+
+
+testthat::context("protection generics")
+studs_t <- load_lists[["a1"]][[1L]]
+studs_p <- load_lists[["s1"]][[4L]]
+studs_d <- load_lists[["e1"]][[2L]]
+
+testthat::test_that("timestamp_SL_tbl is well protected", {
+  studs1 <- studs_t; studs2 <- studs_t; studs3 <- studs_t
+  studs4 <- studs_t; studs5 <- studs_t; studs6 <- studs_t
+  testthat::expect_warning(studs1[["timestamp"]] <- NULL)
+  testthat::expect_false("timestamp_SL_tbl" %in% class(studs1))
+  testthat::expect_warning(studs2["timestamp"] <- NULL)
+  testthat::expect_false("timestamp_SL_tbl" %in% class(studs2))
+  testthat::expect_warning(studs3[1,2] <- NA)
+  testthat::expect_false("timestamp_SL_tbl" %in% class(studs3))
+  testthat::expect_warning(names(studs4) <- NULL)
+  testthat::expect_false("timestamp_SL_tbl" %in% class(studs4))
+  testthat::expect_warning(names(studs5)[2] <- NA)
+  testthat::expect_false("timestamp_SL_tbl" %in% class(studs5))
+  names(studs6)[1] <- NA
+  testthat::expect_true("timestamp_SL_tbl" %in% class(studs6))
+})
+
+testthat::test_that("interval_SL_tbl is well protected", {
+  studs1 <- studs_p; studs2 <- studs_p; studs3 <- studs_p
+  studs4 <- studs_p; studs5 <- studs_p; studs6 <- studs_p;
+  testthat::expect_warning(studs1[["start_timestamp"]] <- NULL)
+  testthat::expect_false("interval_SL_tbl" %in% class(studs1))
+  testthat::expect_warning(studs2["start_timestamp"] <- NULL)
+  testthat::expect_false("interval_SL_tbl" %in% class(studs2))
+  testthat::expect_warning(studs3[1, 2] <- NA)
+  testthat::expect_false("interval_SL_tbl" %in% class(studs3))
+  testthat::expect_warning(names(studs4) <- NULL)
+  testthat::expect_false("interval_SL_tbl" %in% class(studs4))
+  testthat::expect_warning(names(studs5)[2] <- NA)
+  testthat::expect_false("interval_SL_tbl" %in% class(studs5))
+  names(studs6)[1] <- NA
+  testthat::expect_true("interval_SL_tbl" %in% class(studs6))
+  studs1 <- studs_p; studs2 <- studs_p; studs3 <- studs_p
+  studs4 <- studs_p;
+  testthat::expect_warning(studs1[["end_timestamp"]] <- NULL)
+  testthat::expect_false("interval_SL_tbl" %in% class(studs1))
+  testthat::expect_warning(studs2["end_timestamp"] <- NULL)
+  testthat::expect_false("interval_SL_tbl" %in% class(studs2))
+  testthat::expect_warning(studs3[1, 3] <- NA)
+  testthat::expect_false("interval_SL_tbl" %in% class(studs3))
+  testthat::expect_warning(names(studs4)[3] <- NA)
+  testthat::expect_false("interval_SL_tbl" %in% class(studs4))
+})
+
+testthat::test_that("dateonly_SL_tbl is well protected", {
+  studs1 <- studs_d; studs2 <- studs_d; studs3 <- studs_d
+  studs4 <- studs_d; studs5 <- studs_d; studs6 <- studs_d
+  testthat::expect_warning(studs1[["date"]] <- NULL)
+  testthat::expect_false("dateonly_SL_tbl" %in% class(studs1))
+  testthat::expect_warning(studs2["date"] <- NULL)
+  testthat::expect_false("dateonly_SL_tbl" %in% class(studs2))
+  testthat::expect_warning(studs3[1,2] <- NA)
+  testthat::expect_false("dateonly_SL_tbl" %in% class(studs3))
+  testthat::expect_warning(names(studs4) <- NULL)
+  testthat::expect_false("dateonly_SL_tbl" %in% class(studs4))
+  testthat::expect_warning(names(studs5)[2] <- NA)
+  testthat::expect_false("dateonly_SL_tbl" %in% class(studs5))
+  names(studs6)[1] <- NA
+  testthat::expect_true("dateonly_SL_tbl" %in% class(studs6))
+})
