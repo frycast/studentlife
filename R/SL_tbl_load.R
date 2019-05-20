@@ -26,8 +26,8 @@
 #'}
 #'
 #'@export
-
 download_studentlife <- function(
+
   url = "https://studentlife.cs.dartmouth.edu/dataset/dataset.tar.bz2",
   dest = ".",
   unzip = TRUE,
@@ -36,7 +36,7 @@ download_studentlife <- function(
   message("Downloading the StudentLife dataset...")
   d <- "dataset.tar.bz2"
   p <- paste0(dest, "/", d)
-  if (!dir.exists(p)) dir.create(p)
+  if (!dir.exists(dest)) dir.create(dest)
   utils::download.file(url = url, destfile = p)
   message("Download complete")
 

@@ -1,6 +1,7 @@
 testthat::context("SL_tbl load")
 
-#loc <- "tests/testthat/testdata/SL_testdata"
+loc <- "tests/testthat/testdata/SL_testdata"
+menu_data <- studentlife:::menu_data
 
 loc <- "testdata/SL_testdata"
 load_list_s1 <- list()
@@ -179,15 +180,15 @@ for (n in names(load_lists)) {
     time_info <- c(menu_data$timestamp, menu_data$interval)
     if ( tname %in% time_info ) {
       rt_lists[[n]][[i]] <-
-        suppressWarnings(regularise_time(
-          studs, uid_range = studs$uid,
-          date_range = seq(getOption("SL_start"), length.out = 20, by = 1)))
+        regularise_time(
+          studs,
+          date_range = seq(getOption("SL_start"), length.out = 20, by = 1))
     } else if ( tname %in% menu_data$dateonly ) {
       rt_lists[[n]][[i]] <-
-        suppressWarnings(regularise_time(
-          studs, uid_range = studs$uid,
+        regularise_time(
+          studs,
           date_range = seq(getOption("SL_start"), length.out = 20, by = 1),
-          blocks = c("day", "week", "weekday", "month", "date")))
+          blocks = c("day", "week", "weekday", "month", "date"))
     }
   }
 }

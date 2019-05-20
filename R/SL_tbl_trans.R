@@ -88,15 +88,33 @@ regularise_time <- function(
     if (!confirm_interval_SL_tibble(studs))
       stop("corrupt interval_SL_tbl")
 
+    studs <- add_block_labels(
+      studs, type = c("date","epoch"), start_date = start_date,
+      epoch_levels = epoch_levels, epoch_ubs = epoch_ubs)
+
   } else if ( "timestamp_SL_tbl" %in% class(studs) ) {
 
     if (!confirm_timestamp_SL_tibble(studs))
       stop("corrupt timestamp_SL_tbl")
 
+    studs <- add_block_labels(
+      studs, type = c("date","epoch"), start_date = start_date,
+      epoch_levels = epoch_levels, epoch_ubs = epoch_ubs)
+
   } else if ( "dateonly_SL_tbl" %in% class(studs) ) {
 
     if (!confirm_dateonly_SL_tibble(studs))
       stop("corrupt dateonly_SL_tbl")
+
+    v <- (blocks == "epoch")
+    if (any(v)) {
+      blocks <- blocks[which(!v)]
+      warning("Not enough time information to derive epoch")
+    }
+
+    studs <- add_block_labels(
+      studs, type = c("date"), start_date = start_date,
+      epoch_levels = epoch_levels, epoch_ubs = epoch_ubs)
 
   } else {
 
@@ -104,15 +122,11 @@ regularise_time <- function(
                 "timestamp_SL_tbl or dateonly_SL_tbl."))
   }
 
-  studs <- suppressWarnings(add_block_labels(
-      studs, type = c("date","epoch"), start_date = start_date,
-      epoch_levels = epoch_levels, epoch_ubs = epoch_ubs))
-
   if ("epoch" %in% names(studs)){
     full <- data.frame(
       uid = factor(
         rep(uid_range, each = length(date_range)*length(epoch_levels)),
-        levels = levels(uid_range)),
+        levels = uid_range),
       date = rep(date_range, each = length(epoch_levels)),
       epoch = factor(epoch_levels, levels = epoch_levels))
     studsg <- dplyr::left_join(full, studs, by = c("uid", "epoch", "date"))
@@ -120,7 +134,7 @@ regularise_time <- function(
     full <- data.frame(
       uid = factor(
         rep(uid_range, each = length(date_range)),
-        levels = levels(uid_range)),
+        levels = uid_range),
       date = rep(date_range, each = length(epoch_levels)))
     studsg <- dplyr::left_join(full, studs, by = c("uid", "date"))
   }
@@ -130,10 +144,10 @@ regularise_time <- function(
     transfer_SL_tbl_attrs(studsg) <- studs
   }
 
-  studsg <- suppressWarnings(add_block_labels(
+  studsg <- add_block_labels(
     studsg, type = blocks[which(!(blocks %in% c("epoch", "date")))],
     start_date = start_date, epoch_levels = epoch_levels,
-    epoch_ubs = epoch_ubs))
+    epoch_ubs = epoch_ubs)
 
   `%>%` <- dplyr::`%>%`
   studsg <- studsg %>% dplyr::group_by_at(c("uid", as.character(blocks))) %>%
@@ -190,7 +204,6 @@ regularise_time <- function(
 #'the upper boundary of each epoch
 #'
 #'@export
-
 add_block_labels <- function(
   studs, type = c("epoch", "day", "week", "weekday", "month", "date"),
   interval = "start", warning = TRUE, start_date = getOption("SL_start"),
@@ -235,6 +248,13 @@ add_block_labels <- function(
       stop("corrupt dateonly_SL_tbl")
 
     date <- studs$date
+
+  } else {
+
+    warning(paste0("studs is not an interval_SL_tbl, ",
+                  "timestamp_SL_tbl or dateonly_SL_tbl. ",
+                  "No block labels added"))
+    return(studs)
   }
 
   if ( !is.null(timestamp) ) {
