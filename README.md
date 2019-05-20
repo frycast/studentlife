@@ -44,7 +44,6 @@ studs_s <- load_SL_tibble(location = d, time_options = "dateless" , csv_nrows = 
 studs_rt <- regularise_time(studs_t)
 studs_rp <- regularise_time(studs_p)
 studs_rd <- regularise_time(studs_d)
-studs_rs <- regularise_time(studs_s)
 
 studs_rt <- regularise_time(studs_t, blocks = "week")
 studs_rt <- regularise_time(studs_t, blocks = c("day","week","weekday"))
@@ -52,7 +51,6 @@ studs_rt <- regularise_time(studs_t, blocks = c("day","week","weekday"))
 add_block_labels(studs_t)
 add_block_labels(studs_p)
 add_block_labels(studs_d)
-add_block_labels(studs_s)
 ```
 
 
