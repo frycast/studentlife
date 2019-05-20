@@ -4,14 +4,14 @@
 \alias{add_block_labels}
 \title{add_block_labels}
 \usage{
-add_block_labels(studs, type = c("hour", "epoch", "day", "week",
-  "weekday", "month", "date"), interval = "start", warning = TRUE,
+add_block_labels(tab, type = c("hour", "epoch", "day", "week", "weekday",
+  "month", "date"), interval = "start", warning = TRUE,
   start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
   epoch_ubs = getOption("SL_epoch_ubs"))
 }
 \arguments{
-\item{studs}{An \code{SL_tibble} as returned
+\item{tab}{An \code{SL_tibble} as returned
 by the function \code{\link[studentlife]{load_SL_tibble}}.}
 
 \item{type}{A character vector of block label types

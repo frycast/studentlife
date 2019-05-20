@@ -4,7 +4,7 @@
 #' \code{\link[studentlife]{load_SL_tibble}})
 #' in such a way that the intervals between observations are all equal.
 #'
-#' @param studs An \code{SL_tibble} as returned
+#' @param tab An \code{SL_tibble} as returned
 #' by the function \code{\link[studentlife]{load_SL_tibble}}.
 #' The \code{SL_tibble} must have some date-time information.
 #' @param ... Arguments passed to \code{\link[dplyr]{summarise}},
@@ -14,7 +14,7 @@
 #' @param blocks A character vector naming one or more of the
 #' block options "hour", "epoch", "day", "week", "weekday", "month" or "date".
 #' If not present as column names in
-#' \code{studs}, an attempt will be made to infer the blocks from existing
+#' \code{tab}, an attempt will be made to infer the blocks from existing
 #' time information with \code{\link[studentlife]{add_block_labels}}.
 #' The returned \code{data.frame} will
 #' have one observation (possibly \code{NA}) for each block.
@@ -37,17 +37,17 @@
 #' d <- "D:/Datasets/studentlife"
 #' download_studentlife(dest = d)
 #'
-#' studs <- load_SL_tibble(
+#' tab <- load_SL_tibble(
 #'   loc = d, schema = "sensing", table = "activity", csv_nrows = 10)
 #'
 #' regularise_time(
-#'   studs, blocks = c("day","weekday"),
+#'   tab, blocks = c("day","weekday"),
 #'   act_inf = max(activity_inference), add_NAs = FALSE)
 #' }
 #'
 #' @export
 regularise_time <- function(
-  studs, ..., blocks = c("epoch", "day"),
+  tab, ..., blocks = c("epoch", "day"),
   add_NAs = TRUE,
   study_duration = getOption("SL_duration"),
   start_date = getOption("SL_start"),
@@ -65,27 +65,27 @@ regularise_time <- function(
   eh <- c("epoch", "hour")
   ft <- c("date", eh[which(eh %in% blocks)])
 
-  if ( "interval_SL_tbl" %in% class(studs) ) {
+  if ( "interval_SL_tbl" %in% class(tab) ) {
 
-    if (!confirm_interval_SL_tibble(studs))
+    if (!confirm_interval_SL_tibble(tab))
       stop("corrupt interval_SL_tbl")
 
-    studs <- add_block_labels(
-      studs, type = ft, start_date = start_date,
+    tab <- add_block_labels(
+      tab, type = ft, start_date = start_date,
       epoch_levels = epoch_levels, epoch_ubs = epoch_ubs)
 
-  } else if ( "timestamp_SL_tbl" %in% class(studs) ) {
+  } else if ( "timestamp_SL_tbl" %in% class(tab) ) {
 
-    if (!confirm_timestamp_SL_tibble(studs))
+    if (!confirm_timestamp_SL_tibble(tab))
       stop("corrupt timestamp_SL_tbl")
 
-    studs <- add_block_labels(
-      studs, type = ft, start_date = start_date,
+    tab <- add_block_labels(
+      tab, type = ft, start_date = start_date,
       epoch_levels = epoch_levels, epoch_ubs = epoch_ubs)
 
-  } else if ( "dateonly_SL_tbl" %in% class(studs) ) {
+  } else if ( "dateonly_SL_tbl" %in% class(tab) ) {
 
-    if (!confirm_dateonly_SL_tibble(studs))
+    if (!confirm_dateonly_SL_tibble(tab))
       stop("corrupt dateonly_SL_tbl")
 
     v <- (blocks == "epoch" || blocks == "hour")
@@ -94,69 +94,69 @@ regularise_time <- function(
       warning("Not enough time information to derive epoch or hour")
     }
 
-    studs <- add_block_labels(
-      studs, type = "date", start_date = start_date,
+    tab <- add_block_labels(
+      tab, type = "date", start_date = start_date,
       epoch_levels = epoch_levels, epoch_ubs = epoch_ubs)
 
   } else {
 
-    stop(paste0("studs is not an interval_SL_tbl, ",
+    stop(paste0("tab is not an interval_SL_tbl, ",
                 "timestamp_SL_tbl or dateonly_SL_tbl."))
   }
 
   if (add_NAs) {
-    if ("hour" %in% names(studs)) {
+    if ("hour" %in% names(tab)) {
       full <- data.frame(
         uid = factor(
           rep(uid_range, each = length(date_range)*length(epoch_levels)*24),
           levels = uid_range),
         date = rep(date_range, each = length(epoch_levels)*24),
         epoch = factor(epoch_levels, levels = epoch_levels))
-      studsg <- dplyr::left_join(full, studs, by = c("uid", "hour", "epoch", "date"))
-    } else if ("epoch" %in% names(studs)){
+      tabg <- dplyr::left_join(full, tab, by = c("uid", "hour", "epoch", "date"))
+    } else if ("epoch" %in% names(tab)){
       full <- data.frame(
         uid = factor(
           rep(uid_range, each = length(date_range)*length(epoch_levels)),
           levels = uid_range),
         date = rep(date_range, each = length(epoch_levels)),
         epoch = factor(epoch_levels, levels = epoch_levels))
-      studsg <- dplyr::left_join(full, studs, by = c("uid", "epoch", "date"))
-    } else if ("date" %in% names(studs)) {
+      tabg <- dplyr::left_join(full, tab, by = c("uid", "epoch", "date"))
+    } else if ("date" %in% names(tab)) {
       full <- data.frame(
         uid = factor(
           rep(uid_range, each = length(date_range)),
           levels = uid_range),
         date = rep(date_range, each = length(epoch_levels)))
-      studsg <- dplyr::left_join(full, studs, by = c("uid", "date"))
+      tabg <- dplyr::left_join(full, tab, by = c("uid", "date"))
     }
   } else {
 
-    studsg <- studs
+    tabg <- tab
   }
 
-  if ( all(c("date","uid") %in% names(studsg)) ) {
-    class(studsg) <- c("dateonly_SL_tbl", "SL_tbl", class(studsg))
-    transfer_SL_tbl_attrs(studsg) <- studs
+  if ( all(c("date","uid") %in% names(tabg)) ) {
+    class(tabg) <- c("dateonly_SL_tbl", "SL_tbl", class(tabg))
+    transfer_SL_tbl_attrs(tabg) <- tab
   }
 
-  studsg <- add_block_labels(
-    studsg, type = blocks[which(!(blocks %in% ft))],
+  tabg <- add_block_labels(
+    tabg, type = blocks[which(!(blocks %in% ft))],
     start_date = start_date, epoch_levels = epoch_levels,
     epoch_ubs = epoch_ubs)
 
   `%>%` <- dplyr::`%>%`
-  studsg <- studsg %>% dplyr::group_by_at(c("uid", as.character(blocks))) %>%
+  tabg <- tabg %>% dplyr::group_by_at(c("uid", as.character(blocks))) %>%
     dplyr::summarise(...) %>%
     dplyr::ungroup()
 
-  if ( all(c("date","uid") %in% names(studsg)) ) {
-    class(studsg) <- c("reg_SL_tbl", "dateonly_SL_tbl", "SL_tbl", class(studsg))
+  if ( all(c("date","uid") %in% names(tabg)) ) {
+    class(tabg) <- c("reg_SL_tbl", "dateonly_SL_tbl", "SL_tbl", class(tabg))
   }
 
-  transfer_SL_tbl_attrs(studsg) <- studs
-  attr(studsg, "blocks") <- blocks
+  transfer_SL_tbl_attrs(tabg) <- tab
+  attr(tabg, "blocks") <- blocks
 
-  return(studsg)
+  return(tabg)
 }
 
 
@@ -178,7 +178,7 @@ regularise_time <- function(
 #'"month" (giving integer number of months since the start of the
 #'StudentLife study, rounded down) and "date".
 #'
-#'@param studs An \code{SL_tibble} as returned
+#'@param tab An \code{SL_tibble} as returned
 #' by the function \code{\link[studentlife]{load_SL_tibble}}.
 #'@param type A character vector of block label types
 #'to include. Can be one or more of "epoch", "day",
@@ -200,7 +200,7 @@ regularise_time <- function(
 #'
 #'@export
 add_block_labels <- function(
-  studs, type = c("hour", "epoch", "day", "week", "weekday", "month", "date"),
+  tab, type = c("hour", "epoch", "day", "week", "weekday", "month", "date"),
   interval = "start", warning = TRUE, start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
   epoch_ubs = getOption("SL_epoch_ubs")) {
@@ -218,38 +218,38 @@ add_block_labels <- function(
   timestamp <- NULL
   date <- NULL
 
-  if ( "interval_SL_tbl" %in% class(studs) ) {
+  if ( "interval_SL_tbl" %in% class(tab) ) {
 
-    if (!confirm_interval_SL_tibble(studs))
+    if (!confirm_interval_SL_tibble(tab))
       stop("corrupt interval_SL_tbl")
 
     if ( interval == "start" )
-      timestamp <- studs$start_timestamp else
+      timestamp <- tab$start_timestamp else
         if ( interval == "end" )
-          timestamp <- studs$end_timestamp else
+          timestamp <- tab$end_timestamp else
             if ( interval == "middle" )
-              timestamp <- (studs$start_timestamp + studs$end_timestamp)/2
+              timestamp <- (tab$start_timestamp + tab$end_timestamp)/2
 
-  } else if ( "timestamp_SL_tbl" %in% class(studs) ) {
+  } else if ( "timestamp_SL_tbl" %in% class(tab) ) {
 
-    if (!confirm_timestamp_SL_tibble(studs))
+    if (!confirm_timestamp_SL_tibble(tab))
       stop("corrupt timestamp_SL_tbl")
 
-    timestamp <- studs$timestamp
+    timestamp <- tab$timestamp
 
-  } else if ( "dateonly_SL_tbl" %in% class(studs) ) {
+  } else if ( "dateonly_SL_tbl" %in% class(tab) ) {
 
-    if (!confirm_dateonly_SL_tibble(studs))
+    if (!confirm_dateonly_SL_tibble(tab))
       stop("corrupt dateonly_SL_tbl")
 
-    date <- studs$date
+    date <- tab$date
 
   } else {
 
-    warning(paste0("studs is not an interval_SL_tbl, ",
+    warning(paste0("tab is not an interval_SL_tbl, ",
                   "timestamp_SL_tbl or dateonly_SL_tbl. ",
                   "No block labels added"))
-    return(studs)
+    return(tab)
   }
 
   if ( !is.null(timestamp) ) {
@@ -261,7 +261,7 @@ add_block_labels <- function(
   if ( "hour" %in% type ) {
     if ( !is.null(timestamp) ) {
       hours <- as.integer(strftime(timestamp, format="%H"))
-      studs$hour <- hours
+      tab$hour <- hours
     } else {
       if (warning)
         warning("not enough date-time information to derive hour")
@@ -278,7 +278,7 @@ add_block_labels <- function(
         epoch_levels[which(x <= epoch_ubs)[1]]
       })
 
-      studs$epoch <- factor(epc, levels = epoch_levels)
+      tab$epoch <- factor(epc, levels = epoch_levels)
 
     } else {
 
@@ -291,7 +291,7 @@ add_block_labels <- function(
 
     if ( !is.null(date) ) {
 
-      studs$day <- as.integer(format(date, "%j")) - day_0
+      tab$day <- as.integer(format(date, "%j")) - day_0
 
     } else {
 
@@ -304,7 +304,7 @@ add_block_labels <- function(
 
     if ( !is.null(date) ) {
 
-      studs$week <- as.numeric(format(date, "%W")) - week_0
+      tab$week <- as.numeric(format(date, "%W")) - week_0
 
     } else {
 
@@ -317,7 +317,7 @@ add_block_labels <- function(
 
     if ( !is.null(date) ) {
 
-      studs$weekday <- factor(
+      tab$weekday <- factor(
         tolower(weekdays(date, abbreviate = TRUE)),
         levels = c("mon","tue","wed","thu","fri","sat","sun"))
 
@@ -332,7 +332,7 @@ add_block_labels <- function(
 
     if ( !is.null(date) ) {
 
-      studs$month <- factor(
+      tab$month <- factor(
         months(date, abbreviate = TRUE),
         levels = c("Jan","Feb","Mar","Apr","May","Jun",
                    "Jul","Aug","Sep","Oct","Nov","Dec"))
@@ -347,9 +347,9 @@ add_block_labels <- function(
 
     if ( !is.null(date) ) {
 
-      oc <- class(studs)
-      suppressWarnings(studs$date <- date)
-      class(studs) <- oc
+      oc <- class(tab)
+      suppressWarnings(tab$date <- date)
+      class(tab) <- oc
 
     } else {
 
@@ -358,31 +358,31 @@ add_block_labels <- function(
     }
   }
 
-  return(studs)
+  return(tab)
 }
 
 
 
 # Helper functions --------------------------------------------------------
 
-#add_NAs <- function(studs, finest_block = "epoch") {
+#add_NAs <- function(tab, finest_block = "epoch") {
 #
 #  `%>%` <- dplyr::`%>%`
 #
-#  uids <- unique(studs$uid)
-#  e <- unique(studs$epoch)
+#  uids <- unique(tab$uid)
+#  e <- unique(tab$epoch)
 #  el <- c("nig", "mor", "aft", "eve")
-#  d <- studs[[day]]
+#  d <- tab[[day]]
 #  ndays <- max(d) - min(d)
 #
-#  studs <- data.frame(uid = rep(uids, each = length(e)*ndays),
+#  tab <- data.frame(uid = rep(uids, each = length(e)*ndays),
 #                     epoch = e,
 #                     day = rep(0:ndays, each = length(e))) %>%
 #    tibble::as_tibble() %>%
 #    dplyr::mutate(epoch = factor(epoch, levels = el)) %>%
-#    dplyr::left_join(studs, by = c("uid", "epoch", "day"))
+#    dplyr::left_join(tab, by = c("uid", "epoch", "day"))
 #
-#  return(studs)
+#  return(tab)
 #}
 
 
@@ -398,24 +398,24 @@ add_block_labels <- function(
 # #'
 # #'
 # #' @export
-#add_NAs <- function(studs, day = "day") {
+#add_NAs <- function(tab, day = "day") {
 #
 #  `%>%` <- dplyr::`%>%`
 #
-#  uids <- unique(studs$uid)
-#  e <- unique(studs$epoch)
+#  uids <- unique(tab$uid)
+#  e <- unique(tab$epoch)
 #  el <- c("night", "morning", "afternoon", "evening")
-#  d <- studs[[day]]
+#  d <- tab[[day]]
 #  ndays <- max(d) - min(d)
 #
-#  studs <- data.frame(uid = rep(uids, each = length(e)*ndays),
+#  tab <- data.frame(uid = rep(uids, each = length(e)*ndays),
 #                     epoch = e,
 #                     day = rep(0:ndays, each = length(e))) %>%
 #    tibble::as_tibble() %>%
 #    dplyr::mutate(epoch = factor(epoch, levels = el)) %>%
-#    dplyr::left_join(studs, by = c("uid", "epoch", "day"))
+#    dplyr::left_join(tab, by = c("uid", "epoch", "day"))
 #
-#  return(studs)
+#  return(tab)
 #}
 #
 #
@@ -424,7 +424,7 @@ add_block_labels <- function(
 ### #' Convert StudentLife UNIX timestamps to date, day, week and month
 ### #' in study.
 ### #'
-### #' @param studs A data.frame where each row corresponds to an
+### #' @param tab A data.frame where each row corresponds to an
 ### #' observation on a student, and at least one column contains
 ### #' UNIX timestamps.
 ### #' @param timestamp Character string indicating which variable
@@ -449,15 +449,15 @@ add_block_labels <- function(
 ### #' timestamp_convert(pam, days_in_weeks = TRUE)
 ### #'
 ### #' @export
-### timestamp_convert <- function(studs, day1 = 83,
+### timestamp_convert <- function(tab, day1 = 83,
 ###                               timestamp = "resp_time",
 ###                               include_epochs = FALSE) {
 ###
 ###   `%>%` <- dplyr::`%>%`
 ###
-###   studs <- make_daily(timestamp, studs, day1, include_epochs)
+###   tab <- make_daily(timestamp, tab, day1, include_epochs)
 ###
-###   return(studs)
+###   return(tab)
 ### }
 #
 #
@@ -470,17 +470,17 @@ add_block_labels <- function(
 # #' add_days
 # #'
 # #'@export
-#add_days <- function(studs, year_day_1 = 83, timestamp = "resp_time", fill_NAs = FALSE) {
+#add_days <- function(tab, year_day_1 = 83, timestamp = "resp_time", fill_NAs = FALSE) {
 #
-#  if ( !(timestamp %in% names(studs)) )
+#  if ( !(timestamp %in% names(tab)) )
 #    stop("Column not found, try changing the timestamp parameter")
 #
 #  `%>%` <- dplyr::`%>%`
 #
-#  date <- as.Date(as.POSIXct(studs[[timestamp]], origin="1970-01-01"))
-#  studs <- dplyr::mutate(studs, day = as.integer(format(date, "%j")) - year_day_1)
+#  date <- as.Date(as.POSIXct(tab[[timestamp]], origin="1970-01-01"))
+#  tab <- dplyr::mutate(tab, day = as.integer(format(date, "%j")) - year_day_1)
 #
-#  return(studs)
+#  return(tab)
 #}
 #
 #
@@ -492,15 +492,15 @@ add_block_labels <- function(
 # #' add_epochs
 # #'
 # #'@export
-#add_epochs <- function(studs, timestamp = "resp_time",
+#add_epochs <- function(tab, timestamp = "resp_time",
 #                       add_days = TRUE, year_day_1 = 83) {
 #
-#  if ( !(timestamp %in% names(studs)) )
+#  if ( !(timestamp %in% names(tab)) )
 #    stop("Column not found, try changing the timestamp parameter")
 #
 #  `%>%` <- dplyr::`%>%`
 #
-#  posix <- as.POSIXct(studs[[timestamp]], origin="1970-01-01")
+#  posix <- as.POSIXct(tab[[timestamp]], origin="1970-01-01")
 #
 #  epochs <- c("night","morning","afternoon","evening")
 #  ub <- c(6, 12, 18, 24)
@@ -509,17 +509,17 @@ add_block_labels <- function(
 #    epochs[which(x <= ub)[1]]
 #  })
 #
-#  studs <- studs %>% dplyr::mutate(
+#  tab <- tab %>% dplyr::mutate(
 #           epoch = factor(epc, levels = epochs))
 #
 #  if (add_days) {
 #
-#    studs <- studs %>% dplyr::mutate(
+#    tab <- tab %>% dplyr::mutate(
 #      day = as.numeric(format(as.Date(posix), "%j")) - year_day_1 )
 #
 #  }
 #
-#  return(studs)
+#  return(tab)
 #}
 #
 #### INCOMPLETE
@@ -530,16 +530,16 @@ add_block_labels <- function(
 ##' add_times
 ##'
 # #'@export
-#add_times <- function(studs, timestamp = "resp_time") {
+#add_times <- function(tab, timestamp = "resp_time") {
 #
-#  if ( !(timestamp %in% names(studs)) )
+#  if ( !(timestamp %in% names(tab)) )
 #    stop("Column not found, try changing the timestamp parameter")
 #
 #  `%>%` <- dplyr::`%>%`
 #
-#  posix <- as.POSIXct(studs[[timestamp]], origin="1970-01-01")
+#  posix <- as.POSIXct(tab[[timestamp]], origin="1970-01-01")
 #
-#  return(studs %>% dplyr::mutate(
+#  return(tab %>% dplyr::mutate(
 #         time = strftime(posix, format="%H:%M:%S")))
 #}
 #
@@ -551,16 +551,16 @@ add_block_labels <- function(
 ##' add_dates
 ##'
 # #' @export
-#add_dates <- function(studs, timestamp = "resp_time") {
+#add_dates <- function(tab, timestamp = "resp_time") {
 #
-#  if ( !(timestamp %in% names(studs)) )
+#  if ( !(timestamp %in% names(tab)) )
 #    stop("Column not found, try changing the timestamp parameter")
 #
 #  `%>%` <- dplyr::`%>%`
 #
-#  posix <- as.POSIXct(studs[[timestamp]], origin="1970-01-01")
+#  posix <- as.POSIXct(tab[[timestamp]], origin="1970-01-01")
 #
-#  return(studs %>% dplyr::mutate(
+#  return(tab %>% dplyr::mutate(
 #         date = as.Date(posix)))
 #}
 #
@@ -579,20 +579,20 @@ add_block_labels <- function(
 # #' \code{timestamp} parameter
 ##'
 # #'@export
-#add_weeks <- function(studs, timestamp = "resp_time", week1 = 11) {
+#add_weeks <- function(tab, timestamp = "resp_time", week1 = 11) {
 #
-#  if ( !(timestamp %in% names(studs)) )
+#  if ( !(timestamp %in% names(tab)) )
 #    stop("Column not found, try changing the timestamp parameter")
 #
 #  `%>%` <- dplyr::`%>%`
 #
-#  d <- as.Date(as.POSIXct(studs[[timestamp]], origin="1970-01-01"))
+#  d <- as.Date(as.POSIXct(tab[[timestamp]], origin="1970-01-01"))
 #
-#  studs <- studs %>%
+#  tab <- tab %>%
 #    dplyr::mutate(
 #      week = as.numeric(format(d, "%W")) - week1)
 #
-#  return( studs )
+#  return( tab )
 #}
 #
 #
@@ -603,7 +603,7 @@ add_block_labels <- function(
 ##' called "day" that is a factor representing the
 ##' day of the week.
 ##'
-# #' @param studs A data.frame with a column representing number
+# #' @param tab A data.frame with a column representing number
 # #' of days since the start of the study.
 # #' @param day The name of the column that represents the
 # #' number of days since the start of the study.
@@ -616,17 +616,17 @@ add_block_labels <- function(
 # #'
 # #'
 # #'@export
-#add_weekdays <- function(studs, day = "day") {
+#add_weekdays <- function(tab, day = "day") {
 #
-#  if ( !(day %in% names(studs)) )
+#  if ( !(day %in% names(tab)) )
 #    stop("Column not found, try changing the day parameter")
 #
 #  `%>%` <- dplyr::`%>%`
 #
-#  d <- studs[[day]]
+#  d <- tab[[day]]
 #  weekdays <- c("mon", "tue", "wed", "thu", "fri", "sat", "sun")
 #
-#  return( studs %>% dplyr::mutate(
+#  return( tab %>% dplyr::mutate(
 #    weekday = factor(weekdays[((d - 1) %% 7 + 1)], levels = weekdays)))
 #}
 #
@@ -646,7 +646,7 @@ add_block_labels <- function(
 ##' The 4 valence / arousal categories are: low (1),
 ##' med-low (2), high-low (3), high (4).
 ##'
-# #'@param studs A data.frame with a column representing
+# #'@param tab A data.frame with a column representing
 # #'Photographic Affect Meter (PAM) score.
 # #'@param pam_name Character. The name of the column
 # #'representing PAM.
@@ -655,28 +655,28 @@ add_block_labels <- function(
 # #'which to code PAM scores.
 # #'
 # #' @export
-#PAM_categorise <- function(studs, pam_name = "picture_idx",
+#PAM_categorise <- function(tab, pam_name = "picture_idx",
 #                           types = c("quadrant", "valence", "arousal") ) {
 #  ub <- c(4, 8, 12, 16)
-#  pams <- studs[[pam_name]]
+#  pams <- tab[[pam_name]]
 #  ## Quadrant
 #  if ( "quadrant" %in% types ) {
 #    qc <- purrr::map_int(pams, function(x) { which(x <= ub)[1] })
-#    studs$pam_q <- qc
+#    tab$pam_q <- qc
 #  }
 #  ## Valence
 #  v1 <- c(1, 2, 5, 6, 3, 4, 7, 8, 9, 10, 13, 14, 11, 12, 15, 16)
 #  if ( "valence" %in% types ) {
 #    vc <- purrr::map_int(v1[pams], function(x) { which(x <= ub)[1] })
-#    studs$pam_v <- vc
+#    tab$pam_v <- vc
 #  }
 #  ## Arousal
 #  a1 <- c(1, 3, 9, 11, 2, 4, 10, 12, 5, 7, 13, 15, 6, 8, 14, 16)
 #  if ( "arousal" %in% types ) {
 #    ac <- purrr::map_int(a1[pams], function(x) { which(x <= ub)[1] })
-#    studs$pam_a <- ac
+#    tab$pam_a <- ac
 #  }
-#  return(studs)
+#  return(tab)
 #}
 #
 #
@@ -685,14 +685,14 @@ add_block_labels <- function(
 #
 ## Helper functions ----------------------------------------------
 #
-### make_daily <- function(timestamp, studs, day1, include_epochs) {
+### make_daily <- function(timestamp, tab, day1, include_epochs) {
 ###
 ###   `%>%` <- dplyr::`%>%`
 ###
-###   if ( !(timestamp %in% names(studs)) )
+###   if ( !(timestamp %in% names(tab)) )
 ###     stop("Column not found, try changing the timestamp parameter")
 ###
-###   posix <- as.POSIXct(studs[[timestamp]], origin="1970-01-01")
+###   posix <- as.POSIXct(tab[[timestamp]], origin="1970-01-01")
 ###
 ###   if ( include_epochs ) {
 ###
@@ -703,7 +703,7 @@ add_block_labels <- function(
 ###       epochs[which(x <= ub)[1]]
 ###     })
 ###
-###     studs <- studs %>%
+###     tab <- tab %>%
 ###        dplyr::mutate(
 ###          time = strftime(posix, format="%H:%M:%S"),
 ###          epoch = factor(epc, levels = epochs),
@@ -712,13 +712,13 @@ add_block_labels <- function(
 ###
 ###    } else {
 ###
-###      studs <- studs %>%
+###      tab <- tab %>%
 ###        dplyr::mutate(
 ###          date = as.Date(posix),
 ###          day = as.numeric(format(date, "%j")) - day1)
 ###    }
 ###
-###   return(studs)
+###   return(tab)
 ### }
 ###
 

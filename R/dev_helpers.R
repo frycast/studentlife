@@ -44,21 +44,21 @@ generate_paths <- function(location, path, name, ext = ".csv") {
              paste0(pr, seq(10,59), ext))
 }
 
-confirm_SL_tibble <- function(studs) {
+confirm_SL_tibble <- function(tab) {
 
-  if ( !("SL_tbl" %in% class(studs)) )
+  if ( !("SL_tbl" %in% class(tab)) )
     {warning("object not of class SL_tbl"); return(FALSE)}
 
-  if ( !("uid" %in% names(studs)) )
+  if ( !("uid" %in% names(tab)) )
     {warning("'uid' not in SL_tbl"); return(FALSE)}
 
-  uids <- studs$uid
+  uids <- tab$uid
 
   if ( !is.factor(uids) || !(levels(uids) %in% getOption("SL_uids")) )
     {warning("'uid' is not factor with correct levels"); return(FALSE)}
 
-  schema <- attr(studs, "schema")
-  table <- attr(studs, "table")
+  schema <- attr(tab, "schema")
+  table <- attr(tab, "table")
 
   if ( !(schema %in% menu_data$menu1_choices)
        || length(schema) > 1 )
@@ -74,45 +74,45 @@ confirm_SL_tibble <- function(studs) {
 
 }
 
-confirm_interval_SL_tibble <- function(studs) {
+confirm_interval_SL_tibble <- function(tab) {
 
-  if ( !("start_timestamp" %in% names(studs)) )
+  if ( !("start_timestamp" %in% names(tab)) )
     {warning("'start_timestamp' not in interval_SL_tbl"); return(FALSE)}
 
-  if ( !("end_timestamp" %in% names(studs)) )
+  if ( !("end_timestamp" %in% names(tab)) )
     {warning("'end_timestamp' not in interval_SL_tbl"); return(FALSE)}
 
-  return(confirm_SL_tibble(studs))
+  return(confirm_SL_tibble(tab))
 
 }
 
-confirm_timestamp_SL_tibble <- function(studs) {
+confirm_timestamp_SL_tibble <- function(tab) {
 
-  if ( !("timestamp" %in% names(studs)) )
+  if ( !("timestamp" %in% names(tab)) )
     {warning("'timestamp' not in timestamp_SL_tbl"); return(FALSE)}
 
-  return(confirm_SL_tibble(studs))
+  return(confirm_SL_tibble(tab))
 }
 
-confirm_dateonly_SL_tibble <- function(studs) {
+confirm_dateonly_SL_tibble <- function(tab) {
 
   # Note that a dateonly_SL_tbl may contain epoch information
   # if it was derived from a formerly timestamped SL_tbl
 
-  if ( !("date" %in% names(studs)) )
+  if ( !("date" %in% names(tab)) )
     {warning("'date' not in dateonly_SL_tbl"); return(FALSE)}
 
-  return(confirm_SL_tibble(studs))
+  return(confirm_SL_tibble(tab))
 }
 
-confirm_reg_SL_tibble <- function(studs) {
+confirm_reg_SL_tibble <- function(tab) {
 
-  blocks <- attributes(studs)$blocks
+  blocks <- attributes(tab)$blocks
 
   if ( length(blocks) == 0 )
     {warning("blocks attribute is empty"); return(FALSE)}
 
-  return(confirm_SL_tibble(studs))
+  return(confirm_SL_tibble(tab))
 }
 
 clean_strings <- function(x) {

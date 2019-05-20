@@ -4,7 +4,7 @@
 \alias{regularise_time}
 \title{regularise_time}
 \usage{
-regularise_time(studs, ..., blocks = c("epoch", "day"), add_NAs = TRUE,
+regularise_time(tab, ..., blocks = c("epoch", "day"), add_NAs = TRUE,
   study_duration = getOption("SL_duration"),
   start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
@@ -13,7 +13,7 @@ regularise_time(studs, ..., blocks = c("epoch", "day"), add_NAs = TRUE,
   by = 1, length.out = study_duration))
 }
 \arguments{
-\item{studs}{An \code{SL_tibble} as returned
+\item{tab}{An \code{SL_tibble} as returned
 by the function \code{\link[studentlife]{load_SL_tibble}}.
 The \code{SL_tibble} must have some date-time information.}
 
@@ -25,7 +25,7 @@ not specified here or under \code{blocks} will be dropped.}
 \item{blocks}{A character vector naming one or more of the
 block options "hour", "epoch", "day", "week", "weekday", "month" or "date".
 If not present as column names in
-\code{studs}, an attempt will be made to infer the blocks from existing
+\code{tab}, an attempt will be made to infer the blocks from existing
 time information with \code{\link[studentlife]{add_block_labels}}.
 The returned \code{data.frame} will
 have one observation (possibly \code{NA}) for each block.}
@@ -60,11 +60,11 @@ in such a way that the intervals between observations are all equal.
 d <- "D:/Datasets/studentlife"
 download_studentlife(dest = d)
 
-studs <- load_SL_tibble(
+tab <- load_SL_tibble(
   loc = d, schema = "sensing", table = "activity", csv_nrows = 10)
 
 regularise_time(
-  studs, blocks = c("day","weekday"),
+  tab, blocks = c("day","weekday"),
   act_inf = max(activity_inference), add_NAs = FALSE)
 }
 

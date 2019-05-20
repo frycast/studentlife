@@ -171,31 +171,31 @@ load_SL_tibble <- function(
 
   if ( path %in% menu_data$EMA_json ) {
 
-    studs <- get_EMA_studs(path, location, vars)
+    tab <- get_EMA_tab(path, location, vars)
 
   } else if ( path %in% menu_data$long_csv ) {
 
-    studs <- get_long_csv_studs(path, location, vars, csv_nrows)
+    tab <- get_long_csv_tab(path, location, vars, csv_nrows)
 
   } else if ( path %in% menu_data$wide_csv ) {
 
-    studs <- get_wide_csv_studs(path, location, vars, csv_nrows)
+    tab <- get_wide_csv_tab(path, location, vars, csv_nrows)
 
   } else if ( path %in% menu_data$txt ) {
 
-    studs <- get_txt_studs(path, location, vars)
+    tab <- get_txt_tab(path, location, vars)
 
   }
 
-  studs$uid <- factor(studs$uid, levels = uid_range)
+  tab$uid <- factor(tab$uid, levels = uid_range)
 
-  studs <- structure(
-    studs, schema = attr(path, "schema"),
+  tab <- structure(
+    tab, schema = attr(path, "schema"),
     table = attr(path, "table"))
 
-  names(studs) <- clean_strings(names(studs))
+  names(tab) <- clean_strings(names(tab))
 
-  return(studs)
+  return(tab)
 }
 
 
@@ -254,7 +254,7 @@ get_path <- function(location, menu1, menu2, time_options) {
   return(result)
 }
 
-get_txt_studs <- function(path, location, vars) {
+get_txt_tab <- function(path, location, vars) {
 
   `%>%` <- dplyr::`%>%`
 
@@ -269,41 +269,41 @@ get_txt_studs <- function(path, location, vars) {
 
   readr::read_csv(paths[2],
                   col_names = c("date-time","location","type"))
-  studs <- list()
-  missing_studs <- 0
+  tab <- list()
+  missing_tab <- 0
   for (i in 1:60) {
     if(file.exists(paths[i])) {
       this_stud <- suppressMessages(
         readr::read_csv(paths[i], progress = FALSE,
                         col_names = c("date-time","location","type")))
       this_stud$uid <- i - 1
-      studs[[length(studs)+1]] <- this_stud
+      tab[[length(tab)+1]] <- this_stud
     } else {
-      missing_studs <<- missing_studs + 1
+      missing_tab <<- missing_tab + 1
     }
   }
 
   # Bind students
-  studs <- studs %>%
+  tab <- tab %>%
     dplyr::bind_rows() %>%
     tibble::as_tibble()
 
-  if ( !missing(vars) ) studs <- dplyr::select(studs, vars)
+  if ( !missing(vars) ) tab <- dplyr::select(tab, vars)
 
-  class(studs) <- c("SL_tbl", class(studs))
+  class(tab) <- c("SL_tbl", class(tab))
 
-  if ( "date-time" %in% names(studs) ) {
-    names(studs)[pmatch("date-time", names(studs))] <- "timestamp"
-    studs$timestamp <- as.numeric(
-      as.POSIXct(studs$timestamp, origin="1970-01-01"))
-    class(studs) <- c("timestamp_SL_tbl", class(studs))
+  if ( "date-time" %in% names(tab) ) {
+    names(tab)[pmatch("date-time", names(tab))] <- "timestamp"
+    tab$timestamp <- as.numeric(
+      as.POSIXct(tab$timestamp, origin="1970-01-01"))
+    class(tab) <- c("timestamp_SL_tbl", class(tab))
   }
 
-  return(studs)
+  return(tab)
 }
 
 
-get_wide_csv_studs <- function(path, location, vars, csv_nrows) {
+get_wide_csv_tab <- function(path, location, vars, csv_nrows) {
 
   full_path <- paste0(location, "/", path, ".csv")
   name <- get_name_from_path(path)
@@ -312,35 +312,35 @@ get_wide_csv_studs <- function(path, location, vars, csv_nrows) {
   cn <- c("uid", "class1", "class2", "class3", "class4")
   if (name == "class") {args$col.names = cn; args$header = FALSE}
   # if (!missing(csv_nrows)) args$nrows = csv_nrows
-  studs <- do.call(utils::read.csv, args)
+  tab <- do.call(utils::read.csv, args)
 
-  studs$uid <- as.integer(substr(studs$uid, 2, 3))
-  studs <- tibble::as_tibble(studs)
-  if(!missing(vars)) studs <- dplyr::select(studs, vars)
+  tab$uid <- as.integer(substr(tab$uid, 2, 3))
+  tab <- tibble::as_tibble(tab)
+  if(!missing(vars)) tab <- dplyr::select(tab, vars)
 
 
   if ( name %in% menu_data$dateonly ) {
 
-    studs <- tidyr::gather(studs, "date", "deadlines", -c("uid"))
-    studs$date <- as.Date(
-      as.POSIXct(substr(studs$date,2,11), format = "%Y.%m.%d"))
+    tab <- tidyr::gather(tab, "date", "deadlines", -c("uid"))
+    tab$date <- as.Date(
+      as.POSIXct(substr(tab$date,2,11), format = "%Y.%m.%d"))
 
-    class(studs) <- c("SL_tbl", class(studs))
+    class(tab) <- c("SL_tbl", class(tab))
 
-    class(studs) <- c("dateonly_SL_tbl", class(studs))
+    class(tab) <- c("dateonly_SL_tbl", class(tab))
 
   } else {
 
-    class(studs) <- c("SL_tbl", class(studs))
+    class(tab) <- c("SL_tbl", class(tab))
 
   }
 
-  return(studs)
+  return(tab)
 }
 
 
 
-get_long_csv_studs <- function(path, location, vars, csv_nrows) {
+get_long_csv_tab <- function(path, location, vars, csv_nrows) {
 
   `%>%` <- dplyr::`%>%`
 
@@ -367,8 +367,8 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
   args <- list()
   if ( !missing(csv_nrows) ) args$nrows <- csv_nrows
 
-  studs <- list()
-  missing_studs <- 0
+  tab <- list()
+  missing_tab <- 0
   if ( name == "wifi_location" || name == "gps" ) {
     args2 <- c(args, list(skip = 1, header = FALSE,
       stringsAsFactors = FALSE))
@@ -384,9 +384,9 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
           do.call(utils::read.csv, args2))
         this_stud$to_drop <- NULL
         this_stud$uid <- i - 1
-        studs[[length(studs)+1]] <- this_stud
+        tab[[length(tab)+1]] <- this_stud
       } else {
-        missing_studs <<- missing_studs + 1
+        missing_tab <<- missing_tab + 1
       }
     }
   } else {
@@ -397,53 +397,53 @@ get_long_csv_studs <- function(path, location, vars, csv_nrows) {
           readr::read_csv(
             file = paths[i], progress = FALSE, n_max = csv_nrows))
         this_stud$uid <- i - 1
-        studs[[length(studs)+1]] <- this_stud
+        tab[[length(tab)+1]] <- this_stud
       } else {
-        missing_studs <<- missing_studs + 1
+        missing_tab <<- missing_tab + 1
       }
     }
   }
 
   if ( path == "sms" && missing(vars) ) {
-    studs <- lapply(studs, function(x){
+    tab <- lapply(tab, function(x){
       x <- dplyr::select(
         as.data.frame(x), "id", "device", "timestamp", "uid")
     })
   }
 
   # Bind students
-  studs <- studs %>%
+  tab <- tab %>%
     dplyr::bind_rows() %>%
     tibble::as_tibble()
 
-  if ( !missing(vars) ) studs <- dplyr::select(studs, vars)
+  if ( !missing(vars) ) tab <- dplyr::select(tab, vars)
 
   if( name %in% menu_data$interval ) {
     if ( !(name == "conversation") ) {
-      if ( "start" %in% names(studs) )
-        names(studs)[pmatch("start", names(studs))] <- "start_timestamp"
-      if ( "end" %in% names(studs) )
-        names(studs)[pmatch("end", names(studs))] <- "end_timestamp"
+      if ( "start" %in% names(tab) )
+        names(tab)[pmatch("start", names(tab))] <- "start_timestamp"
+      if ( "end" %in% names(tab) )
+        names(tab)[pmatch("end", names(tab))] <- "end_timestamp"
     }
   } else if ( name %in% c("bt","gps","wifi","wifi_location") ) {
-    if ( "time" %in% names(studs) )
-      names(studs)[pmatch("time", names(studs))] <- "timestamp"
+    if ( "time" %in% names(tab) )
+      names(tab)[pmatch("time", names(tab))] <- "timestamp"
   }
 
-  class(studs) <- c("SL_tbl", class(studs))
+  class(tab) <- c("SL_tbl", class(tab))
 
-  if ("timestamp" %in% names(studs))
-    class(studs) <- c("timestamp_SL_tbl", class(studs))
+  if ("timestamp" %in% names(tab))
+    class(tab) <- c("timestamp_SL_tbl", class(tab))
 
-  if ("start_timestamp" %in% names(studs) && "end_timestamp" %in% names(studs))
-    class(studs) <- c("interval_SL_tbl", class(studs))
+  if ("start_timestamp" %in% names(tab) && "end_timestamp" %in% names(tab))
+    class(tab) <- c("interval_SL_tbl", class(tab))
 
-  return(studs)
+  return(tab)
 }
 
 
 
-get_EMA_studs <- function(path, location, vars) {
+get_EMA_tab <- function(path, location, vars) {
 
   if (!missing(vars) ) {
     if ("timestamp" %in% vars) {
@@ -451,12 +451,12 @@ get_EMA_studs <- function(path, location, vars) {
     }
   }
 
-  studs <- EMA_to_list(location, path)
+  tab <- EMA_to_list(location, path)
 
   if ( missing(vars) ) {
     # Create a graphical menu to choose vars
 
-    vars_list <- attributes(studs)$vars_present
+    vars_list <- attributes(tab)$vars_present
 
     vars_opt <- unlist(lapply(vars_list, function(x) {
       sort(paste0(unlist(x), collapse = ", "))
@@ -474,9 +474,9 @@ get_EMA_studs <- function(path, location, vars) {
     }
   }
 
-  studs <- EMA_list_to_tibble(studs, vars)
+  tab <- EMA_list_to_tibble(tab, vars)
 
-  ds <- attributes(studs)$dropped_students
+  ds <- attributes(tab)$dropped_students
   ds <- paste0(ds, collapse = ", ")
 
   if (ds > 0) {
@@ -484,13 +484,13 @@ get_EMA_studs <- function(path, location, vars) {
                    " with the choice of vars were numbers ", ds, "."))
   }
 
-  class(studs) <- c("SL_tbl", class(studs))
+  class(tab) <- c("SL_tbl", class(tab))
 
-  if ("timestamp" %in% names(studs)) {
-    class(studs) <- c("EMA_SL_tbl", "timestamp_SL_tbl", class(studs))
+  if ("timestamp" %in% names(tab)) {
+    class(tab) <- c("EMA_SL_tbl", "timestamp_SL_tbl", class(tab))
   }
 
-  return(studs)
+  return(tab)
 }
 
 EMA_to_list <- function(location, path) {
@@ -501,20 +501,20 @@ EMA_to_list <- function(location, path) {
   if (name == "QR_Code") name <- "QR"
   paths <- generate_paths(location, path, name, ext = ".json")
 
-  studs <- list()
-  missing_studs <- 0
+  tab <- list()
+  missing_tab <- 0
   for (i in 1:60) {
     if( file.exists(paths[i])
         && readLines(paths[i], 1, warn = FALSE) != "[]") {
       this_stud <- jsonlite::fromJSON(paths[i])
       this_stud$uid <- i - 1
-      studs[[length(studs)+1]] <- this_stud
+      tab[[length(tab)+1]] <- this_stud
     } else {
-      missing_studs <<- missing_studs + 1
+      missing_tab <<- missing_tab + 1
     }
   }
 
-  vars_present <- unique(lapply(studs, function(x){sort(names(x))} ))
+  vars_present <- unique(lapply(tab, function(x){sort(names(x))} ))
 
   if ( length(vars_present) == 0 ) {
     stop(paste0("There was an error finding data. ",
@@ -557,45 +557,45 @@ EMA_to_list <- function(location, path) {
       -pmatch("location", EMA_questions$question_id),]
   }
 
-  studs <- structure(
-    studs, missing_students = missing_studs,
+  tab <- structure(
+    tab, missing_students = missing_tab,
     vars_present = vars_present,
     EMA_name = name,
     EMA_questions = EMA_questions)
 
-  return(studs)
+  return(tab)
 }
 
-EMA_list_to_tibble <- function(studs, vars = "resp_time") {
+EMA_list_to_tibble <- function(tab, vars = "resp_time") {
 
-  studs_list <- studs
+  tab_list <- tab
 
   # Drop lists not sharing variable names specified by parameter 'vars'
   null_ind <- c()
-  for (i in 1:length(studs)) {
-    if ( !all(vars %in% names(studs[[i]]) )) {
+  for (i in 1:length(tab)) {
+    if ( !all(vars %in% names(tab[[i]]) )) {
       null_ind <- c(null_ind, i)
     }
   }
-  studs[null_ind] <- NULL
+  tab[null_ind] <- NULL
 
   # Drop all columns other than those specified by parameter 'vars'
-  studs <- lapply(studs, function(x){
+  tab <- lapply(tab, function(x){
     dplyr::select(as.data.frame(x), vars)
   })
 
   `%>%` <- dplyr::`%>%`
 
   # Bind and make tibble
-  studs <- studs %>%
+  tab <- tab %>%
     dplyr::bind_rows() %>%
     tibble::as_tibble()
 
-  if ( "resp_time" %in% names(studs) )
-    names(studs)[pmatch("resp_time", names(studs))] <- "timestamp"
+  if ( "resp_time" %in% names(tab) )
+    names(tab)[pmatch("resp_time", names(tab))] <- "timestamp"
 
-  attr(studs_list, "dropped_students") <- null_ind - 1
-  transfer_EMA_attrs(studs) <- studs_list
+  attr(tab_list, "dropped_students") <- null_ind - 1
+  transfer_EMA_attrs(tab) <- tab_list
 
-  return(studs)
+  return(tab)
 }

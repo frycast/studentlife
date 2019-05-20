@@ -21,34 +21,34 @@ download_studentlife(dest = d)
 Then you can use the interactive menu to browse the tables and schemas:
 
 ``` r
-studs <- studentlife::load_SL_tibble(location = d)
+tab <- studentlife::load_SL_tibble(location = d)
 ```
 
 Restrictions can be placed on the menu options with `time_options`:
 
 ``` r
-studs_t <- load_SL_tibble(location = d, time_options = "timestamp", csv_nrows = 10)
-studs_p <- load_SL_tibble(location = d, time_options = "interval" , csv_nrows = 10)
-studs_d <- load_SL_tibble(location = d, time_options = "dateonly" , csv_nrows = 10)
-studs_s <- load_SL_tibble(location = d, time_options = "dateless" , csv_nrows = 10)
+tab_t <- load_SL_tibble(location = d, time_options = "timestamp", csv_nrows = 10)
+tab_p <- load_SL_tibble(location = d, time_options = "interval" , csv_nrows = 10)
+tab_d <- load_SL_tibble(location = d, time_options = "dateonly" , csv_nrows = 10)
+tab_s <- load_SL_tibble(location = d, time_options = "dateless" , csv_nrows = 10)
 ```
 
 The `regularise_time` function can be used to summarise information within blocks of time:
 
 ``` r
-studs <- load_SL_tibble(
+tab <- load_SL_tibble(
   loc = d, schema = "sensing", table = "activity", csv_nrows = 10)
   
 regularise_time(
-  studs, blocks = c("day","weekday"),
+  tab, blocks = c("day","weekday"),
   act_inf = max(activity_inference), add_NAs = FALSE)
 ```
 
 Produce a histogram showing PAM EMA response frequencies over the course of the study:
 
 ``` r
-studs_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
-response_hour_hist(studs_PAM, break_hours = 10)
+tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+response_hour_hist(tab_PAM, break_hours = 10)
 ```
 
 ![](man/figures/response_hour_histogram.png)

@@ -3,7 +3,7 @@
 #' Produce a histogram with frequency of observations
 #' in each hour or number of hours
 #'
-#' @param studs A timestamp_SL_tbl or interval_SL_tbl.
+#' @param tab A timestamp_SL_tbl or interval_SL_tbl.
 #' @param break_hours Specify the width in hours of each
 #' histogram bin.
 #' @param xlab Argument passed to \code{\link[graphics]{hist}}.
@@ -11,24 +11,24 @@
 #' @param ... Arguments passed to \code{\link[graphics]{hist}}.
 #'
 #' @export
-response_hour_hist <- function(studs, break_hours = 1,
+response_hour_hist <- function(tab, break_hours = 10,
                                xlab = "Hours into study",
                                main = paste0("Distribution of ",
-                                             attr(studs,"table"),
+                                             attr(tab,"table"),
                                              " response times"),
                                ...) {
 
-  if ( "timestamp_SL_tbl" %in% class(studs) ) {
+  if ( "timestamp_SL_tbl" %in% class(tab) ) {
 
-    res_t <- studs[["timestamp"]]/3600
+    res_t <- tab[["timestamp"]]/3600
 
-  } else if ( "interval_SL_tbl" %in% class(studs) ) {
+  } else if ( "interval_SL_tbl" %in% class(tab) ) {
 
-    res_t <- studs[["start_timestamp"]]/3600
+    res_t <- tab[["start_timestamp"]]/3600
 
   } else {
 
-    stop("studs not of class timestamp_SL_tbl or interval_SL_tbl")
+    stop("tab not of class timestamp_SL_tbl or interval_SL_tbl")
 
   }
 
@@ -58,11 +58,11 @@ response_hour_hist <- function(studs, break_hours = 1,
 ##' data.frame that have the most responses
 ##'
 ##'@export
-#strongest_uids <- function(studs, n = 10) {
+#strongest_uids <- function(tab, n = 10) {
 #
 #  `%>%` <- dplyr::`%>%`
 #
-#  return((studsg %>% dplyr::group_by(uid) %>%
+#  return((tabg %>% dplyr::group_by(uid) %>%
 #           summarise(nr = dplyr::n()) %>%
 #           dplyr::top_n(n, nr))$uid)
 #}
@@ -82,24 +82,24 @@ response_hour_hist <- function(studs, break_hours = 1,
 ##'
 ##'
 ##' @export
-#vis_stud_NAs <- function(studs) {
+#vis_stud_NAs <- function(tab) {
 #
 #  `%>%` <- dplyr::`%>%`
 #
-#  wide_studsg_NA <- studs %>%
+#  wide_tabg_NA <- tab %>%
 #    dplyr::select(epoch, day, uid, m) %>%
 #    tidyr::spread(uid, m) %>%
 #    dplyr::select(-epoch, -day)
 #
 #  X11()
-#  wide_studsg_NA  %>%
+#  wide_tabg_NA  %>%
 #    vapply(function(x) mean(!is.na(x)), numeric(1)) %>%
 #    sort() %>% barplot(); abline(h = 0.5, col = "red")
 #
-#  print(skimr::skim(studs))
+#  print(skimr::skim(tab))
 #
 #  X11()
-#  visdat::vis_miss(wide_studsg_NA)
+#  visdat::vis_miss(wide_tabg_NA)
 #}
 #
 #
@@ -108,33 +108,33 @@ response_hour_hist <- function(studs, break_hours = 1,
 
 
 
-#blocks_barplot <- function(studs, ..., breaks_multiplier = 1,
+#blocks_barplot <- function(tab, ..., breaks_multiplier = 1,
 #                           blocks = c("day", "hour"),
 #                           xlab = "Hours into study",
 #                           main = "Distribution of response times") {
 #
-#  new_blocks <- blocks[which( !(blocks %in% names(studs)) )]
+#  new_blocks <- blocks[which( !(blocks %in% names(tab)) )]
 #
 #  if ( length(new_blocks) > 0 )
-#    studs <- regularise_time(studs, blocks = new_blocks, add_NAs = FALSE)
+#    tab <- regularise_time(tab, blocks = new_blocks, add_NAs = FALSE)
 #
 #
 #
-#  vals <- tidyr::unite(studs, blocks, blocks, sep = "_", remove = TRUE)$blocks
+#  vals <- tidyr::unite(tab, blocks, blocks, sep = "_", remove = TRUE)$blocks
 #
 #  barplot(table(vals))
 #
-#  if ( "timestamp_SL_tbl" %in% class(studs) ) {
+#  if ( "timestamp_SL_tbl" %in% class(tab) ) {
 #
-#    res_t <- studs[["timestamp"]]/3600
+#    res_t <- tab[["timestamp"]]/3600
 #
-#  } else if ( "interval_SL_tbl" %in% class(studs) ) {
+#  } else if ( "interval_SL_tbl" %in% class(tab) ) {
 #
-#    res_t <- studs[["start_timestamp"]]/3600
+#    res_t <- tab[["start_timestamp"]]/3600
 #
 #  } else {
 #
-#    stop("studs not of class timestamp_SL_tbl or interval_SL_tbl")
+#    stop("tab not of class timestamp_SL_tbl or interval_SL_tbl")
 #
 #  }
 #

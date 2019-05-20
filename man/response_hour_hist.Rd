@@ -4,12 +4,12 @@
 \alias{response_hour_hist}
 \title{observation_block_hist}
 \usage{
-response_hour_hist(studs, break_hours = 1, xlab = "Hours into study",
-  main = paste0("Distribution of ", attr(studs, "table"),
+response_hour_hist(tab, break_hours = 10, xlab = "Hours into study",
+  main = paste0("Distribution of ", attr(tab, "table"),
   " response times"), ...)
 }
 \arguments{
-\item{studs}{A timestamp_SL_tbl or interval_SL_tbl.}
+\item{tab}{A timestamp_SL_tbl or interval_SL_tbl.}
 
 \item{break_hours}{Specify the width in hours of each
 histogram bin.}
