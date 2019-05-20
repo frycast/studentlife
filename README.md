@@ -49,6 +49,25 @@ studs_rt <- regularise_time(studs_t, blocks = "week")
 studs_rt <- regularise_time(studs_t, blocks = c("day","week","weekday"))
 ```
 
+The `regularise_time` function can be used to summarise information within blocks:
+```r
+Mode <- function(x) {
+  y <- na.omit(unique(x))
+  t <- tabulate(match(x, y))
+  v <- which.max(t)
+  return(y[v])
+}
+
+studs_r <- regularise_time(
+  studs_t, activity_inference = Mode(activity_inference))
+studs_r[complete.cases(studs_r), ]
+
+studs_r <- regularise_time(
+  studs_t, activity_inference = Mode(activity_inference),
+  blocks = c("epoch", "weekday"))
+studs_r[complete.cases(studs_r), ]
+```
+
 
 <!--
 DOCUMENTATION CHECKLIST
