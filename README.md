@@ -1,5 +1,5 @@
 
-studentlife: Seamless tidy handling and convenient navigation of a rich mHealth dataset from Dartmouth
+studentlife: Seamless tidy handling and navigation of a rich mHealth dataset from Dartmouth
 ======================================================================================================
 
 Install from GitHub with
