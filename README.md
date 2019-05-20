@@ -33,26 +33,22 @@ studs_d <- load_SL_tibble(location = d, time_options = "dateonly" , csv_nrows = 
 studs_s <- load_SL_tibble(location = d, time_options = "dateless" , csv_nrows = 10)
 ```
 
-The `regularise_time` function can be used to summarise information within blocks:
+The `regularise_time` function can be used to summarise information within blocks of time:
 
 ``` r
-studs_rt <- regularise_time(studs_t, blocks = c("day","week","weekday"))
-
-Mode <- function(x) {
-  y <- na.omit(unique(x))
-  t <- tabulate(match(x, y))
-  v <- which.max(t)
-  return(y[v])
-}
-
-studs_r <- regularise_time(studs_t, blocks = "day", activity_inference = Mode(activity_inference), add_NAs = FALSE)
+studs <- load_SL_tibble(
+  loc = d, schema = "sensing", table = "activity", csv_nrows = 10)
+  
+regularise_time(
+  studs, blocks = c("day","weekday"),
+  act_inf = max(activity_inference), add_NAs = FALSE)
 ```
 
 Produce a histogram showing PAM EMA response frequencies over the course of the study:
 
 ``` r
 studs_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
-response_hour_hist(studs_PAM, breaks_by = 10)
+response_hour_hist(studs_PAM, break_hours = 10)
 ```
 
 ![](man/figures/response_hour_histogram.png)
