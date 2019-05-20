@@ -33,9 +33,30 @@ For more information see the help files:
 ?load_SL_tibble
 ```
 
+Some examples:
+
+```r
+studs_t <- load_SL_tibble(location = d, time_options = "timestamp", csv_nrows = 10)
+studs_p <- load_SL_tibble(location = d, time_options = "interval" , csv_nrows = 10)
+studs_d <- load_SL_tibble(location = d, time_options = "dateonly" , csv_nrows = 10)
+studs_s <- load_SL_tibble(location = d, time_options = "dateless" , csv_nrows = 10)
+
+studs_rt <- regularise_time(studs_t)
+studs_rp <- regularise_time(studs_p)
+studs_rd <- regularise_time(studs_d)
+studs_rs <- regularise_time(studs_s)
+
+studs_rt <- regularise_time(studs_t, blocks = "week")
+studs_rt <- regularise_time(studs_t, blocks = c("day","week","weekday"))
+
+add_block_labels(studs_t)
+add_block_labels(studs_p)
+add_block_labels(studs_d)
+add_block_labels(studs_s)
+```
+
 
 <!--
-
 DOCUMENTATION CHECKLIST
 
 
@@ -88,6 +109,5 @@ Authors are strongly encouraged to include an automated test suite covering the 
     Good: An automated test suite hooked up to an external service such as Travis-CI or similar
     OK: Documented manual steps that can be followed to objectively check the expected functionality of the software (e.g. a sample input file to assert behaviour)
     Bad (not acceptable): No way for you the reviewer to objectively assess whether the software works
-    
 -->
 
