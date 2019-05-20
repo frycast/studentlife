@@ -27,8 +27,8 @@
 #'
 #'@export
 download_studentlife <- function(
-
-  url = "https://studentlife.cs.dartmouth.edu/dataset/dataset.tar.bz2",
+  url = paste0("https://studentlife.cs.dartmouth.edu",
+               "/dataset/dataset.tar.bz2"),
   dest = ".",
   unzip = TRUE,
   untar = TRUE) {

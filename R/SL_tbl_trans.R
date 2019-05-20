@@ -1,37 +1,3 @@
-
-#### THESE EXAMPLES ARE FOR regularise_time
-# #' @examples
-# #' \donttest{
-# #' d <- "D:/Datasets/studentlife"
-# #' download_studentlife(dest = d)
-# #' studs <- load_SL_tibble(
-# #'   location = d, schema = "sensing", table = "activity", csv_nrows = 10)
-# #'
-# #' ## We will use this soon
-# #' Mode <- function(x) {
-# #'   ux <- unique(x)
-# #'   ux[which.max(tabulate(match(x, ux)))]
-# #' }
-# #'
-# #' ## Use default block type and choose the most frequent activity inference
-# #' ## that occurred in each block
-# #' regularise_time(studs, activity_inference = Mode(activity_inference))
-# #'
-# #' ## Use block type (epoch, weekday)
-# #' regularise_time(studs, activity_inference = Mode(activity_inference),
-# #'                 block_type = c("epoch", "weekday")
-# #'
-# #' }
-# #' @param empty_block A character vector indicating the action to take when
-# #' no observations are present in a block of time.
-# #' The currently available actions are "NA" (create an observation
-# #' of \code{NA}) or "drop" (remove blocks that have no observations).
-# #' @param limit_date_range Logical. If \code{TRUE} then no dates will
-# #' be added beyond the maximum and minimum dates present in \code{studs}.
-# #' Otherwise, \code{date_range} used.
-# #' @param limit_uid_range Logical. If \code{TRUE} then no uids will
-# #' be added beyond those present in \code{studs}.
-# #' Otherwise, \code{uid_range} is used.
 #' regularise_time
 #'
 #' Transform an \code{SL_tibble} (as produced by

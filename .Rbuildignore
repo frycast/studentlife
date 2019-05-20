@@ -5,3 +5,4 @@
 ^install\.R$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^data-raw$

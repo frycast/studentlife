@@ -39,7 +39,6 @@ summary.EMA_tbl <- function(object, ...) {
 
 print.summary.EMA_tbl <- function(x, ...) {
 
-
 }
 
 

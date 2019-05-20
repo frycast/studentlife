@@ -5,8 +5,9 @@
 \title{download_studentlife}
 \usage{
 
-  download_studentlife(url = "https://studentlife.cs.dartmouth.edu/dataset/dataset.tar.bz2",
-  dest = ".", unzip = TRUE, untar = TRUE)
+  download_studentlife(url = paste0("https://studentlife.cs.dartmouth.edu",
+  "/dataset/dataset.tar.bz2"), dest = ".", unzip = TRUE,
+  untar = TRUE)
 }
 \arguments{
 \item{url}{The url for the StudentLife dataset.}
