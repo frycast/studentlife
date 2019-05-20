@@ -1,4 +1,10 @@
-[![Travis-CI Build Status](https://travis-ci.org/frycast/studentlife.svg?branch=master)](https://travis-ci.org/frycast/studentlife) ![Travis-CI Build Status](http://www.r-pkg.org/badges/version/studentlife) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/frycast/studentlife/master?urlpath=rstudio) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Code coverage](https://codecov.io/gh/frycast/studentlife/branch/master/graph/badge.svg)](https://codecov.io/github/frycast/studentlife?branch=master)
+<!-- Badges Start -->
+[![Travis-CI Build Status](https://travis-ci.org/frycast/studentlife.svg?branch=master)](https://travis-ci.org/frycast/studentlife) ![Travis-CI Build Status](http://www.r-pkg.org/badges/version/studentlife) 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/frycast/studentlife/master?urlpath=rstudio) 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) 
+[![Code coverage](https://codecov.io/gh/frycast/studentlife/branch/master/graph/badge.svg)](https://codecov.io/github/frycast/studentlife?branch=master)
+[![Lifecycle Status](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/)
+<!-- Badges End -->
 
 ### Install from GitHub with
 ```r
@@ -27,9 +33,24 @@ For more information see the help files:
 ?load_SL_tibble
 ```
 
+Some examples:
+
+```r
+studs_t <- load_SL_tibble(location = d, time_options = "timestamp", csv_nrows = 10)
+studs_p <- load_SL_tibble(location = d, time_options = "interval" , csv_nrows = 10)
+studs_d <- load_SL_tibble(location = d, time_options = "dateonly" , csv_nrows = 10)
+studs_s <- load_SL_tibble(location = d, time_options = "dateless" , csv_nrows = 10)
+
+studs_rt <- regularise_time(studs_t)
+studs_rp <- regularise_time(studs_p)
+studs_rd <- regularise_time(studs_d)
+
+studs_rt <- regularise_time(studs_t, blocks = "week")
+studs_rt <- regularise_time(studs_t, blocks = c("day","week","weekday"))
+```
+
 
 <!--
-
 DOCUMENTATION CHECKLIST
 
 
@@ -82,6 +103,5 @@ Authors are strongly encouraged to include an automated test suite covering the 
     Good: An automated test suite hooked up to an external service such as Travis-CI or similar
     OK: Documented manual steps that can be followed to objectively check the expected functionality of the software (e.g. a sample input file to assert behaviour)
     Bad (not acceptable): No way for you the reviewer to objectively assess whether the software works
-    
 -->
 
