@@ -48,7 +48,7 @@ Produce a histogram showing PAM EMA response frequencies over the course of the 
 
 ``` r
 studs_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
-response_hour_hist(studs_PAM, breaks_by = 10)
+response_hour_hist(studs_PAM, break_hours = 10)
 ```
 
 ![](man/figures/response_hour_histogram.png)
