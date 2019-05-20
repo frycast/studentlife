@@ -47,10 +47,6 @@ studs_rd <- regularise_time(studs_d)
 
 studs_rt <- regularise_time(studs_t, blocks = "week")
 studs_rt <- regularise_time(studs_t, blocks = c("day","week","weekday"))
-
-add_block_labels(studs_t)
-add_block_labels(studs_p)
-add_block_labels(studs_d)
 ```
 
 
