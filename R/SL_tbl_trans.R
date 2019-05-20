@@ -12,12 +12,14 @@
 #' observations are encountered in a block. Any columns
 #' not specified here or under \code{blocks} will be dropped.
 #' @param blocks A character vector naming one or more of the
-#' block options "epoch", "day", "week", "weekday", "month" or "date".
+#' block options "hour", "epoch", "day", "week", "weekday", "month" or "date".
 #' If not present as column names in
 #' \code{studs}, an attempt will be made to infer the blocks from existing
 #' time information with \code{\link[studentlife]{add_block_labels}}.
 #' The returned \code{data.frame} will
 #' have one observation (possibly \code{NA}) for each block.
+#' @add_NAs A logical. If TRUE then NAs will be introduced
+#' to fill missing blocks.
 #' @param study_duration Integer. The duration of the StudentLife
 #' study in days. This parameter does nothing if \code{limit_date_range}
 #' it \code{TRUE}.
@@ -31,11 +33,37 @@
 #' used if \code{limit_date_range} is \code{FALSE}.
 #'
 #' @examples
-#' ## Give an example with custom epochs
+#' \donttest{
+#' d <- "D:/Datasets/studentlife"
+#' download_studentlife(dest = d)
+#' studs <- load_SL_tibble(
+#'   location = d, schema = "sensing", table = "activity", csv_nrows = 10)
+#'
+#' ## We will use this soon
+#' Mode <- function(x) {
+#'   y <- na.omit(unique(x))
+#'   t <- tabulate(match(x, y))
+#'   v <- which.max(t)
+#'   return(y[v])
+#' }
+#'
+#' ## Use default block type and choose the most frequent activity inference
+#' ## that occurred in each block
+#' studs_r <- regularise_time(
+#'   studs, activity_inference = Mode(activity_inference))
+#' studs_r[complete.cases(studs_r), ]
+#'
+#' ## Use block type (epoch, weekday)
+#' studs_r <- regularise_time(
+#'   studs, activity_inference = Mode(activity_inference),
+#'   blocks = c("epoch", "weekday"))
+#' studs_r[complete.cases(studs_r), ]
+#' }
 #'
 #' @export
 regularise_time <- function(
   studs, ..., blocks = c("epoch", "day"),
+  add_NAs = TRUE,
   study_duration = getOption("SL_duration"),
   start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
@@ -45,9 +73,12 @@ regularise_time <- function(
 
   blocks <- tolower(blocks)
   if ( "day" %in% blocks ) blocks <- c("date", blocks)
-  opt <- c("month", "week", "day", "date", "weekday", "epoch")
+  opt <- c("month", "week", "day", "date", "weekday", "epoch", "hour")
   options_check(par = blocks, opt = opt)
   blocks <- sort(factor(blocks, levels = opt))
+
+  eh <- c("epoch", "hour")
+  ft <- c("date", eh[which(eh %in% blocks)])
 
   if ( "interval_SL_tbl" %in% class(studs) ) {
 
@@ -55,7 +86,7 @@ regularise_time <- function(
       stop("corrupt interval_SL_tbl")
 
     studs <- add_block_labels(
-      studs, type = c("date","epoch"), start_date = start_date,
+      studs, type = ft, start_date = start_date,
       epoch_levels = epoch_levels, epoch_ubs = epoch_ubs)
 
   } else if ( "timestamp_SL_tbl" %in% class(studs) ) {
@@ -64,7 +95,7 @@ regularise_time <- function(
       stop("corrupt timestamp_SL_tbl")
 
     studs <- add_block_labels(
-      studs, type = c("date","epoch"), start_date = start_date,
+      studs, type = ft, start_date = start_date,
       epoch_levels = epoch_levels, epoch_ubs = epoch_ubs)
 
   } else if ( "dateonly_SL_tbl" %in% class(studs) ) {
@@ -72,14 +103,14 @@ regularise_time <- function(
     if (!confirm_dateonly_SL_tibble(studs))
       stop("corrupt dateonly_SL_tbl")
 
-    v <- (blocks == "epoch")
+    v <- (blocks == "epoch" || blocks == "hour")
     if (any(v)) {
       blocks <- blocks[which(!v)]
-      warning("Not enough time information to derive epoch")
+      warning("Not enough time information to derive epoch or hour")
     }
 
     studs <- add_block_labels(
-      studs, type = c("date"), start_date = start_date,
+      studs, type = "date", start_date = start_date,
       epoch_levels = epoch_levels, epoch_ubs = epoch_ubs)
 
   } else {
@@ -88,21 +119,34 @@ regularise_time <- function(
                 "timestamp_SL_tbl or dateonly_SL_tbl."))
   }
 
-  if ("epoch" %in% names(studs)){
-    full <- data.frame(
-      uid = factor(
-        rep(uid_range, each = length(date_range)*length(epoch_levels)),
-        levels = uid_range),
-      date = rep(date_range, each = length(epoch_levels)),
-      epoch = factor(epoch_levels, levels = epoch_levels))
-    studsg <- dplyr::left_join(full, studs, by = c("uid", "epoch", "date"))
-  } else if ("date" %in% names(studs)) {
-    full <- data.frame(
-      uid = factor(
-        rep(uid_range, each = length(date_range)),
-        levels = uid_range),
-      date = rep(date_range, each = length(epoch_levels)))
-    studsg <- dplyr::left_join(full, studs, by = c("uid", "date"))
+  if (add_NAs) {
+    if ("hour" %in% names(studs)) {
+      full <- data.frame(
+        uid = factor(
+          rep(uid_range, each = length(date_range)*length(epoch_levels)*24),
+          levels = uid_range),
+        date = rep(date_range, each = length(epoch_levels)*24),
+        epoch = factor(epoch_levels, levels = epoch_levels))
+      studsg <- dplyr::left_join(full, studs, by = c("uid", "hour", "epoch", "date"))
+    } else if ("epoch" %in% names(studs)){
+      full <- data.frame(
+        uid = factor(
+          rep(uid_range, each = length(date_range)*length(epoch_levels)),
+          levels = uid_range),
+        date = rep(date_range, each = length(epoch_levels)),
+        epoch = factor(epoch_levels, levels = epoch_levels))
+      studsg <- dplyr::left_join(full, studs, by = c("uid", "epoch", "date"))
+    } else if ("date" %in% names(studs)) {
+      full <- data.frame(
+        uid = factor(
+          rep(uid_range, each = length(date_range)),
+          levels = uid_range),
+        date = rep(date_range, each = length(epoch_levels)))
+      studsg <- dplyr::left_join(full, studs, by = c("uid", "date"))
+    }
+  } else {
+
+    studsg <- studs
   }
 
   if ( all(c("date","uid") %in% names(studsg)) ) {
@@ -111,7 +155,7 @@ regularise_time <- function(
   }
 
   studsg <- add_block_labels(
-    studsg, type = blocks[which(!(blocks %in% c("epoch", "date")))],
+    studsg, type = blocks[which(!(blocks %in% ft))],
     start_date = start_date, epoch_levels = epoch_levels,
     epoch_ubs = epoch_ubs)
 
@@ -171,14 +215,14 @@ regularise_time <- function(
 #'
 #'@export
 add_block_labels <- function(
-  studs, type = c("epoch", "day", "week", "weekday", "month", "date"),
+  studs, type = c("hour", "epoch", "day", "week", "weekday", "month", "date"),
   interval = "start", warning = TRUE, start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
   epoch_ubs = getOption("SL_epoch_ubs")) {
 
   interval <- tolower(interval)
   type <- tolower(type)
-  opt <- c("month", "week", "day", "date", "weekday", "epoch")
+  opt <- c("month", "week", "day", "date", "weekday", "epoch", "hour")
   options_check(par = type, opt = opt)
   opt <- c("start", "end", "middle")
   options_check(par = interval, opt = opt)
@@ -228,11 +272,23 @@ add_block_labels <- function(
     date <- as.Date(timestamp)
   }
 
+  hours <- NULL
+  if ( "hour" %in% type ) {
+    if ( !is.null(timestamp) ) {
+      hours <- as.integer(strftime(timestamp, format="%H"))
+      studs$hour <- hours
+    } else {
+      if (warning)
+        warning("not enough date-time information to derive hour")
+    }
+  }
+
   if ( "epoch" %in% type ) {
 
     if( !is.null(timestamp) ) {
 
-      hours <- as.integer(strftime(timestamp, format="%H"))
+      if (is.null(hours)) {
+        hours <- as.integer(strftime(timestamp, format="%H"))}
       epc <- purrr::map_chr(hours, function(x){
         epoch_levels[which(x <= epoch_ubs)[1]]
       })

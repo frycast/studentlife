@@ -1,0 +1,57 @@
+---
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/"
+)
+```
+
+# studentlife: Seamless tidy handling and convenient navigation of a rich mHealth dataset from Dartmouth
+
+
+## Install from GitHub with
+```{r , eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("frycast/studentlife")
+```
+
+Details on the dataset are available [here](https://studentlife.cs.dartmouth.edu). Once installed, you can download and extract the data within R:
+
+```{r , eval = FALSE}
+d <- "studentlife"
+library(studentlife)
+download_studentlife(dest = d)
+```
+
+Then you can use the interactive menu to browse the tables and schemas:
+
+```{r , eval = FALSE}
+studs <- studentlife::load_SL_tibble(location = d)
+```
+
+For more information see the help files:
+
+```{r , eval = FALSE}
+?download_studentlife
+?load_SL_tibble
+```
+
+Some examples:
+
+```{r , eval = FALSE}
+studs_t <- load_SL_tibble(location = d, time_options = "timestamp", csv_nrows = 10)
+studs_p <- load_SL_tibble(location = d, time_options = "interval" , csv_nrows = 10)
+studs_d <- load_SL_tibble(location = d, time_options = "dateonly" , csv_nrows = 10)
+studs_s <- load_SL_tibble(location = d, time_options = "dateless" , csv_nrows = 10)
+
+studs_rt <- regularise_time(studs_t)
+studs_rp <- regularise_time(studs_p)
+studs_rd <- regularise_time(studs_d)
+
+studs_rt <- regularise_time(studs_t, blocks = "week")
+studs_rt <- regularise_time(studs_t, blocks = c("day","week","weekday"))
+```

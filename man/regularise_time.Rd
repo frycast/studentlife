@@ -53,6 +53,31 @@ Transform an \code{SL_tibble} (as produced by
 in such a way that the intervals between observations are all equal.
 }
 \examples{
-## Give an example with custom epochs
+\donttest{
+d <- "D:/Datasets/studentlife"
+download_studentlife(dest = d)
+studs <- load_SL_tibble(
+  location = d, schema = "sensing", table = "activity", csv_nrows = 10)
+
+## We will use this soon
+Mode <- function(x) {
+  y <- na.omit(unique(x))
+  t <- tabulate(match(x, y))
+  v <- which.max(t)
+  return(y[v])
+}
+
+## Use default block type and choose the most frequent activity inference
+## that occurred in each block
+studs_r <- regularise_time(
+  studs, activity_inference = Mode(activity_inference))
+studs_r[complete.cases(studs_r), ]
+
+## Use block type (epoch, weekday)
+studs_r <- regularise_time(
+  studs, activity_inference = Mode(activity_inference),
+  blocks = c("epoch", "weekday"))
+studs_r[complete.cases(studs_r), ]
+}
 
 }
