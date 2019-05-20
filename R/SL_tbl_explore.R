@@ -13,7 +13,9 @@
 #' @export
 response_hour_hist <- function(studs, break_hours = 1,
                                xlab = "Hours into study",
-                               main = "Distribution of response times",
+                               main = paste0("Distribution of ",
+                                             attr(studs,"table"),
+                                             " response times"),
                                ...) {
 
   if ( "timestamp_SL_tbl" %in% class(studs) ) {
@@ -32,7 +34,7 @@ response_hour_hist <- function(studs, break_hours = 1,
 
   minr <- min(res_t); maxr <- max(res_t)
   br <- seq(0, maxr - minr + 1, by = break_hours)
-  hist(res_t - minr, ..., breaks = br,
+  graphics::hist(res_t - minr, ..., breaks = br,
        xlab = xlab,
        main = main)
 }

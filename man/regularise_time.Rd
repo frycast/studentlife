@@ -4,7 +4,7 @@
 \alias{regularise_time}
 \title{regularise_time}
 \usage{
-regularise_time(studs, ..., blocks = c("epoch", "day"),
+regularise_time(studs, ..., blocks = c("epoch", "day"), add_NAs = TRUE,
   study_duration = getOption("SL_duration"),
   start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
@@ -23,12 +23,15 @@ observations are encountered in a block. Any columns
 not specified here or under \code{blocks} will be dropped.}
 
 \item{blocks}{A character vector naming one or more of the
-block options "epoch", "day", "week", "weekday", "month" or "date".
+block options "hour", "epoch", "day", "week", "weekday", "month" or "date".
 If not present as column names in
 \code{studs}, an attempt will be made to infer the blocks from existing
 time information with \code{\link[studentlife]{add_block_labels}}.
 The returned \code{data.frame} will
 have one observation (possibly \code{NA}) for each block.}
+
+\item{add_NAs}{A logical. If TRUE then NAs will be introduced
+to fill missing blocks.}
 
 \item{study_duration}{Integer. The duration of the StudentLife
 study in days. This parameter does nothing if \code{limit_date_range}
@@ -56,28 +59,13 @@ in such a way that the intervals between observations are all equal.
 \donttest{
 d <- "D:/Datasets/studentlife"
 download_studentlife(dest = d)
+
 studs <- load_SL_tibble(
-  location = d, schema = "sensing", table = "activity", csv_nrows = 10)
+  loc = d, schema = "sensing", table = "activity", csv_nrows = 10)
 
-## We will use this soon
-Mode <- function(x) {
-  y <- na.omit(unique(x))
-  t <- tabulate(match(x, y))
-  v <- which.max(t)
-  return(y[v])
-}
-
-## Use default block type and choose the most frequent activity inference
-## that occurred in each block
-studs_r <- regularise_time(
-  studs, activity_inference = Mode(activity_inference))
-studs_r[complete.cases(studs_r), ]
-
-## Use block type (epoch, weekday)
-studs_r <- regularise_time(
-  studs, activity_inference = Mode(activity_inference),
-  blocks = c("epoch", "weekday"))
-studs_r[complete.cases(studs_r), ]
+regularise_time(
+  studs, blocks = c("day","weekday"),
+  act_inf = max(activity_inference), add_NAs = FALSE)
 }
 
 }
