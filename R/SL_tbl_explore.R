@@ -37,7 +37,6 @@ response_hour_hist <- function(studs, break_hours = 1,
        main = main)
 }
 
-response_hour_hist(studs_t, breaks_by = 10)
 
 
 
