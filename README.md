@@ -33,24 +33,19 @@ For more information see the help files:
 ?load_SL_tibble
 ```
 
-Some examples:
+Restrictions can be placed on the menu options with `time_options`:
 
 ```r
 studs_t <- load_SL_tibble(location = d, time_options = "timestamp", csv_nrows = 10)
 studs_p <- load_SL_tibble(location = d, time_options = "interval" , csv_nrows = 10)
 studs_d <- load_SL_tibble(location = d, time_options = "dateonly" , csv_nrows = 10)
 studs_s <- load_SL_tibble(location = d, time_options = "dateless" , csv_nrows = 10)
-
-studs_rt <- regularise_time(studs_t)
-studs_rp <- regularise_time(studs_p)
-studs_rd <- regularise_time(studs_d)
-
-studs_rt <- regularise_time(studs_t, blocks = "week")
-studs_rt <- regularise_time(studs_t, blocks = c("day","week","weekday"))
 ```
 
 The `regularise_time` function can be used to summarise information within blocks:
 ```r
+studs_rt <- regularise_time(studs_t, blocks = c("day","week","weekday"))
+
 Mode <- function(x) {
   y <- na.omit(unique(x))
   t <- tabulate(match(x, y))
@@ -58,14 +53,13 @@ Mode <- function(x) {
   return(y[v])
 }
 
-studs_r <- regularise_time(
-  studs_t, activity_inference = Mode(activity_inference))
-studs_r[complete.cases(studs_r), ]
+studs_r <- regularise_time(studs_t, blocks = "day", activity_inference = Mode(activity_inference), add_NAs = FALSE)
+```
 
-studs_r <- regularise_time(
-  studs_t, activity_inference = Mode(activity_inference),
-  blocks = c("epoch", "weekday"))
-studs_r[complete.cases(studs_r), ]
+Produce a histogram showing PAM EMA response frequencies over the course of the study:
+```r
+studs_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+response_hour_hist(studs_PAM, breaks_by = 10)
 ```
 
 
