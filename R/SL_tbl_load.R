@@ -462,11 +462,18 @@ get_EMA_tab <- function(path, location, vars) {
       sort(paste0(unlist(x), collapse = ", "))
     }))
 
+    vars_opt <- vars_opt[order(nchar(vars_opt), decreasing = TRUE)]
+
     if ( length(vars_opt) > 1 ) {
 
+      t <- paste0("Choose variables. ",
+                  "Only students who share all chosen variables ",
+                  "will be loaded. Choosing more variables usually ",
+                  "implies more students will be discarded.")
+
       choice <- utils::menu(choices = vars_opt,
-                     title = "Choose vars:",
-                     graphics = TRUE)
+                     title = t,
+                     graphics = FALSE)
       vars <- vars_list[[choice]]
     } else {
 
@@ -558,7 +565,7 @@ EMA_to_list <- function(location, path) {
   }
 
   tab <- structure(
-    tab, missing_students = missing_tab,
+    tab,
     vars_present = vars_present,
     EMA_name = name,
     EMA_questions = EMA_questions)

@@ -1,4 +1,4 @@
-#' observation_block_hist
+#' response_hour_hist
 #'
 #' Produce a histogram with frequency of observations
 #' in each hour or number of hours
@@ -38,6 +38,45 @@ response_hour_hist <- function(tab, break_hours = 10,
        xlab = xlab,
        main = main)
 }
+
+
+
+
+
+# # THIS FUNCTION HIGHLIGHTS THAT
+# # WE SHOULD INTRODUCE A WAY TO
+# # EASILY RESTRICT THE STUDY
+# # PERIOD AFTER LOADING DATA
+# # AND VISUALISING THE NAs
+# # (IT ALSO NEEDS MORE GENERALITY)
+# #' vis_NAs_by_student
+# #'
+# #' This function should be applied after adding
+# #' NAs to the imported data with \code{\link{add_NAs}}
+# #'
+# #'
+# #' @export
+# vis_NAs_by_student <- function(tab) {
+#   `%>%` <- dplyr::`%>%`
+#   wide_tabg_NA <- tab %>%
+#     dplyr::select(day, epoch, uid, m) %>%
+#     tidyr::spread(uid, m) %>%
+#     dplyr::select(-day, -epoch)
+#   X11()
+#   wide_tabg_NA  %>%
+#     vapply(function(x) mean(!is.na(x)), numeric(1)) %>%
+#     sort() %>% barplot(); abline(h = 0.5, col = "red")
+#   print(skimr::skim(tab))
+#   X11()
+#   visdat::vis_miss(wide_tabg_NA)
+# }
+
+
+
+
+
+
+
 
 
 

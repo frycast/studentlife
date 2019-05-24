@@ -2,7 +2,7 @@
 % Please edit documentation in R/SL_tbl_explore.R
 \name{response_hour_hist}
 \alias{response_hour_hist}
-\title{observation_block_hist}
+\title{response_hour_hist}
 \usage{
 response_hour_hist(tab, break_hours = 10, xlab = "Hours into study",
   main = paste0("Distribution of ", attr(tab, "table"),
