@@ -75,7 +75,10 @@ summary(tab_PAM)
 
 ``` 
 EMA_questions 
- Refer to: Pollak, J. P., Adams, P., & Gay, G. (2011, May). PAM: a photographic affect meter for frequent, in situ measurement of affect. In Proceedings of the SIGCHI conference on Human factors in computing systems (pp. 725-734). ACM. 
+ Refer to: Pollak, J. P., Adams, P., & Gay, G. (2011, May). 
+ PAM: a photographic affect meter for frequent, in situ measurement of affect. 
+ In Proceedings of the SIGCHI conference on Human factors in computing systems 
+ (pp. 725-734). ACM. 
 
 dropped_students 
  None 
