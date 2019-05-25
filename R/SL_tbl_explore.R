@@ -4,8 +4,9 @@
 #' frequencies of observations within hourly blocks,
 #' or blocks of multiple hours.
 #'
-#' @param tab An object of class \code{timestamp_SL_tbl}
-#' or \code{interval_SL_tbl}, as returned by the function
+#' @param tab A StudentLife tibble with time information,
+#' (i.e., and object of class \code{timestamp_SL_tbl}
+#' or \code{interval_SL_tbl}) as can be returned by the function
 #' \code{\link[studentlife]{load_SL_tibble}}.
 #' @param break_hours Specify the width in hours of each
 #' histogram bin.
@@ -60,12 +61,16 @@ response_hour_hist <- function(tab, break_hours = 10,
 #' Produce a visualisation of the number of missing values
 #' among each student in a regularised SL_tbl.
 #'
-#' @param tab A an object of class \code{reg_SL_tbl} as
+#' @param tab A regularised StudentLife tibble (i.e., an object of class
+#' \code{reg_SL_tbl}) as
 #' produced by the function \code{\link[studentlife]{regularise_time}}.
 #' @param response A character string naming one of the columns
 #' in \code{tab} that is not in \code{attr(tab, "blocks")}. If
 #' missing then this defaults to the first such column name.
 #' @param main The plot title, passed to \code{\link[ggplot2]{ggtitle}}.
+#' @param show_perc_col Logical passed to \code{\link[visdat]{vis_miss}}.
+#' TRUE adds in the percentage of missing data in each column into the x axis.
+#' @param ... Arguments passed to \code{\link[visdat]{vis_miss}}.
 #'
 #' @return A ggplot object.
 #'
@@ -82,7 +87,8 @@ response_hour_hist <- function(tab, break_hours = 10,
 #' @export
 vis_NAs <- function(tab, response,
                     main = paste0("Missing values by student (",
-                                  attr(tab,"table"),")" )) {
+                                  attr(tab,"table"),")" ),
+                    show_perc_col = FALSE, ...) {
 
   if (!is_reg_SL_tbl(tab)) stop("tab must be a reg_SL_tbl")
 
@@ -100,7 +106,8 @@ vis_NAs <- function(tab, response,
    dplyr::select(c(blocks, "uid"), response) %>%
    tidyr::spread("uid", response) %>%
    dplyr::select(-blocks)
- visdat::vis_miss(wide_tabg_NA) + ggplot2::ggtitle(main)
+ visdat::vis_miss(wide_tabg_NA, show_perc_col = show_perc_col, ...) +
+   ggplot2::ggtitle(main)
 }
 
 #' vis_response_counts
@@ -109,12 +116,15 @@ vis_NAs <- function(tab, response,
 #' total number of responses
 #' for each student in a regularised SL_tbl.
 #'
-#' @param tab A an object of class \code{reg_SL_tbl} as
+#' @param tab A regularised StudentLife tibble (i.e., an object of class
+#' \code{reg_SL_tbl}) as
 #' produced by the function \code{\link[studentlife]{regularise_time}}.
 #' @param response A character string naming one of the columns
 #' in \code{tab} that is not in \code{attr(tab, "blocks")}. If
 #' missing then this defaults to the first such column name.
 #' @param main The plot title, passed to \code{\link[graphics]{barplot}}.
+#' @param xlab The x axis label, passed to \code{\link[graphics]{barplot}}.
+#' @param ylab The y axis label, passed to \code{\link[graphics]{barplot}}.
 #' @param ... Arguments passed to \code{\link[graphics]{barplot}}.
 #'
 #' @examples
@@ -130,7 +140,9 @@ vis_NAs <- function(tab, response,
 #' @export
 vis_response_counts <- function(tab, response,
                                 main = paste0("Total responses by student (",
-                                              attr(tab,"table"),")" ),...) {
+                                              attr(tab,"table"),")" ),
+                                xlab = "Student UID",
+                                ylab = "Response count", ...) {
   if (!is_reg_SL_tbl(tab)) stop("tab must be a reg_SL_tbl")
 
   blocks <- attr(tab, "blocks")
@@ -148,7 +160,9 @@ vis_response_counts <- function(tab, response,
     dplyr::select(-blocks)
   wide_tabg_NA  %>%
     vapply(function(x) sum(!is.na(x)), numeric(1)) %>%
-    sort() %>% graphics::barplot(main = main)
+    sort() %>% graphics::barplot(main = main,
+                                 xlab = xlab,
+                                 ylab = ylab)
 }
 
 

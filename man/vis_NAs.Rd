@@ -5,10 +5,11 @@
 \title{vis_NAs}
 \usage{
 vis_NAs(tab, response, main = paste0("Missing values by student (",
-  attr(tab, "table"), ")"))
+  attr(tab, "table"), ")"), show_perc_col = FALSE, ...)
 }
 \arguments{
-\item{tab}{A an object of class \code{reg_SL_tbl} as
+\item{tab}{A regularised StudentLife tibble (i.e., an object of class
+\code{reg_SL_tbl}) as
 produced by the function \code{\link[studentlife]{regularise_time}}.}
 
 \item{response}{A character string naming one of the columns
@@ -16,6 +17,11 @@ in \code{tab} that is not in \code{attr(tab, "blocks")}. If
 missing then this defaults to the first such column name.}
 
 \item{main}{The plot title, passed to \code{\link[ggplot2]{ggtitle}}.}
+
+\item{show_perc_col}{Logical passed to \code{\link[visdat]{vis_miss}}.
+TRUE adds in the percentage of missing data in each column into the x axis.}
+
+\item{...}{Arguments passed to \code{\link[visdat]{vis_miss}}.}
 }
 \value{
 A ggplot object.

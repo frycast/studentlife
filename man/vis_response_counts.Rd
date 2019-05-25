@@ -6,10 +6,11 @@
 \usage{
 vis_response_counts(tab, response,
   main = paste0("Total responses by student (", attr(tab, "table"), ")"),
-  ...)
+  xlab = "Student UID", ylab = "Response count", ...)
 }
 \arguments{
-\item{tab}{A an object of class \code{reg_SL_tbl} as
+\item{tab}{A regularised StudentLife tibble (i.e., an object of class
+\code{reg_SL_tbl}) as
 produced by the function \code{\link[studentlife]{regularise_time}}.}
 
 \item{response}{A character string naming one of the columns
@@ -17,6 +18,10 @@ in \code{tab} that is not in \code{attr(tab, "blocks")}. If
 missing then this defaults to the first such column name.}
 
 \item{main}{The plot title, passed to \code{\link[graphics]{barplot}}.}
+
+\item{xlab}{The x axis label, passed to \code{\link[graphics]{barplot}}.}
+
+\item{ylab}{The y axis label, passed to \code{\link[graphics]{barplot}}.}
 
 \item{...}{Arguments passed to \code{\link[graphics]{barplot}}.}
 }

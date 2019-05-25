@@ -34,6 +34,8 @@ Then you can use the interactive menu to browse the tables and schemas:
 tab <- studentlife::load_SL_tibble(location = d)
 ```
 
+The object returned by the above function is called a
+'StudentLife tibble' (or SL_tbl).
 Restrictions can be placed on the menu options with `time_options`:
 
 ``` r
@@ -43,7 +45,8 @@ tab_d <- load_SL_tibble(location = d, time_options = "dateonly" , csv_nrows = 10
 tab_s <- load_SL_tibble(location = d, time_options = "dateless" , csv_nrows = 10)
 ```
 
-The `regularise_time` function can be used to summarise information within blocks of time:
+The `regularise_time` function can be used to summarise information within blocks of time,
+producing an object called a 'regularised StudentLife tibble' (or reg_SL_tbl):
 
 ``` r
 tab <- load_SL_tibble(
@@ -62,6 +65,66 @@ response_hour_hist(tab_PAM, break_hours = 10)
 ```
 
 ![](man/figures/response_hour_histogram.png)
+
+A summary will produce details such as EMA question, UIDs of 
+dropped students, schema name, table name, and summary statistics.
+
+```r
+summary(tab_PAM)
+```
+
+``` 
+EMA_questions 
+ Refer to: Pollak, J. P., Adams, P., & Gay, G. (2011, May). PAM: a photographic affect meter for frequent, in situ measurement of affect. In Proceedings of the SIGCHI conference on Human factors in computing systems (pp. 725-734). ACM. 
+
+dropped_students 
+ None 
+
+column_names 
+ picture_idx timestamp uid 
+
+schema 
+ EMA 
+
+table 
+ PAM 
+
+Skim summary statistics
+ n obs: 9040 
+ n variables: 3 
+
+-- Variable type:factor --------------------------------------------------------
+ variable missing complete    n n_unique                        top_counts ordered
+      uid       0     9040 9040       49 59: 437, 0: 390, 19: 384, 57: 377   FALSE
+
+-- Variable type:numeric -------------------------------------------------------
+    variable missing complete    n    mean         sd      p0     p25     p50      p75     p100
+ picture_idx       0     9040 9040 8.85          4.17 1       6       8       12       16      
+   timestamp       0     9040 9040 1.4e+09 1608614.45 1.4e+09 1.4e+09 1.4e+09  1.4e+09  1.4e+09
+     hist
+ ▂▃▆▇▃▆▅▅
+ ▇▇▆▅▃▁▁▁
+```
+
+After regularising a StudentLife tibble, we can visualise the 
+missing values in each block for each student:
+
+```r
+reg_PAM <- regularise_time(tab_PAM, blocks = c("day", "epoch"), m = mean(picture_idx, na.rm = TRUE))
+vis_NAs(reg_PAM, response = "m")
+```
+![](man/figures/vis_NAs.png)
+
+We can also visualise and compare the total number of responses 
+received from each student over the course of the study:
+
+```r
+vis_response_counts(reg_PAM, response = "m")
+```
+
+![](man/figures/response_counts.png)
+
+
 
 <!--
 DOCUMENTATION CHECKLIST

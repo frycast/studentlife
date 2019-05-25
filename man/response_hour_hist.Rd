@@ -9,8 +9,9 @@ response_hour_hist(tab, break_hours = 10, xlab = "Hours into study",
   " response times"), ...)
 }
 \arguments{
-\item{tab}{An object of class \code{timestamp_SL_tbl}
-or \code{interval_SL_tbl}, as returned by the function
+\item{tab}{A StudentLife tibble with time information,
+(i.e., and object of class \code{timestamp_SL_tbl}
+or \code{interval_SL_tbl}) as can be returned by the function
 \code{\link[studentlife]{load_SL_tibble}}.}
 
 \item{break_hours}{Specify the width in hours of each

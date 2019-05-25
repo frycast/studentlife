@@ -93,10 +93,10 @@ summary.SL_tbl <- function(object, s, ...) {
 
   if (missing(s)) s <- list()
 
-  s$names <- names(object)
+  s$column_names <- names(object)
 
-  attr(object, "schema")
-  attr(object, "table")
+  s$schema <- attr(object, "schema")
+  s$table <- attr(object, "table")
 
   s$skim <- skimr::skim(object)
 
