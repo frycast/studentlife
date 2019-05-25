@@ -53,7 +53,8 @@ used if \code{limit_date_range} is \code{FALSE}.}
 \description{
 Transform an \code{SL_tibble} (as produced by
 \code{\link[studentlife]{load_SL_tibble}})
-in such a way that the intervals between observations are all equal.
+in such a way that observations are aggregated into
+equal length intervals referred to as 'blocks'.
 }
 \examples{
 \donttest{
