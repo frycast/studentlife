@@ -35,7 +35,7 @@ tab <- studentlife::load_SL_tibble(location = d)
 ```
 
 The object returned by the above function is called a
-'StudentLife tibble' (or SL_tbl).
+'StudentLife tibble' (or `SL_tbl`).
 Restrictions can be placed on the menu options with `time_options`:
 
 ``` r
@@ -46,7 +46,7 @@ tab_s <- load_SL_tibble(location = d, time_options = "dateless" , csv_nrows = 10
 ```
 
 The `regularise_time` function can be used to summarise information within blocks of time,
-producing an object called a 'regularised StudentLife tibble' (or reg_SL_tbl):
+producing an object called a 'regularised StudentLife tibble' (or `reg_SL_tbl`):
 
 ``` r
 tab <- load_SL_tibble(
