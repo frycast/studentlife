@@ -446,9 +446,7 @@ get_long_csv_tab <- function(path, location, vars, csv_nrows) {
 get_EMA_tab <- function(path, location, vars) {
 
   if (!missing(vars) ) {
-    if ("timestamp" %in% vars) {
-      vars[pmatch("timestamp", vars)] <- "resp_time"
-    }
+    vars[pmatch("timestamp", vars)] <- "resp_time"
   }
 
   tab <- EMA_to_list(location, path)
@@ -459,7 +457,9 @@ get_EMA_tab <- function(path, location, vars) {
     vars_list <- attributes(tab)$vars_present
 
     vars_opt <- unlist(lapply(vars_list, function(x) {
-      sort(paste0(unlist(x), collapse = ", "))
+      vec <- unlist(x)
+      vec[pmatch("resp_time", vec)] <- "timestamp"
+      sort(paste0(vec, collapse = ", "))
     }))
 
     vars_opt <- vars_opt[order(nchar(vars_opt), decreasing = TRUE)]
@@ -482,6 +482,12 @@ get_EMA_tab <- function(path, location, vars) {
   }
 
   tab <- EMA_list_to_tibble(tab, vars)
+
+  vars[pmatch("resp_time", vars)] <- "timestamp"
+  for (v in vars) {
+    if (all(strings_are_numeric(tab[[v]])))
+      tab[[v]] <- as.numeric(tab[[v]])
+  }
 
   ds <- attributes(tab)$dropped_students
   ds <- paste0(ds, collapse = ", ")

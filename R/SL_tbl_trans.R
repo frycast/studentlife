@@ -2,8 +2,8 @@
 #'
 #' Transform an \code{SL_tibble} (as produced by
 #' \code{\link[studentlife]{load_SL_tibble}})
-#' in such a way that observations are aggregated into
-#' equal length intervals referred to as 'blocks'.
+#' in such a way that the observations are aggregated in
+#' equal length intervals called 'blocks'.
 #'
 #' @param tab An \code{SL_tibble} as returned
 #' by the function \code{\link[studentlife]{load_SL_tibble}}.
@@ -155,7 +155,7 @@ regularise_time <- function(
   }
 
   transfer_SL_tbl_attrs(tabg) <- tab
-  attr(tabg, "blocks") <- blocks
+  attr(tabg, "blocks") <- as.character(blocks)
 
   return(tabg)
 }
