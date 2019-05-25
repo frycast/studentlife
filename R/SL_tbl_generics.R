@@ -107,10 +107,10 @@ summary.SL_tbl <- function(object, s, ...) {
 #'@keywords internal
 #'
 #'@export
-print.summary.SL_tbl <- function(s, ...) {
+print.summary.SL_tbl <- function(x, ...) {
 
-  for (n in names(s)) {
-    k <- s[[n]]
+  for (n in names(x)) {
+    k <- x[[n]]
     if (is.list(k))
       print(k)
     else {cat(n, "\n", k, "\n\n")}

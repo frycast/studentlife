@@ -53,8 +53,10 @@ used if \code{limit_date_range} is \code{FALSE}.}
 \description{
 Transform an \code{SL_tibble} (as produced by
 \code{\link[studentlife]{load_SL_tibble}})
-in such a way that observations are aggregated into
-equal length intervals referred to as 'blocks'.
+in such a way that the observations are aggregated in
+equal length intervals called 'blocks' (for more
+information on blocks see
+\code{\link[studentlife]{add_block_labels}}).
 }
 \examples{
 \donttest{
@@ -64,9 +66,11 @@ download_studentlife(dest = d)
 tab <- load_SL_tibble(
   loc = d, schema = "sensing", table = "activity", csv_nrows = 10)
 
-regularise_time(
+r_tab <- regularise_time(
   tab, blocks = c("day","weekday"),
   act_inf = max(activity_inference), add_NAs = FALSE)
+
+r_tab
 }
 
 }

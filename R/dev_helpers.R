@@ -119,41 +119,26 @@ clean_strings <- function(x) {
   return(gsub('([[:punct:]])|\\s+','_', x))
 }
 
-#'@keywords internal
-#'
-#'@export
 is_SL_tbl <- function (x)
 {
   inherits(x, "SL_tbl")
 }
 
-#'@keywords internal
-#'
-#'@export
 is_dateonly_SL_tbl <- function (x)
 {
   inherits(x, "dateonly_SL_tbl")
 }
 
-#'@keywords internal
-#'
-#'@export
 is_interval_SL_tbl <- function (x)
 {
   inherits(x, "interval_SL_tbl")
 }
 
-#'@keywords internal
-#'
-#'@export
 is_timestamp_SL_tbl <- function (x)
 {
   inherits(x, "timestamp_SL_tbl")
 }
 
-#'@keywords internal
-#'
-#'@export
 is_reg_SL_tbl <- function (x)
 {
   inherits(x, "reg_SL_tbl")

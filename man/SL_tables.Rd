@@ -12,7 +12,9 @@
 SL_tables
 }
 \description{
-The list elements are character vectors of table names
-and the element names correspond to schema names.
+This command returns a 5 element list. Each of the five elements
+are given names corresponding to the schema names of the studentlife
+data set. Each element is a vector of strings, where each string
+corresponds to the name of a table within the respective schema.
 }
 \keyword{datasets}

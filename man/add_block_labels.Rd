@@ -35,7 +35,7 @@ available date-time data.}
 \item{epoch_levels}{A character vector of epoch levels.}
 
 \item{epoch_ubs}{An integer vector that defines the hour that is
-the upper boundary of each epoch}
+the upper boundary of each epoch.}
 }
 \description{
 Classify observations from an \code{SL_tibble}
@@ -53,4 +53,18 @@ StudentLife study, rounded downs),
 "weekday" (giving the day of the week),
 "month" (giving integer number of months since the start of the
 StudentLife study, rounded down) and "date".
+}
+\examples{
+\donttest{
+d <- "D:/Datasets/studentlife"
+download_studentlife(dest = d)
+
+tab <- load_SL_tibble(
+  loc = d, schema = "sensing", table = "activity", csv_nrows = 10)
+
+b_tab <- add_block_labels(tab)
+b_tab
+}
+
+
 }

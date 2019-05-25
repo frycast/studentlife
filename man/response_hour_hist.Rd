@@ -9,7 +9,9 @@ response_hour_hist(tab, break_hours = 10, xlab = "Hours into study",
   " response times"), ...)
 }
 \arguments{
-\item{tab}{A timestamp_SL_tbl or interval_SL_tbl.}
+\item{tab}{An object of class \code{timestamp_SL_tbl}
+or \code{interval_SL_tbl}, as returned by the function
+\code{\link[studentlife]{load_SL_tibble}}.}
 
 \item{break_hours}{Specify the width in hours of each
 histogram bin.}
@@ -21,6 +23,18 @@ histogram bin.}
 \item{...}{Arguments passed to \code{\link[graphics]{hist}}.}
 }
 \description{
-Produce a histogram with frequency of observations
-in each hour or number of hours
+This function produces a histogram that visualizes the
+frequencies of observations within hourly blocks,
+or blocks of multiple hours.
+}
+\examples{
+\donttest{
+d <- "D:/Datasets/studentlife"
+download_studentlife(dest = d)
+
+tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+
+response_hour_hist(tab_PAM)
+}
+
 }

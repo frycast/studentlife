@@ -1,14 +1,27 @@
 #' response_hour_hist
 #'
-#' Produce a histogram with frequency of observations
-#' in each hour or number of hours
+#' This function produces a histogram that visualizes the
+#' frequencies of observations within hourly blocks,
+#' or blocks of multiple hours.
 #'
-#' @param tab A timestamp_SL_tbl or interval_SL_tbl.
+#' @param tab An object of class \code{timestamp_SL_tbl}
+#' or \code{interval_SL_tbl}, as returned by the function
+#' \code{\link[studentlife]{load_SL_tibble}}.
 #' @param break_hours Specify the width in hours of each
 #' histogram bin.
 #' @param xlab Argument passed to \code{\link[graphics]{hist}}.
 #' @param main Argument passed to \code{\link[graphics]{hist}}.
 #' @param ... Arguments passed to \code{\link[graphics]{hist}}.
+#'
+#' @examples
+#' \donttest{
+#' d <- "D:/Datasets/studentlife"
+#' download_studentlife(dest = d)
+#'
+#' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+#'
+#' response_hour_hist(tab_PAM)
+#' }
 #'
 #' @export
 response_hour_hist <- function(tab, break_hours = 10,
@@ -54,8 +67,17 @@ response_hour_hist <- function(tab, break_hours = 10,
 #' missing then this defaults to the first such column name.
 #' @param main The plot title, passed to \code{\link[ggplot2]{ggtitle}}.
 #'
-#'
 #' @return A ggplot object.
+#'
+#' @examples
+#' \donttest{
+#' d <- "D:/Datasets/studentlife"
+#' download_studentlife(dest = d)
+#'
+#' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+#'
+#' vis_NAs(reg_PAM, response = "m")
+#' }
 #'
 #' @export
 vis_NAs <- function(tab, response,
@@ -95,6 +117,16 @@ vis_NAs <- function(tab, response,
 #' @param main The plot title, passed to \code{\link[graphics]{barplot}}.
 #' @param ... Arguments passed to \code{\link[graphics]{barplot}}.
 #'
+#' @examples
+#' \donttest{
+#' d <- "D:/Datasets/studentlife"
+#' download_studentlife(dest = d)
+#'
+#' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+#'
+#' vis_response_counts(reg_PAM, response = "m")
+#' }
+#'
 #' @export
 vis_response_counts <- function(tab, response,
                                 main = paste0("Total responses by student (",
@@ -119,25 +151,7 @@ vis_response_counts <- function(tab, response,
     sort() %>% graphics::barplot(main = main)
 }
 
-#vis_NAs_by_student <- function(tab) {
-#
-#  if (!is_reg_SL_tbl(tab)) stop("tab must be a reg_SL_tbl")
-#
-#  blocks <- attr(tab, "blocks")
-#
-#  `%>%` <- dplyr::`%>%`
-#  wide_tabg_NA <- tab %>%
-#    dplyr::select(day, epoch, uid, m) %>%
-#    tidyr::spread(uid, m) %>%
-#    dplyr::select(-day, -epoch)
-#  X11()
-#  wide_tabg_NA  %>%
-#    vapply(function(x) mean(!is.na(x)), numeric(1)) %>%
-#    sort() %>% barplot(); abline(h = 0.5, col = "red")
-#  print(skimr::skim(tab))
-#  X11()
-#  visdat::vis_miss(wide_tabg_NA)
-#}
+
 
 
 

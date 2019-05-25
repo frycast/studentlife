@@ -3,7 +3,9 @@
 #' Transform an \code{SL_tibble} (as produced by
 #' \code{\link[studentlife]{load_SL_tibble}})
 #' in such a way that the observations are aggregated in
-#' equal length intervals called 'blocks'.
+#' equal length intervals called 'blocks' (for more
+#' information on blocks see
+#' \code{\link[studentlife]{add_block_labels}}).
 #'
 #' @param tab An \code{SL_tibble} as returned
 #' by the function \code{\link[studentlife]{load_SL_tibble}}.
@@ -41,9 +43,11 @@
 #' tab <- load_SL_tibble(
 #'   loc = d, schema = "sensing", table = "activity", csv_nrows = 10)
 #'
-#' regularise_time(
+#' r_tab <- regularise_time(
 #'   tab, blocks = c("day","weekday"),
 #'   act_inf = max(activity_inference), add_NAs = FALSE)
+#'
+#' r_tab
 #' }
 #'
 #' @export
@@ -197,7 +201,20 @@ regularise_time <- function(
 #'@param start_date Date. The date that the StudentLife study started.
 #'@param epoch_levels A character vector of epoch levels.
 #'@param epoch_ubs An integer vector that defines the hour that is
-#'the upper boundary of each epoch
+#'the upper boundary of each epoch.
+#'
+#' @examples
+#' \donttest{
+#' d <- "D:/Datasets/studentlife"
+#' download_studentlife(dest = d)
+#'
+#' tab <- load_SL_tibble(
+#'   loc = d, schema = "sensing", table = "activity", csv_nrows = 10)
+#'
+#' b_tab <- add_block_labels(tab)
+#' b_tab
+#' }
+#'
 #'
 #'@export
 add_block_labels <- function(
