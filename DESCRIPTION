@@ -2,14 +2,14 @@ URL: https://github.com/Frycast/studentlife
 BugReports: https://github.com/Frycast/studentlife/issues
 Package: studentlife
 Type: Package
-Title: Useful Functions for the StudentLife Dataset
+Title: Tidy handling and navigation of the Student Life dataset
 Version: 1.0.0
 Authors@R: c(person("Daniel", "Fryer", 
                      role = c("aut", "cre"), 
                      email = "d.fryer@latrobe.edu.au",
                      comment = c(ORCID = "0000-0001-6032-0522")))
-Description: These functions are being used by the package author 
-    for investigation into the StudentLife dataset. 
+Description: Seamless tidy handling and navigation of a rich 
+    mobile-health dataset from Dartmouth college.
 Depends: R (>= 3.4.0)
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
