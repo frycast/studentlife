@@ -102,14 +102,17 @@ summary.SL_tbl <- function(object, s, ...) {
 #'@export
 print.summary.SL_tbl <- function(x, ...) {
 
-  if (get_schema(x) == "survey") {
-
+  if (x$schema == "survey") {
+    print("This summary is under development")
   } else {
     for (n in names(x)) {
       k <- x[[n]]
-      if (is.list(k))
+      if (is.list(k)) {
+        cat(crayon::green(n), "\n")
         print(k)
-      else {cat(n, "\n", k, "\n\n")}
+        cat("\n\n")
+      }
+      else {cat(crayon::green(n), "\n", k, "\n\n")}
     }
   }
 }

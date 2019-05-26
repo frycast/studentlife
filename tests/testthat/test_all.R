@@ -1,3 +1,4 @@
+###########################################################
 testthat::context("SL_tbl load")
 
 loc <- "tests/testthat/testdata/SL_testdata"
@@ -141,7 +142,6 @@ testthat::test_that( "load tables from survey", {
   }
 })
 
-
 testthat::test_that(
   "load tables from survey with vars = uid and csv_nrows missing", {
   for (i in 1:length(menu_data$survey)) {
@@ -168,9 +168,7 @@ testthat::test_that( "load tables from other with vars = timestamp", {
   }
 })
 
-
-
-
+###########################################################
 testthat::context("SL_tbl transform")
 
 abl_lists <- load_lists
@@ -256,9 +254,7 @@ testthat::test_that(
     }
 })
 
-
-
-
+###########################################################
 testthat::context("protection generics")
 studs_t <- load_lists[["a1"]][[1L]]
 studs_p <- load_lists[["s1"]][[4L]]
@@ -347,6 +343,7 @@ testthat::test_that("dateonly_SL_tbl is well protected", {
   testthat::expect_s3_class(studs6, "SL_tbl")
 })
 
+###########################################################
 # testthat::context("user generics")
 # testthat::test_that("summary and print generics produce output", {
 #   for (n in names(load_lists)) {

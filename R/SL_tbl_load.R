@@ -193,7 +193,9 @@ load_SL_tibble <- function(
     tab, schema = attr(path, "schema"),
     table = attr(path, "table"))
 
-  names(tab) <- clean_strings(names(tab))
+  # This can be removed after survey table upgrade
+  if (get_schema(tab) != "survey")
+    names(tab) <- clean_strings(names(tab))
 
   return(tab)
 }
