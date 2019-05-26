@@ -24,7 +24,6 @@ download_studentlife(dest = d)
 tab_S <- load_SL_tibble(
   schema = "survey", table = "BigFive", location = d)
 
-
 # Returns TRUE
 is_dateless_SL_tibble(tab_S)
 }

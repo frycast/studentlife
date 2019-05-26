@@ -276,7 +276,6 @@ is_reg_SL_tibble <- function (x)
 #' tab_S <- load_SL_tibble(
 #'   schema = "survey", table = "BigFive", location = d)
 #'
-#'
 #' # Returns TRUE
 #' is_dateless_SL_tibble(tab_S)
 #' }
@@ -339,6 +338,22 @@ get_schema <- function(x) {
 get_table <- function(x) {
   return(attr(x,"table"))
 }
+
+#' get_EMA_questions
+#'
+#' Get the EMA questions from a StudentLife tibble
+#' whose schema is "EMA".
+#'
+#' @param x A StudentLife tibble whose schema is
+#' EMA, as output by the function
+#' \code{\link[studentlife]{load_SL_tibble}}.
+#'
+#' @return The EMA_questions attribute of \code{x}
+#'
+get_EMA_questions <- function(x) {
+  return(attr(x, "EMA_questions"))
+}
+
 
 strings_are_numeric <- function(x) {
   grepl("^[0-9]+$", x[!is.na(x)], perl=T)

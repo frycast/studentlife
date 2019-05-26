@@ -104,6 +104,7 @@ testthat::test_that( "load tables from EMA with vars = timestamp", {
     testthat::expect_s3_class(load_list_a1[[!!i]], "SL_tbl")
     testthat::expect_s3_class(load_list_a1[[!!i]], "timestamp_SL_tbl")
     testthat::expect_true(is_timestamp_SL_tibble(load_list_a1[[!!i]]))
+    testthat::expect_true(length(get_EMA_questions(load_list_a1[[!!i]])) > 0)
   }
 })
 
@@ -113,6 +114,7 @@ testthat::test_that( "load tables from EMA with vars = uid", {
     testthat::expect_s3_class(load_list_a2[[!!i]], "SL_tbl")
     testthat::expect_s3_class(load_list_a2[[!!i]], "timestamp_SL_tbl")
     testthat::expect_true(is_timestamp_SL_tibble(load_list_a2[[!!i]]))
+    testthat::expect_true(length(get_EMA_questions(load_list_a2[[!!i]])) > 0)
   }
 })
 
@@ -345,24 +347,22 @@ testthat::test_that("dateonly_SL_tbl is well protected", {
   testthat::expect_s3_class(studs6, "SL_tbl")
 })
 
-
-
-#testthat::context("user generics")
-#testthat::test_that("summary and print generics produce output", {
-#  for (n in names(load_lists)) {
-#    for ( i in 1:length(load_lists[[n]]) ) {
-#      studs <- load_lists[[n]][[i]]
-#      tname <- attr(studs, "table")
-#      if ( tname %in% menu_data$timestamp ) {
-#        testthat::expect_true(c("timestamp") %in% summary(studs)$time_info)
-#      } else if ( tname %in% menu_data$interval ) {
-#        testthat::expect_true(c("interval") %in% summary(studs)$time_info)
-#      } else if ( tname %in% menu_data$dateonly ) {
-#        testthat::expect_true(c("date-only") %in% summary(studs)$time_info)
-#      } else {
-#        print(summary(studs)); cat("\n\n\n\n\n")
-#        testthat::expect_true(length(summary(studs)) > 0)
-#      }
-#    }
-#  }
-#})
+# testthat::context("user generics")
+# testthat::test_that("summary and print generics produce output", {
+#   for (n in names(load_lists)) {
+#     for ( i in 1:length(load_lists[[n]]) ) {
+#       studs <- load_lists[[n]][[i]]
+#       tname <- attr(studs, "table")
+#       if ( tname %in% menu_data$timestamp ) {
+#         testthat::expect_true(c("timestamp") %in% summary(studs)$time_info)
+#       } else if ( tname %in% menu_data$interval ) {
+#         testthat::expect_true(c("interval") %in% summary(studs)$time_info)
+#       } else if ( tname %in% menu_data$dateonly ) {
+#         testthat::expect_true(c("date-only") %in% summary(studs)$time_info)
+#       } else {
+#         print(summary(studs)); cat("\n\n\n\n\n")
+#         testthat::expect_true(length(summary(studs)) > 0)
+#       }
+#     }
+#   }
+# })
