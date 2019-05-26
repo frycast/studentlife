@@ -2,14 +2,21 @@ URL: https://github.com/Frycast/studentlife
 BugReports: https://github.com/Frycast/studentlife/issues
 Package: studentlife
 Type: Package
-Title: Tidy handling and navigation of the Student Life dataset
+Title: Tidy Handling and Navigation of the Student-Life Dataset
 Version: 1.0.0
 Authors@R: c(person("Daniel", "Fryer", 
                      role = c("aut", "cre"), 
                      email = "d.fryer@latrobe.edu.au",
                      comment = c(ORCID = "0000-0001-6032-0522")))
-Description: Seamless tidy handling and navigation of a rich 
-    mobile-health dataset from Dartmouth college.
+Description: Download, navigate and analyse the Student-Life dataset. 
+    The Student-Life dataset contains passive and automatic sensing data 
+    from the phones of a class of 48 de-identified Dartmouth college students. 
+    It was collected over a 10 week term. Additionally, the dataset contains Ecological 
+    Momentary Assessment results along with pre- and post-study mental 
+    health surveys, such as the PHQ-9. The intended use is to assess 
+    mental health, academic performance and behavioral trends. 
+    The raw dataset and additional information is 
+    available at <https://studentlife.cs.dartmouth.edu/>.
 Depends: R (>= 3.4.0)
 License: GPL-3 | file LICENSE
 Encoding: UTF-8

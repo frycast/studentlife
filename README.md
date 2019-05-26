@@ -128,6 +128,60 @@ vis_response_counts(reg_PAM, response = "m")
 ![](man/figures/response_counts.png)
 
 
+Summaries of survey data are formatted with question information and some answer statistics:
+
+```r 
+tab_PHQ9 <- load_SL_tibble(loc = d, schema = "survey", table = "PHQ-9")
+summary(tab_PHQ9)
+```
+
+```
+time_info 
+ none 
+
+survey_questions 
+ Q1: Little interest or pleasure in doing things
+ Q2: Feeling down, depressed, hopeless.
+ Q3: Trouble falling or staying asleep, or sleeping too much.
+ Q4: Feeling tired or having little energy
+ Q5: Poor appetite or overeating
+ Q6: Feeling bad about yourself or that you are a failure or have let yourself or your family down
+ Q7: Trouble concentrating on things, such as reading the newspaper or watching television
+ Q8: Moving or speaking so slowly that other people could have noticed. Or the opposite being so figety or restless that you have been moving around a lot more than usual
+ Q9: Thoughts that you would be better off dead, or of hurting yourself
+ Q10: Response
+ 
+
+column_names 
+ uid type Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 Q10 
+
+schema 
+ survey 
+
+table 
+ PHQ-9 
+
+skim 
+Skim summary statistics
+ n obs: 84 
+ n variables: 12 
+
+-- Variable type:factor --------------------------------------------------------
+ variable missing complete  n n_unique                        top_counts ordered
+       Q1       0       84 84        4 Not: 42, Sev: 28, Mor: 10, Nea: 4   FALSE
+      Q10       5       79 84        4   Som: 37, Not: 36, NA: 5, Ext: 3   FALSE
+       Q2       0       84 84        4  Not: 40, Sev: 34, Mor: 6, Nea: 4   FALSE
+       Q3       0       84 84        4 Not: 41, Sev: 25, Mor: 10, Nea: 8   FALSE
+       Q4       0       84 84        4 Sev: 38, Not: 23, Mor: 17, Nea: 6   FALSE
+       Q5       0       84 84        4  Sev: 35, Not: 34, Mor: 9, Nea: 6   FALSE
+       Q6       0       84 84        4  Not: 45, Sev: 27, Mor: 6, Nea: 6   FALSE
+       Q7       0       84 84        4  Not: 48, Sev: 26, Mor: 7, Nea: 3   FALSE
+       Q8       0       84 84        4  Not: 64, Sev: 15, Mor: 4, Nea: 1   FALSE
+       Q9       0       84 84        3    Not: 75, Sev: 6, Mor: 3, NA: 0   FALSE
+     type       0       84 84        2           pre: 46, pos: 38, NA: 0   FALSE
+      uid       0       84 84       46            0: 2, 1: 2, 2: 2, 3: 2   FALSE
+```
+
 
 <!--
 DOCUMENTATION CHECKLIST
