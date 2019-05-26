@@ -1,6 +1,7 @@
 
-studentlife: Seamless tidy handling and navigation of a rich mHealth dataset from Dartmouth
+studentlife: Tidy handling and navigation of a valuable mobile-health dataset
 ======================================================================================================
+
 
 <!-- Badges Start -->
 [![Travis-CI Build Status](https://travis-ci.org/frycast/studentlife.svg?branch=master)](https://travis-ci.org/frycast/studentlife) 
@@ -9,6 +10,17 @@ studentlife: Seamless tidy handling and navigation of a rich mHealth dataset fro
 [![Code coverage](https://codecov.io/gh/frycast/studentlife/branch/master/graph/badge.svg)](https://codecov.io/github/frycast/studentlife?branch=master)
 [![Lifecycle Status](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/)
 <!-- Badges End -->
+
+
+
+Use this R package to download, navigate and analyse the Student-Life dataset. The Student-Life dataset contains 
+    passive and automatic sensing data from the phones of a class 
+    of 48 de-identified Dartmouth college students. It was collected 
+    over a 10 week term. Additionally, the dataset contains Ecological 
+    Momentary Assessment results along with pre- and post-study mental 
+    health surveys, such as the PHQ-9. The intended use is to assess 
+    mental health, academic performance and behavioral trends. 
+    The raw dataset and additional information is available at <https://studentlife.cs.dartmouth.edu/>
 
 
 
