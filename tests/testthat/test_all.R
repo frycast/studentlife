@@ -346,7 +346,7 @@ testthat::test_that("dateonly_SL_tbl is well protected", {
 ###########################################################
 testthat::context("user generics")
 testthat::test_that("summary and print generics produce output", {
-  for (n in names(load_lists)) {
+for (n in names(load_lists)) {
     for ( i in 1:length(load_lists[[n]]) ) {
       studs <- load_lists[[n]][[i]]
       tname <- attr(studs, "table")
@@ -362,3 +362,4 @@ testthat::test_that("summary and print generics produce output", {
     }
   }
 })
+

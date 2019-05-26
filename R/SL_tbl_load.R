@@ -193,9 +193,14 @@ load_SL_tibble <- function(
     tab, schema = attr(path, "schema"),
     table = attr(path, "table"))
 
-  # This can be removed after survey table upgrade
-  if (get_schema(tab) != "survey")
-    names(tab) <- clean_strings(names(tab))
+  if (get_schema(tab) == "survey") {
+    #exc <- c(1,2)
+    #q_text <- names(tab[,-exc])
+    #names(tab) <- c(names(tab[,exc]), paste0("Q", 1:length(names(tab[,-exc]))))
+    #attr(tab, "survey_questions") <- q_text
+  }
+
+  names(tab) <- clean_strings(names(tab))
 
   return(tab)
 }
@@ -310,10 +315,18 @@ get_wide_csv_tab <- function(path, location, vars, csv_nrows) {
   full_path <- paste0(location, "/", path, ".csv")
   name <- get_name_from_path(path)
 
-  args <- list(file = full_path, na.strings = c("NA",""))
+  args <- list(file = full_path, na.strings = c("NA",""), check.names = FALSE)
   cn <- c("uid", "class1", "class2", "class3", "class4")
-  if (name == "class") {args$col.names = cn; args$header = FALSE}
+  if (name == "class") {args$col.names <- cn; args$header <- FALSE}
+  if (name == "deadlines") {args$check.names <- TRUE}
   tab <- do.call(utils::read.csv, args)
+
+  if ( name %in% menu_data$survey ) {
+    exc <- c(1,2)
+    q_text <- names(tab[,-exc])
+    names(tab) <- c(names(tab[,exc]), paste0("Q", 1:length(names(tab[,-exc]))))
+    attr(tab, "survey_questions") <- q_text
+  }
 
   tab$uid <- as.integer(substr(tab$uid, 2, 3))
   tab <- tibble::as_tibble(tab)

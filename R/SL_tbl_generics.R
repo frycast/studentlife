@@ -75,6 +75,10 @@ summary.dateless_SL_tbl <- function(object, s, ...) {
 
   s$time_info <- unique(c("none", s$time_info))
 
+  if ( get_schema(object) == "survey" )
+    s$survey_questions <- paste0(
+      names(object[,-(1:2)]), ": ", attr(object, "survey_questions"))
+
   class(s) <- c("summary.reg_SL_tbl", class(s))
   NextMethod("summary", object, s, ...)
 }
@@ -102,17 +106,17 @@ summary.SL_tbl <- function(object, s, ...) {
 #'@export
 print.summary.SL_tbl <- function(x, ...) {
 
-  if (x$schema == "survey") {
-    print("This summary is under development")
-  } else {
-    for (n in names(x)) {
-      k <- x[[n]]
-      if (is.list(k)) {
-        cat(crayon::green(n), "\n")
-        print(k)
-        cat("\n\n")
-      }
-      else {cat(crayon::green(n), "\n", k, "\n\n")}
+  for (n in names(x)) {
+    k <- x[[n]]
+    if (is.list(k)) {
+      cat(crayon::green(n), "\n")
+      print(k)
+      cat("\n\n")
+    }
+    else {
+      if (is.character(k) && sum(nchar(k)) > 100)
+        k <- paste0(k, sep = "\n")
+      cat(crayon::green(n), "\n", k, "\n\n")
     }
   }
 }
