@@ -117,7 +117,7 @@ print.summary.SL_tbl <- function(x, ...) {
       cat("\n\n")
     }
     else {
-      if (is.character(k) && sum(nchar(k)) > 100)
+      if (is.character(k) && sum(nchar(k)) > 160)
         k <- paste0(k, sep = "\n")
       cat(crayon::green(n), "\n", k, "\n\n")
     }
