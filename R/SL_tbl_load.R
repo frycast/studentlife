@@ -333,6 +333,8 @@ get_wide_csv_tab <- function(path, location, vars, csv_nrows) {
 
     class(tab) <- c("SL_tbl", class(tab))
 
+    class(tab) <- c("dateless_SL_tbl", class(tab))
+
   }
 
   return(tab)
