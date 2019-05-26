@@ -91,7 +91,7 @@ vis_NAs <- function(tab, response,
                                   attr(tab,"table"),")" ),
                     show_perc_col = FALSE, ...) {
 
-  if (!is_reg_SL_tbl(tab)) stop("tab must be a reg_SL_tbl")
+  if (!is_reg_SL_tibble(tab)) stop("tab must be a reg_SL_tbl")
 
 
   blocks <- attr(tab, "blocks")
@@ -148,7 +148,7 @@ vis_response_counts <- function(tab, response,
                                               attr(tab,"table"),")" ),
                                 xlab = "Student UID",
                                 ylab = "Response count", ...) {
-  if (!is_reg_SL_tbl(tab)) stop("tab must be a reg_SL_tbl")
+  if (!is_reg_SL_tibble(tab)) stop("tab must be a reg_SL_tbl")
 
   blocks <- attr(tab, "blocks")
 
