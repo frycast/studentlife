@@ -123,6 +123,9 @@ testthat::test_that( "load tables from education", {
     if ( studentlife:::menu_data$education[i] == "deadlines" ) {
       testthat::expect_s3_class(load_list_e1[[!!i]], "dateonly_SL_tbl")
       testthat::expect_true(is_dateonly_SL_tibble(load_list_e1[[!!i]]))
+    } else {
+      testthat::expect_s3_class(load_list_e1[[!!i]], "dateless_SL_tbl")
+      testthat::expect_true(is_dateless_SL_tibble(load_list_e1[[!!i]]))
     }
   }
 })
@@ -131,6 +134,8 @@ testthat::test_that( "load tables from survey", {
   for (i in 1:length(menu_data$survey)) {
     testthat::expect_true(nrow(load_list_u1[[!!i]]) > 0)
     testthat::expect_s3_class(load_list_u1[[!!i]], "SL_tbl")
+    testthat::expect_s3_class(load_list_u1[[!!i]], "dateless_SL_tbl")
+    testthat::expect_true(is_dateless_SL_tibble(load_list_u1[[!!i]]))
   }
 })
 
@@ -140,6 +145,8 @@ testthat::test_that(
   for (i in 1:length(menu_data$survey)) {
     testthat::expect_true(nrow(load_list_u2[[!!i]]) > 0)
     testthat::expect_s3_class(load_list_u2[[!!i]], "SL_tbl")
+    testthat::expect_s3_class(load_list_u2[[!!i]], "dateless_SL_tbl")
+    testthat::expect_true(is_dateless_SL_tibble(load_list_u2[[!!i]]))
   }
 })
 
@@ -340,4 +347,22 @@ testthat::test_that("dateonly_SL_tbl is well protected", {
 
 
 
-
+#testthat::context("user generics")
+#testthat::test_that("summary and print generics produce output", {
+#  for (n in names(load_lists)) {
+#    for ( i in 1:length(load_lists[[n]]) ) {
+#      studs <- load_lists[[n]][[i]]
+#      tname <- attr(studs, "table")
+#      if ( tname %in% menu_data$timestamp ) {
+#        testthat::expect_true(c("timestamp") %in% summary(studs)$time_info)
+#      } else if ( tname %in% menu_data$interval ) {
+#        testthat::expect_true(c("interval") %in% summary(studs)$time_info)
+#      } else if ( tname %in% menu_data$dateonly ) {
+#        testthat::expect_true(c("date-only") %in% summary(studs)$time_info)
+#      } else {
+#        print(summary(studs)); cat("\n\n\n\n\n")
+#        testthat::expect_true(length(summary(studs)) > 0)
+#      }
+#    }
+#  }
+#})
