@@ -249,13 +249,42 @@ is_timestamp_SL_tibble <- function (x)
 #'   tab_PAM, blocks = c("day", "epoch"), m = mean(picture_idx, na.rm = TRUE))
 #'
 #' # Returns TRUE
-#' is_reg_SL_tibble(reg_PAM, response = "m")
+#' is_reg_SL_tibble(reg_PAM)
 #' }
 #'
 #'@export
 is_reg_SL_tibble <- function (x)
 {
   confirm_reg_SL_tibble(x) && inherits(x, "reg_SL_tbl")
+}
+
+
+#'is_dateless_SL_tibble
+#'
+#'Confirm that an object is a
+#'dateless StudentLife tibble
+#'
+#'@param x Any object
+#'
+#'@return Logical
+#'
+#'@examples
+#' \donttest{
+#' d <- "D:/Datasets/studentlife"
+#' download_studentlife(dest = d)
+#'
+#' tab_S <- load_SL_tibble(
+#'   schema = "survey", table = "BigFive", location = d)
+#'
+#'
+#' # Returns TRUE
+#' is_dateless_SL_tibble(tab_S)
+#' }
+#'
+#'@export
+is_dateless_SL_tibble <- function (x)
+{
+  inherits(x, "dateless_SL_tbl")
 }
 
 
