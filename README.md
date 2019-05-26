@@ -21,7 +21,7 @@ Use this R package to download, navigate and analyse the Student-Life dataset. T
     Momentary Assessment results along with pre- and post-study mental 
     health surveys, such as the PHQ-9. The intended use is to assess 
     mental health, academic performance and behavioral trends. 
-    The raw dataset and additional information is available at <https://studentlife.cs.dartmouth.edu/>
+    The raw dataset and additional information is available at <https://studentlife.cs.dartmouth.edu/>.
 
 
 
