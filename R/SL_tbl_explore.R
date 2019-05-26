@@ -46,7 +46,7 @@ response_hour_hist <- function(tab, break_hours = 10,
 
   }
 
-  minr <- min(res_t); maxr <- max(res_t)
+  minr <- min(res_t, na.rm = TRUE); maxr <- max(res_t, na.rm = TRUE)
   br <- seq(0, maxr - minr + break_hours, by = break_hours)
   graphics::hist(res_t - minr, ..., breaks = br,
        xlab = xlab,

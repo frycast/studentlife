@@ -363,3 +363,30 @@ for (n in names(load_lists)) {
   }
 })
 
+
+
+###########################################################
+testthat::context("exploratory data analysis")
+testthat::test_that("functions in SL_tbl_explore produce plots", {
+  for (n in names(rt_lists)) {
+    for ( i in 1:length(rt_lists[[n]]) ) {
+      studs_r <- rt_lists[[n]][[i]]
+      studs_r$m <- 1
+      studs <- load_lists[[n]][[i]]
+      tname <- attr(studs, "table")
+      if ( tname %in% menu_data$timestamp ) {
+        testthat::expect_true(length(response_hour_hist(load_lists[[!!n]][[!!i]])) > 0)
+        testthat::expect_true(length(vis_NAs(studs_r, response = "m")) > 0)
+        testthat::expect_true(length(vis_response_counts(studs_r, response = "m")) > 0)
+      } else if ( tname %in% menu_data$interval ) {
+        testthat::expect_true(length(response_hour_hist(load_lists[[!!n]][[!!i]])) > 0)
+        testthat::expect_true(length(vis_NAs(studs_r, response = "m")) > 0)
+        testthat::expect_true(length(vis_response_counts(studs_r, response = "m")) > 0)
+      } else if ( tname %in% menu_data$dateonly ) {
+        testthat::expect_true(length(vis_NAs(studs_r, response = "m")) > 0)
+        testthat::expect_true(length(vis_response_counts(studs_r, response = "m")) > 0)
+      }
+    }
+  }
+})
+
