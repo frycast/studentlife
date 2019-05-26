@@ -344,22 +344,21 @@ testthat::test_that("dateonly_SL_tbl is well protected", {
 })
 
 ###########################################################
-# testthat::context("user generics")
-# testthat::test_that("summary and print generics produce output", {
-#   for (n in names(load_lists)) {
-#     for ( i in 1:length(load_lists[[n]]) ) {
-#       studs <- load_lists[[n]][[i]]
-#       tname <- attr(studs, "table")
-#       if ( tname %in% menu_data$timestamp ) {
-#         testthat::expect_true(c("timestamp") %in% summary(studs)$time_info)
-#       } else if ( tname %in% menu_data$interval ) {
-#         testthat::expect_true(c("interval") %in% summary(studs)$time_info)
-#       } else if ( tname %in% menu_data$dateonly ) {
-#         testthat::expect_true(c("date-only") %in% summary(studs)$time_info)
-#       } else {
-#         print(summary(studs)); cat("\n\n\n\n\n")
-#         testthat::expect_true(length(summary(studs)) > 0)
-#       }
-#     }
-#   }
-# })
+testthat::context("user generics")
+testthat::test_that("summary and print generics produce output", {
+  for (n in names(load_lists)) {
+    for ( i in 1:length(load_lists[[n]]) ) {
+      studs <- load_lists[[n]][[i]]
+      tname <- attr(studs, "table")
+      if ( tname %in% menu_data$timestamp ) {
+        testthat::expect_true(c("timestamp") %in% summary(studs)$time_info)
+      } else if ( tname %in% menu_data$interval ) {
+        testthat::expect_true(c("interval") %in% summary(studs)$time_info)
+      } else if ( tname %in% menu_data$dateonly ) {
+        testthat::expect_true(c("date-only") %in% summary(studs)$time_info)
+      } else {
+        testthat::expect_true(length(summary(studs)) > 0)
+      }
+    }
+  }
+})

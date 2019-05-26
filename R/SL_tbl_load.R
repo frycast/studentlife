@@ -310,10 +310,9 @@ get_wide_csv_tab <- function(path, location, vars, csv_nrows) {
   full_path <- paste0(location, "/", path, ".csv")
   name <- get_name_from_path(path)
 
-  args <- list(file = full_path)
+  args <- list(file = full_path, na.strings = c("NA",""))
   cn <- c("uid", "class1", "class2", "class3", "class4")
   if (name == "class") {args$col.names = cn; args$header = FALSE}
-  # if (!missing(csv_nrows)) args$nrows = csv_nrows
   tab <- do.call(utils::read.csv, args)
 
   tab$uid <- as.integer(substr(tab$uid, 2, 3))
