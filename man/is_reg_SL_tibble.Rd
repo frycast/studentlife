@@ -27,7 +27,7 @@ reg_PAM <- regularise_time(
   tab_PAM, blocks = c("day", "epoch"), m = mean(picture_idx, na.rm = TRUE))
 
 # Returns TRUE
-is_reg_SL_tibble(reg_PAM, response = "m")
+is_reg_SL_tibble(reg_PAM)
 }
 
 }

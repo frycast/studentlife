@@ -282,7 +282,7 @@ is_reg_SL_tibble <- function (x)
 #' }
 #'
 #'@export
-is_dateless_SL_tibble <- function (x)
+is_dateless_SL_tibble <- function(x)
 {
   inherits(x, "dateless_SL_tbl")
 }
