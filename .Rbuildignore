@@ -7,3 +7,4 @@
 ^\.Rproj\.user$
 ^data-raw$
 ^man\figures$
+^cran-comments\.md$
