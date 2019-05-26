@@ -350,6 +350,7 @@ get_table <- function(x) {
 #'
 #' @return The EMA_questions attribute of \code{x}
 #'
+#'@export
 get_EMA_questions <- function(x) {
   return(attr(x, "EMA_questions"))
 }
