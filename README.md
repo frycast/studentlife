@@ -1,5 +1,5 @@
 
-studentlife: Tidy handling and navigation of a valuable mobile-health dataset
+studentlife: Tidy Handling and Navigation of a Valuable Mobile-Health Dataset
 ======================================================================================================
 
 <img src="man/figures/logo.png" align="right" alt="" width="120" />
