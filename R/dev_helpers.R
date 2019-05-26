@@ -120,7 +120,7 @@ clean_strings <- function(x) {
 }
 
 
-#'is_SL_tbl
+#'is_SL_tibble
 #'
 #'Confirm that an object is a StudentLife tibble
 #'
@@ -136,17 +136,17 @@ clean_strings <- function(x) {
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 #'
 #' # Returns TRUE
-#' is_SL_tbl(tab_PAM)
+#' is_SL_tibble(tab_PAM)
 #' }
 #'
 #'@export
-is_SL_tbl <- function (x)
+is_SL_tibble <- function (x)
 {
   confirm_SL_tibble(x) && inherits(x, "SL_tbl")
 }
 
 
-#'is_dateonly_SL_tbl
+#'is_dateonly_SL_tibble
 #'
 #'Confirm that an object is a
 #'date-only StudentLife tibble
@@ -164,17 +164,17 @@ is_SL_tbl <- function (x)
 #'   schema = "education", table = "deadlines", location = d)
 #'
 #' # Returns TRUE
-#' is_dateonly_SL_tbl(tab_DL)
+#' is_dateonly_SL_tibble(tab_DL)
 #' }
 #'
 #'@export
-is_dateonly_SL_tbl <- function (x)
+is_dateonly_SL_tibble <- function (x)
 {
   confirm_dateonly_SL_tibble(x) && inherits(x, "dateonly_SL_tbl")
 }
 
 
-#'is_interval_SL_tbl
+#'is_interval_SL_tibble
 #'
 #'Confirm that an object is
 #'an interval StudentLife tibble
@@ -192,17 +192,17 @@ is_dateonly_SL_tbl <- function (x)
 #'   schema = "sensing", table = "conversation", location = d, csv_nrow = 10)
 #'
 #' # Returns TRUE
-#' is_interval_SL_tbl(tab_con)
+#' is_interval_SL_tibble(tab_con)
 #' }
 #'
 #'@export
-is_interval_SL_tbl <- function (x)
+is_interval_SL_tibble <- function (x)
 {
   confirm_interval_SL_tibble(x) && inherits(x, "interval_SL_tbl")
 }
 
 
-#'is_timestamp_SL_tbl
+#'is_timestamp_SL_tibble
 #'
 #'Confirm that an object is a
 #'timestamped StudentLife tibble
@@ -219,17 +219,17 @@ is_interval_SL_tbl <- function (x)
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 #'
 #' # Returns TRUE
-#' is_timestamp_SL_tbl(tab_PAM)
+#' is_timestamp_SL_tibble(tab_PAM)
 #' }
 #'
 #'@export
-is_timestamp_SL_tbl <- function (x)
+is_timestamp_SL_tibble <- function (x)
 {
   confirm_timestamp_SL_tibble(x) && inherits(x, "timestamp_SL_tbl")
 }
 
 
-#'is_reg_SL_tbl
+#'is_reg_SL_tibble
 #'
 #'Confirm that an object is a
 #'regularised StudentLife tibble
@@ -249,11 +249,11 @@ is_timestamp_SL_tbl <- function (x)
 #'   tab_PAM, blocks = c("day", "epoch"), m = mean(picture_idx, na.rm = TRUE))
 #'
 #' # Returns TRUE
-#' is_reg_SL_tbl(reg_PAM, response = "m")
+#' is_reg_SL_tibble(reg_PAM, response = "m")
 #' }
 #'
 #'@export
-is_reg_SL_tbl <- function (x)
+is_reg_SL_tibble <- function (x)
 {
   confirm_reg_SL_tibble(x) && inherits(x, "reg_SL_tbl")
 }
