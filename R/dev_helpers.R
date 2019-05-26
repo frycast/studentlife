@@ -258,6 +258,59 @@ is_reg_SL_tibble <- function (x)
   confirm_reg_SL_tibble(x) && inherits(x, "reg_SL_tbl")
 }
 
+
+#'get_schema
+#'
+#'Retrieve the schema name from a StudentLife tibble
+#'
+#'@param x An object of class StudentLife tibble
+#'(\code{SL_tbl}), as produced by the function
+#'\code{\link[studentlife]{load_SL_tibble}}.
+#'
+#'@return A character string indicating the schema name
+#'
+#'@examples
+#' \donttest{
+#' d <- "D:/Datasets/studentlife"
+#' download_studentlife(dest = d)
+#'
+#' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+#'
+#' # Returns "EMA"
+#' get_schema(tab_PAM)
+#' }
+#'
+#'@export
+get_schema <- function(x) {
+  return(attr(x,"schema"))
+}
+
+#'get_table
+#'
+#'Retrieve the table name from a StudentLife tibble
+#'
+#'@param x An object of class StudentLife tibble
+#'(\code{SL_tbl}), as produced by the function
+#'\code{\link[studentlife]{load_SL_tibble}}.
+#'
+#'@return A character string indicating the table name
+#'
+#'@examples
+#' \donttest{
+#' d <- "D:/Datasets/studentlife"
+#' download_studentlife(dest = d)
+#'
+#' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+#'
+#' # Returns "PAM"
+#' get_table(tab_PAM)
+#' }
+#'
+#'@export
+get_table <- function(x) {
+  return(attr(x,"table"))
+}
+
 strings_are_numeric <- function(x) {
   grepl("^[0-9]+$", x[!is.na(x)], perl=T)
 }
