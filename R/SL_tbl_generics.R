@@ -21,6 +21,8 @@ summary.timestamp_SL_tbl <- function(object, s, ...) {
 
   if (missing(s)) s <- list()
 
+  s$time_info <- unique(c("timestamp", s$time_info))
+
   class(s) <- c("summary.timestamp_SL_tbl", class(s))
   NextMethod("summary", object, s, ...)
 }
@@ -32,6 +34,8 @@ summary.interval_SL_tbl <- function(object, s, ...) {
 
   if (missing(s)) s <- list()
 
+  s$time_info <- unique(c("interval", s$time_info))
+
   class(s) <- c("summary.interval_SL_tbl", class(s))
   NextMethod("summary", object, s, ...)
 }
@@ -42,6 +46,8 @@ summary.interval_SL_tbl <- function(object, s, ...) {
 summary.dateonly_SL_tbl <- function(object, s, ...) {
 
   if (missing(s)) s <- list()
+
+  s$time_info <- unique(c("date-only", s$time_info))
 
   class(s) <- c("summary.dateonly_SL_tbl", class(s))
   NextMethod("summary", object, s, ...)
