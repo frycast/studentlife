@@ -79,6 +79,9 @@ response_hour_hist <- function(tab, break_hours = 10,
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 #'
+#' reg_PAM <- regularise_time(
+#'   tab_PAM, blocks = c("day", "epoch"), m = mean(picture_idx, na.rm = TRUE))
+#'
 #' vis_NAs(reg_PAM, response = "m")
 #' }
 #'
@@ -132,6 +135,9 @@ vis_NAs <- function(tab, response,
 #' download_studentlife(dest = d)
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+#'
+#' reg_PAM <- regularise_time(
+#'   tab_PAM, blocks = c("day", "epoch"), m = mean(picture_idx, na.rm = TRUE))
 #'
 #' vis_response_counts(reg_PAM, response = "m")
 #' }
