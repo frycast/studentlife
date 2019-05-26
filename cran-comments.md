@@ -15,8 +15,10 @@ There was 1 NOTE:
 
   New submission
 
+  Possibly mis-spelled words in DESCRIPTION:
+  pre (15:45)
+  
+  This is the correct spelling.
+  
 ## Downstream dependencies
 There are no downstream dependencies for this package
-
-## Other comments
-The manuscript describing the methods in this package is under preparation
