@@ -62,6 +62,19 @@ summary.reg_SL_tbl <- function(object, s, ...) {
 
   s$blocks <- attr(object, "blocks")
 
+  class(s) <- c("summary.dateless_SL_tbl", class(s))
+  NextMethod("summary", object, s, ...)
+}
+
+#'@keywords internal
+#'
+#'@export
+summary.dateless_SL_tbl <- function(object, s, ...) {
+
+  if (missing(s)) s <- list()
+
+  s$time_info <- unique(c("none", s$time_info))
+
   class(s) <- c("summary.reg_SL_tbl", class(s))
   NextMethod("summary", object, s, ...)
 }
@@ -89,11 +102,15 @@ summary.SL_tbl <- function(object, s, ...) {
 #'@export
 print.summary.SL_tbl <- function(x, ...) {
 
-  for (n in names(x)) {
-    k <- x[[n]]
-    if (is.list(k))
-      print(k)
-    else {cat(n, "\n", k, "\n\n")}
+  if (get_schema(x) == "survey") {
+
+  } else {
+    for (n in names(x)) {
+      k <- x[[n]]
+      if (is.list(k))
+        print(k)
+      else {cat(n, "\n", k, "\n\n")}
+    }
   }
 }
 
