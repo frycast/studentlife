@@ -75,9 +75,12 @@ summary.dateless_SL_tbl <- function(object, s, ...) {
 
   s$time_info <- unique(c("none", s$time_info))
 
-  if ( get_schema(object) == "survey" )
+  if ( get_schema(object) == "survey" ) {
+    exc <- which(names(object) %in% c("uid","type"))
     s$survey_questions <- paste0(
-      names(object[,-(1:2)]), ": ", attr(object, "survey_questions"))
+      names(object[,-exc]), ": ", attr(object, "survey_questions"))
+  }
+
 
   class(s) <- c("summary.reg_SL_tbl", class(s))
   NextMethod("summary", object, s, ...)

@@ -322,7 +322,7 @@ get_wide_csv_tab <- function(path, location, vars, csv_nrows) {
   tab <- do.call(utils::read.csv, args)
 
   if ( name %in% menu_data$survey ) {
-    exc <- c(1,2)
+    exc <- which(names(tab) %in% c("uid","type"))
     q_text <- names(tab[,-exc])
     names(tab) <- c(names(tab[,exc]), paste0("Q", 1:length(names(tab[,-exc]))))
     attr(tab, "survey_questions") <- q_text
