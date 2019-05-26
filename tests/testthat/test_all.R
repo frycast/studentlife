@@ -73,8 +73,8 @@ testthat::test_that( "load tables from sensing with vars = timestamp", {
     testthat::expect_true(nrow(load_list_s1[[!!i]]) > 0)
     testthat::expect_s3_class(load_list_s1[[!!i]], "SL_tbl")
     testthat::expect_true(suppressWarnings(
-      confirm_interval_SL_tibble(load_list_s1[[!!i]])
-      || confirm_timestamp_SL_tibble(load_list_s1[[!!i]])))
+      is_interval_SL_tibble(load_list_s1[[!!i]])
+      || is_timestamp_SL_tibble(load_list_s1[[!!i]])))
   }
 })
 
@@ -83,8 +83,8 @@ testthat::test_that( "load tables from sensing", {
     testthat::expect_true(nrow(load_list_s2[[!!i]]) > 0)
     testthat::expect_s3_class(load_list_s2[[!!i]], "SL_tbl")
     testthat::expect_true(suppressWarnings(
-      confirm_interval_SL_tibble(load_list_s2[[!!i]])
-      || confirm_timestamp_SL_tibble(load_list_s2[[!!i]])))
+      is_interval_SL_tibble(load_list_s2[[!!i]])
+      || is_timestamp_SL_tibble(load_list_s2[[!!i]])))
   }
 })
 
@@ -93,8 +93,8 @@ testthat::test_that( "load tables from sensing with missing csv_nrows", {
     testthat::expect_true(nrow(load_list_s3[[!!i]]) > 0)
     testthat::expect_s3_class(load_list_s3[[!!i]], "SL_tbl")
     testthat::expect_true(suppressWarnings(
-      confirm_interval_SL_tibble(load_list_s3[[!!i]])
-      || confirm_timestamp_SL_tibble(load_list_s3[[!!i]])))
+      is_interval_SL_tibble(load_list_s3[[!!i]])
+      || is_timestamp_SL_tibble(load_list_s3[[!!i]])))
   }
 })
 
@@ -103,7 +103,7 @@ testthat::test_that( "load tables from EMA with vars = timestamp", {
     testthat::expect_true(nrow(load_list_a1[[!!i]]) > 0)
     testthat::expect_s3_class(load_list_a1[[!!i]], "SL_tbl")
     testthat::expect_s3_class(load_list_a1[[!!i]], "timestamp_SL_tbl")
-    testthat::expect_true(confirm_timestamp_SL_tibble(load_list_a1[[!!i]]))
+    testthat::expect_true(is_timestamp_SL_tibble(load_list_a1[[!!i]]))
   }
 })
 
@@ -112,7 +112,7 @@ testthat::test_that( "load tables from EMA with vars = uid", {
     testthat::expect_true(nrow(load_list_a2[[!!i]]) > 0)
     testthat::expect_s3_class(load_list_a2[[!!i]], "SL_tbl")
     testthat::expect_s3_class(load_list_a2[[!!i]], "timestamp_SL_tbl")
-    testthat::expect_true(confirm_timestamp_SL_tibble(load_list_a2[[!!i]]))
+    testthat::expect_true(is_timestamp_SL_tibble(load_list_a2[[!!i]]))
   }
 })
 
@@ -122,7 +122,7 @@ testthat::test_that( "load tables from education", {
     testthat::expect_s3_class(load_list_e1[[!!i]], "SL_tbl")
     if ( studentlife:::menu_data$education[i] == "deadlines" ) {
       testthat::expect_s3_class(load_list_e1[[!!i]], "dateonly_SL_tbl")
-      testthat::expect_true(confirm_dateonly_SL_tibble(load_list_e1[[!!i]]))
+      testthat::expect_true(is_dateonly_SL_tibble(load_list_e1[[!!i]]))
     }
   }
 })
@@ -147,7 +147,7 @@ testthat::test_that( "load tables from other", {
   for (i in 1:length(menu_data$other)) {
     testthat::expect_true(nrow(load_list_o1[[!!i]]) > 0)
     testthat::expect_s3_class(load_list_o1[[!!i]], "SL_tbl")
-    testthat::expect_true(confirm_timestamp_SL_tibble(load_list_o1[[!!i]]))
+    testthat::expect_true(is_timestamp_SL_tibble(load_list_o1[[!!i]]))
   }
 })
 
@@ -155,7 +155,7 @@ testthat::test_that( "load tables from other with vars = timestamp", {
   for (i in 1:length(menu_data$other)) {
     testthat::expect_true(nrow(load_list_o2[[!!i]]) > 0)
     testthat::expect_s3_class(load_list_o2[[!!i]], "SL_tbl")
-    testthat::expect_true(confirm_timestamp_SL_tibble(load_list_o2[[!!i]]))
+    testthat::expect_true(is_timestamp_SL_tibble(load_list_o2[[!!i]]))
   }
 })
 
@@ -203,8 +203,8 @@ testthat::test_that(
        testthat::expect_s3_class(abl_lists[[!!n]][[!!i]], "SL_tbl")
        testthat::expect_true(all(types %in% names(abl_lists[[!!n]][[!!i]])))
        testthat::expect_true(suppressWarnings(
-         confirm_interval_SL_tibble(abl_lists[[!!n]][[!!i]])
-         || confirm_timestamp_SL_tibble(abl_lists[[!!n]][[!!i]])))
+         is_interval_SL_tibble(abl_lists[[!!n]][[!!i]])
+         || is_timestamp_SL_tibble(abl_lists[[!!n]][[!!i]])))
     }
   }
 })
@@ -222,7 +222,7 @@ testthat::test_that(
         testthat::expect_s3_class(
           abl_lists[[!!n]][[!!i]], "dateonly_SL_tbl")
         testthat::expect_true(
-          confirm_dateonly_SL_tibble(abl_lists[[!!n]][[!!i]]))
+          is_dateonly_SL_tibble(abl_lists[[!!n]][[!!i]]))
         testthat::expect_true(
           all(types %in% names(abl_lists[[!!n]][[!!i]])))
       }
@@ -241,7 +241,7 @@ testthat::test_that(
           testthat::expect_true(nrow(rt_lists[[!!n]][[!!i]]) > 0)
           testthat::expect_s3_class(rt_lists[[!!n]][[!!i]], "SL_tbl")
           testthat::expect_true(suppressWarnings(
-            confirm_reg_SL_tibble(rt_lists[[!!n]][[!!i]])))
+            is_reg_SL_tibble(rt_lists[[!!n]][[!!i]])))
         }
       }
     }
@@ -337,3 +337,7 @@ testthat::test_that("dateonly_SL_tbl is well protected", {
   testthat::expect_true("dateonly_SL_tbl" %in% class(studs6))
   testthat::expect_s3_class(studs6, "SL_tbl")
 })
+
+
+
+
