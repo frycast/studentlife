@@ -3,7 +3,7 @@ BugReports: https://github.com/Frycast/studentlife/issues
 Package: studentlife
 Type: Package
 Title: Useful Functions for the StudentLife Dataset
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: c(person("Daniel", "Fryer", 
                      role = c("aut", "cre"), 
                      email = "d.fryer@latrobe.edu.au",
