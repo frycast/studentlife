@@ -8,3 +8,4 @@
 ^data-raw$
 ^man\figures$
 ^cran-comments\.md$
+^CRAN-RELEASE$
