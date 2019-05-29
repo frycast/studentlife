@@ -79,12 +79,12 @@ act <- load_SL_tibble(schema = "sensing", table = "activity",
 
 \donttest{
 ## Browse all tables with timestamps (non-interval)
-load_SL_tibble(location = d, time_options = "timestamp", csv_nrows = 10)
+load_SL_tibble(location = d, time_options = "timestamp")
 
 ## Browse all tables with intervals
-load_SL_tibble(location = d, time_options = "interval", csv_nrows = 10)
+load_SL_tibble(location = d, time_options = "interval")
 
 ## Browse all dateless tables
-load_SL_tibble(location = d, time_options = "dateless", csv_nrows = 10)
+load_SL_tibble(location = d, time_options = "dateless")
 }
 }
