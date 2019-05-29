@@ -6,7 +6,8 @@
 #' If \code{url = "dartmouth"} then data will be downloaded
 #' from <https://studentlife.cs.dartmouth.edu/dataset/dataset.tar.bz2>
 #' If \code{url = "testdata"} then data will be downloaded
-#' from the test data at <https://github.com/frycast/studentlife>
+#' from the test data at the studentlife GitHub repository
+#' <https://github.com/frycast/studentlife>
 #'
 #'
 #'@param url A character string. Either
@@ -24,17 +25,17 @@
 #'Leave as default unless you plan to do it manually.
 #'
 #'@examples
-#'\donttest{
 #'d <- tempdir()
 #'download_studentlife(location = d, url = "testdata")
 #'
+#'\donttest{
 #'## With menu
 #'load_SL_tibble(location = d)
+#'}
 #'
 #'## Without menu
 #'SL_tables
 #'load_SL_tibble(schema = "EMA", table = "PAM", location = d)
-#'}
 #'
 #'@export
 download_studentlife <- function(
@@ -49,9 +50,10 @@ download_studentlife <- function(
 
   if (tolower(url) == "testdata") {
 
-    url <- paste0("https://github.com/frycast/studentlife/",
-                  "trunk/testthat/testdata/",
-                  "SL_testdata/dataset.tar.bz2")
+    url <- paste0("https://raw.githubusercontent.com/",
+                  "frycast/studentlife/master/tests/",
+                  "testthat/testdata/sample/sample_dataset.tar.bz2")
+
     mes1 <- "Downloading the small sample dataset..."
 
   } else {
@@ -63,7 +65,7 @@ download_studentlife <- function(
   f <- "dataset.tar.bz2"
   p <- paste0(location, "/", f)
   if (!dir.exists(location)) dir.create(location)
-  utils::download.file(url = url, destfile = p)
+  utils::download.file(url = url, destfile = p, cacheOK = FALSE)
   message("Download complete")
   if (unzip) {
     message("Unzipping the dataset...")
@@ -124,12 +126,13 @@ download_studentlife <- function(
 #' subclasses of \code{SL_tibble}).
 #'
 #' @examples
-#' \donttest{
 #'d <- tempdir()
-#'download_studentlife(dest = d)
+#'download_studentlife(location = d, url = "testdata")
 #'
+#'\donttest{
 #'## With menu
 #'load_SL_tibble(location = d)
+#'}
 #'
 #'## Without menu
 #'SL_tables
@@ -139,6 +142,7 @@ download_studentlife <- function(
 #'act <- load_SL_tibble(schema = "sensing", table = "activity",
 #'                      location = d, csv_nrows = 10)
 #'
+#'\donttest{
 #'## Browse all tables with timestamps (non-interval)
 #'load_SL_tibble(location = d, time_options = "timestamp", csv_nrows = 10)
 #'
@@ -148,7 +152,6 @@ download_studentlife <- function(
 #'## Browse all dateless tables
 #'load_SL_tibble(location = d, time_options = "dateless", csv_nrows = 10)
 #'}
-#'
 #' @export
 load_SL_tibble <- function(
   schema, table, location = ".",
@@ -210,13 +213,6 @@ load_SL_tibble <- function(
   tab <- structure(
     tab, schema = attr(path, "schema"),
     table = attr(path, "table"))
-
-  if (get_schema(tab) == "survey") {
-    #exc <- c(1,2)
-    #q_text <- names(tab[,-exc])
-    #names(tab) <- c(names(tab[,exc]), paste0("Q", 1:length(names(tab[,-exc]))))
-    #attr(tab, "survey_questions") <- q_text
-  }
 
   names(tab) <- clean_strings(names(tab))
 
