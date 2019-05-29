@@ -130,7 +130,7 @@ clean_strings <- function(x) {
 #'
 #'@examples
 #' \donttest{
-#' d <- "D:/Datasets/studentlife"
+#' d <- tempdir()
 #' download_studentlife(dest = d)
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
@@ -157,7 +157,7 @@ is_SL_tibble <- function (x)
 #'
 #'@examples
 #' \donttest{
-#' d <- "D:/Datasets/studentlife"
+#' d <- tempdir()
 #' download_studentlife(dest = d)
 #'
 #' tab_DL <- load_SL_tibble(
@@ -185,7 +185,7 @@ is_dateonly_SL_tibble <- function (x)
 #'
 #'@examples
 #' \donttest{
-#' d <- "D:/Datasets/studentlife"
+#' d <- tempdir()
 #' download_studentlife(dest = d)
 #'
 #' tab_con <- load_SL_tibble(
@@ -213,7 +213,7 @@ is_interval_SL_tibble <- function (x)
 #'
 #'@examples
 #' \donttest{
-#' d <- "D:/Datasets/studentlife"
+#' d <- tempdir()
 #' download_studentlife(dest = d)
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
@@ -240,7 +240,7 @@ is_timestamp_SL_tibble <- function (x)
 #'
 #'@examples
 #' \donttest{
-#' d <- "D:/Datasets/studentlife"
+#' d <- tempdir()
 #' download_studentlife(dest = d)
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
@@ -270,7 +270,7 @@ is_reg_SL_tibble <- function (x)
 #'
 #'@examples
 #' \donttest{
-#' d <- "D:/Datasets/studentlife"
+#' d <- tempdir()
 #' download_studentlife(dest = d)
 #'
 #' tab_S <- load_SL_tibble(
@@ -299,7 +299,7 @@ is_dateless_SL_tibble <- function(x)
 #'
 #'@examples
 #' \donttest{
-#' d <- "D:/Datasets/studentlife"
+#' d <- tempdir()
 #' download_studentlife(dest = d)
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
@@ -325,7 +325,7 @@ get_schema <- function(x) {
 #'
 #'@examples
 #' \donttest{
-#' d <- "D:/Datasets/studentlife"
+#' d <- tempdir()
 #' download_studentlife(dest = d)
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)

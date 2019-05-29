@@ -37,7 +37,7 @@
 #'
 #' @examples
 #' \donttest{
-#' d <- "D:/Datasets/studentlife"
+#' d <- tempdir()
 #' download_studentlife(dest = d)
 #'
 #' tab <- load_SL_tibble(
@@ -205,7 +205,7 @@ regularise_time <- function(
 #'
 #' @examples
 #' \donttest{
-#' d <- "D:/Datasets/studentlife"
+#' d <- tempdir()
 #' download_studentlife(dest = d)
 #'
 #' tab <- load_SL_tibble(

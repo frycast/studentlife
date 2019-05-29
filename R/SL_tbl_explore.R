@@ -16,7 +16,7 @@
 #'
 #' @examples
 #' \donttest{
-#' d <- "D:/Datasets/studentlife"
+#' d <- tempdir()
 #' download_studentlife(dest = d)
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
@@ -74,7 +74,7 @@ response_hour_hist <- function(tab, break_hours = 10,
 #'
 #' @examples
 #' \donttest{
-#' d <- "D:/Datasets/studentlife"
+#' d <- tempdir()
 #' download_studentlife(dest = d)
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
@@ -131,7 +131,7 @@ vis_NAs <- function(tab, response,
 #'
 #' @examples
 #' \donttest{
-#' d <- "D:/Datasets/studentlife"
+#' d <- tempdir()
 #' download_studentlife(dest = d)
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
