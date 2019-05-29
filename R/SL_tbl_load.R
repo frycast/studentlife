@@ -1,9 +1,20 @@
 #' download_studentlife
 #'
-#' Download the entire StudentLife dataset
+#' Download the entire StudentLife dataset or
+#' a smaller sample dataset for testing.
 #'
-#'@param url The url for the StudentLife dataset.
-#'@param dest The destination path. If the path does
+#' If \code{url = "dartmouth"} then data will be downloaded
+#' from <https://studentlife.cs.dartmouth.edu/dataset/dataset.tar.bz2>
+#' If \code{url = "testdata"} then data will be downloaded
+#' from the test data at <https://github.com/frycast/studentlife>
+#'
+#'
+#'@param url A character string. Either
+#'"dartmouth" for the Dartmouth URL, or
+#'"testdata" for a small sample dataset. Otherwise
+#'or a full URL of your choice can be specified leading to
+#'the StudentLife dataset as a \code{.tar.gz} file.
+#'@param location The destination path. If the path does
 #'not exist it is created with \code{\link{dir.create}}
 #'@param unzip Logical. If \code{TRUE} then the
 #'dataset will be unzipped with \code{\link[R.utils]{bunzip2}}.
@@ -15,7 +26,7 @@
 #'@examples
 #'\donttest{
 #'d <- tempdir()
-#'download_studentlife(dest = d)
+#'download_studentlife(location = d, url = "testdata")
 #'
 #'## With menu
 #'load_SL_tibble(location = d)
@@ -27,36 +38,43 @@
 #'
 #'@export
 download_studentlife <- function(
-  url = paste0("https://studentlife.cs.dartmouth.edu",
-               "/dataset/dataset.tar.bz2"),
-  dest = ".",
+  url = "dartmouth",
+  location = ".",
   unzip = TRUE,
   untar = TRUE) {
 
-  message("Downloading the StudentLife dataset...")
-  d <- "dataset.tar.bz2"
-  p <- paste0(dest, "/", d)
-  if (!dir.exists(dest)) dir.create(dest)
+  if (tolower(url) == "dartmouth")
+    url <- paste0("https://studentlife.cs.dartmouth.edu",
+                  "/dataset/dataset.tar.bz2")
+
+  if (tolower(url) == "testdata") {
+
+    url <- paste0("https://github.com/frycast/studentlife/",
+                  "trunk/testthat/testdata/",
+                  "SL_testdata/dataset.tar.bz2")
+    mes1 <- "Downloading the small sample dataset..."
+
+  } else {
+
+    mes1 <- "Downloading the StudentLife dataset..."
+  }
+
+  message(mes1)
+  f <- "dataset.tar.bz2"
+  p <- paste0(location, "/", f)
+  if (!dir.exists(location)) dir.create(location)
   utils::download.file(url = url, destfile = p)
   message("Download complete")
-
   if (unzip) {
-    message("Unzipping the StudentLife dataset...")
+    message("Unzipping the dataset...")
     R.utils::bunzip2(p, remove = FALSE, skip = TRUE)
-    message("Unzip complete")
-    message(paste0("You may now wish to delete ",
-                   "dataset.tar.bz2 ",
-                   "to save disk space")) }
-
+    message("Unzip complete")}
   if (untar) {
-    d <- "dataset.tar"
-    p <- paste0(dest, "/", d)
-    message("Untarring the StudentLife dataset...")
-    utils::untar(p, exdir = dest)
-    message("Untar complete")
-    message(paste0("You may now wish to delete ",
-                   "dataset.tar ",
-                   "to save disk space")) }
+    f <- "dataset.tar"
+    p <- paste0(location, "/", f)
+    message("Untarring the dataset...")
+    utils::untar(p, exdir = location)
+    message("Untar complete")}
 }
 
 

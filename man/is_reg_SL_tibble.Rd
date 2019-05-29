@@ -18,7 +18,7 @@ regularised StudentLife tibble
 }
 \examples{
 \donttest{
-d <- "D:/Datasets/studentlife"
+d <- tempdir()
 download_studentlife(dest = d)
 
 tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)

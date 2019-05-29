@@ -62,7 +62,7 @@ menu.
 }
 \examples{
 \donttest{
-d <- "D:/Datasets/studentlife"
+d <- tempdir()
 download_studentlife(dest = d)
 
 ## With menu

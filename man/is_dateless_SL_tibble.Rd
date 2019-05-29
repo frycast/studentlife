@@ -18,7 +18,7 @@ dateless StudentLife tibble
 }
 \examples{
 \donttest{
-d <- "D:/Datasets/studentlife"
+d <- tempdir()
 download_studentlife(dest = d)
 
 tab_S <- load_SL_tibble(

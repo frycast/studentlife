@@ -4,13 +4,21 @@
 \name{studentlife}
 \alias{studentlife}
 \alias{studentlife-package}
-\title{Investigating the StudentLife dataset from Dartmouth}
+\title{Tidy Handling and Navigation of the Student-Life Dataset}
 \description{
-Seamless tidy handling and convenient navigation
-of a rich mHealth dataset
+Download, navigate and analyse the Student-Life dataset.
+The Student-Life dataset contains passive and automatic sensing data
+from the phones of a class of 48 de-identified Dartmouth college students.
+It was collected over a 10 week term. Additionally, the dataset contains
+Ecological Momentary Assessment results along with pre- and post-study
+mental health surveys, such as the PHQ-9. The intended use is to assess
+mental health, academic performance and behavioral trends.
+The raw dataset and additional information is
+available at <https://studentlife.cs.dartmouth.edu/>.
 }
 \details{
-Details on the StudentLife dataset are available at
+Details on the Student-Life dataset as well as the
+dataset itself are available at
 https://studentlife.cs.dartmouth.edu/.
 }
 \section{Update}{
