@@ -18,7 +18,7 @@ Description: Download, navigate and analyse the Student-Life dataset.
     The raw dataset and additional information is 
     available at <https://studentlife.cs.dartmouth.edu/>.
 Depends: R (>= 3.4.0)
-License: GPL-3 | file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:
