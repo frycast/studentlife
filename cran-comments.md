@@ -1,3 +1,36 @@
+## Resubmission
+This is a resubmission, the following have been fixed as requested by Martina Schmirl:
+
+  * Please only capitalize sentence beginnings and names in the description 
+    text. (f.i.: ... ecological momentary assessment results ...)
+  
+  * We see you have in your Readme vignette:
+    ``` r
+    # install.packages("devtools")
+    devtools::install_github("frycast/studentlife")
+    ```
+    So when checking the vignette, we always install an extra copy of your 
+    package which does not make sense nor is this permitted. So please make 
+    this a comment that is not evaluated when your vignette code gets executed.
+  
+  * The LICENSE file is only needed if you have additional restrictions to 
+    the GPL-3 which you have not? In that case omit the file and its 
+    reference in the DESCRIPTION file.
+  
+  * All examples are wrapped in \donttest{}.
+    It would be great if you could use another dataset for most examples to 
+    enable automatic testing.
+  
+  * Please do not write to the user filespace. If you
+    really have to write out something, use tempdir() if the user is not
+    asked and in examples.
+    (d <- tempdir() )
+
+
+
+
+
+
 ## Test environments
 
 * Local Windows 10 install (R 3.5.3)
