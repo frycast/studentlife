@@ -17,15 +17,13 @@ Confirm that an object is a
 date-only StudentLife tibble
 }
 \examples{
-\donttest{
 d <- tempdir()
-download_studentlife(dest = d)
+download_studentlife(location = d, url = "testdata")
 
 tab_DL <- load_SL_tibble(
   schema = "education", table = "deadlines", location = d)
 
 # Returns TRUE
 is_dateonly_SL_tibble(tab_DL)
-}
 
 }

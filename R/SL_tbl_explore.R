@@ -15,14 +15,12 @@
 #' @param ... Arguments passed to \code{\link[graphics]{hist}}.
 #'
 #' @examples
-#' \donttest{
 #' d <- tempdir()
-#' download_studentlife(dest = d)
+#' download_studentlife(location = d, url = "testdata")
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 #'
 #' response_hour_hist(tab_PAM)
-#' }
 #'
 #' @export
 response_hour_hist <- function(tab, break_hours = 10,
@@ -73,9 +71,8 @@ response_hour_hist <- function(tab, break_hours = 10,
 #' @return A ggplot object.
 #'
 #' @examples
-#' \donttest{
 #' d <- tempdir()
-#' download_studentlife(dest = d)
+#' download_studentlife(location = d, url = "testdata")
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 #'
@@ -83,7 +80,6 @@ response_hour_hist <- function(tab, break_hours = 10,
 #'   tab_PAM, blocks = c("day", "epoch"), m = mean(picture_idx, na.rm = TRUE))
 #'
 #' vis_NAs(reg_PAM, response = "m")
-#' }
 #'
 #' @export
 vis_NAs <- function(tab, response,
@@ -130,9 +126,8 @@ vis_NAs <- function(tab, response,
 #' @param ... Arguments passed to \code{\link[graphics]{barplot}}.
 #'
 #' @examples
-#' \donttest{
 #' d <- tempdir()
-#' download_studentlife(dest = d)
+#' download_studentlife(location = d, url = "testdata")
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 #'
@@ -140,7 +135,6 @@ vis_NAs <- function(tab, response,
 #'   tab_PAM, blocks = c("day", "epoch"), m = mean(picture_idx, na.rm = TRUE))
 #'
 #' vis_response_counts(reg_PAM, response = "m")
-#' }
 #'
 #' @export
 vis_response_counts <- function(tab, response,

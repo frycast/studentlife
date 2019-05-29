@@ -59,9 +59,8 @@ information on blocks see
 \code{\link[studentlife]{add_block_labels}}).
 }
 \examples{
-\donttest{
 d <- tempdir()
-download_studentlife(dest = d)
+download_studentlife(location = d, url = "testdata")
 
 tab <- load_SL_tibble(
   loc = d, schema = "sensing", table = "activity", csv_nrows = 10)
@@ -71,6 +70,5 @@ r_tab <- regularise_time(
   act_inf = max(activity_inference), add_NAs = FALSE)
 
 r_tab
-}
 
 }

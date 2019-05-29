@@ -29,13 +29,11 @@ frequencies of observations within hourly blocks,
 or blocks of multiple hours.
 }
 \examples{
-\donttest{
 d <- tempdir()
-download_studentlife(dest = d)
+download_studentlife(location = d, url = "testdata")
 
 tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 
 response_hour_hist(tab_PAM)
-}
 
 }

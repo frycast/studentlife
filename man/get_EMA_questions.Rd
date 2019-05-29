@@ -18,3 +18,13 @@ The EMA_questions attribute of \code{x}
 Get the EMA questions from a StudentLife tibble
 whose schema is "EMA".
 }
+\examples{
+d <- tempdir()
+download_studentlife(location = d, url = "testdata")
+
+tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+
+# Returns "PAM"
+get_EMA_questions(tab_PAM)
+
+}

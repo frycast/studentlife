@@ -4,7 +4,7 @@
 \alias{download_studentlife}
 \title{download_studentlife}
 \usage{
-download_studentlife(url = "dartmouth", dest = ".", unzip = TRUE,
+download_studentlife(url = "dartmouth", location = ".", unzip = TRUE,
   untar = TRUE)
 }
 \arguments{
@@ -14,7 +14,7 @@ download_studentlife(url = "dartmouth", dest = ".", unzip = TRUE,
 or a full URL of your choice can be specified leading to
 the StudentLife dataset as a \code{.tar.gz} file.}
 
-\item{dest}{The destination path. If the path does
+\item{location}{The destination path. If the path does
 not exist it is created with \code{\link{dir.create}}}
 
 \item{unzip}{Logical. If \code{TRUE} then the
@@ -33,19 +33,20 @@ a smaller sample dataset for testing.
 If \code{url = "dartmouth"} then data will be downloaded
 from <https://studentlife.cs.dartmouth.edu/dataset/dataset.tar.bz2>
 If \code{url = "testdata"} then data will be downloaded
-from the test data at <https://github.com/frycast/studentlife>
+from the test data at the studentlife GitHub repository
+<https://github.com/frycast/studentlife>
 }
 \examples{
-\donttest{
 d <- tempdir()
-download_studentlife(dest = d, url = "testdata")
+download_studentlife(location = d, url = "testdata")
 
+\donttest{
 ## With menu
 load_SL_tibble(location = d)
+}
 
 ## Without menu
 SL_tables
 load_SL_tibble(schema = "EMA", table = "PAM", location = d)
-}
 
 }

@@ -18,14 +18,12 @@ A character string indicating the table name
 Retrieve the table name from a StudentLife tibble
 }
 \examples{
-\donttest{
 d <- tempdir()
-download_studentlife(dest = d)
+download_studentlife(location = d, url = "testdata")
 
 tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 
 # Returns "PAM"
 get_table(tab_PAM)
-}
 
 }

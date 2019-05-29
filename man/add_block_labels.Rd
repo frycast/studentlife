@@ -55,16 +55,14 @@ StudentLife study, rounded downs),
 StudentLife study, rounded down) and "date".
 }
 \examples{
-\donttest{
 d <- tempdir()
-download_studentlife(dest = d)
+download_studentlife(location = d, url = "testdata")
 
 tab <- load_SL_tibble(
   loc = d, schema = "sensing", table = "activity", csv_nrows = 10)
 
 b_tab <- add_block_labels(tab)
 b_tab
-}
 
 
 }

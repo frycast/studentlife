@@ -129,15 +129,13 @@ clean_strings <- function(x) {
 #'@return Logical
 #'
 #'@examples
-#' \donttest{
 #' d <- tempdir()
-#' download_studentlife(dest = d)
+#' download_studentlife(location = d, url = "testdata")
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 #'
 #' # Returns TRUE
 #' is_SL_tibble(tab_PAM)
-#' }
 #'
 #'@export
 is_SL_tibble <- function (x)
@@ -156,16 +154,14 @@ is_SL_tibble <- function (x)
 #'@return Logical
 #'
 #'@examples
-#' \donttest{
 #' d <- tempdir()
-#' download_studentlife(dest = d)
+#' download_studentlife(location = d, url = "testdata")
 #'
 #' tab_DL <- load_SL_tibble(
 #'   schema = "education", table = "deadlines", location = d)
 #'
 #' # Returns TRUE
 #' is_dateonly_SL_tibble(tab_DL)
-#' }
 #'
 #'@export
 is_dateonly_SL_tibble <- function (x)
@@ -184,16 +180,14 @@ is_dateonly_SL_tibble <- function (x)
 #'@return Logical
 #'
 #'@examples
-#' \donttest{
 #' d <- tempdir()
-#' download_studentlife(dest = d)
+#' download_studentlife(location = d, url = "testdata")
 #'
 #' tab_con <- load_SL_tibble(
 #'   schema = "sensing", table = "conversation", location = d, csv_nrow = 10)
 #'
 #' # Returns TRUE
 #' is_interval_SL_tibble(tab_con)
-#' }
 #'
 #'@export
 is_interval_SL_tibble <- function (x)
@@ -212,15 +206,13 @@ is_interval_SL_tibble <- function (x)
 #'@return Logical
 #'
 #'@examples
-#' \donttest{
 #' d <- tempdir()
-#' download_studentlife(dest = d)
+#' download_studentlife(location = d, url = "testdata")
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 #'
 #' # Returns TRUE
 #' is_timestamp_SL_tibble(tab_PAM)
-#' }
 #'
 #'@export
 is_timestamp_SL_tibble <- function (x)
@@ -239,9 +231,8 @@ is_timestamp_SL_tibble <- function (x)
 #'@return Logical
 #'
 #'@examples
-#' \donttest{
 #' d <- tempdir()
-#' download_studentlife(dest = d)
+#' download_studentlife(location = d, url = "testdata")
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 #'
@@ -250,7 +241,6 @@ is_timestamp_SL_tibble <- function (x)
 #'
 #' # Returns TRUE
 #' is_reg_SL_tibble(reg_PAM)
-#' }
 #'
 #'@export
 is_reg_SL_tibble <- function (x)
@@ -269,16 +259,14 @@ is_reg_SL_tibble <- function (x)
 #'@return Logical
 #'
 #'@examples
-#' \donttest{
 #' d <- tempdir()
-#' download_studentlife(dest = d)
+#' download_studentlife(location = d, url = "testdata")
 #'
 #' tab_S <- load_SL_tibble(
 #'   schema = "survey", table = "BigFive", location = d)
 #'
 #' # Returns TRUE
 #' is_dateless_SL_tibble(tab_S)
-#' }
 #'
 #'@export
 is_dateless_SL_tibble <- function(x)
@@ -298,15 +286,13 @@ is_dateless_SL_tibble <- function(x)
 #'@return A character string indicating the schema name
 #'
 #'@examples
-#' \donttest{
 #' d <- tempdir()
-#' download_studentlife(dest = d)
+#' download_studentlife(location = d, url = "testdata")
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 #'
 #' # Returns "EMA"
 #' get_schema(tab_PAM)
-#' }
 #'
 #'@export
 get_schema <- function(x) {
@@ -324,15 +310,13 @@ get_schema <- function(x) {
 #'@return A character string indicating the table name
 #'
 #'@examples
-#' \donttest{
 #' d <- tempdir()
-#' download_studentlife(dest = d)
+#' download_studentlife(location = d, url = "testdata")
 #'
 #' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 #'
 #' # Returns "PAM"
 #' get_table(tab_PAM)
-#' }
 #'
 #'@export
 get_table <- function(x) {
@@ -349,6 +333,15 @@ get_table <- function(x) {
 #' \code{\link[studentlife]{load_SL_tibble}}.
 #'
 #' @return The EMA_questions attribute of \code{x}
+#'
+#'@examples
+#' d <- tempdir()
+#' download_studentlife(location = d, url = "testdata")
+#'
+#' tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
+#'
+#' # Returns "PAM"
+#' get_EMA_questions(tab_PAM)
 #'
 #'@export
 get_EMA_questions <- function(x) {

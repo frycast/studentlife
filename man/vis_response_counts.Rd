@@ -31,9 +31,8 @@ total number of responses
 for each student in a regularised SL_tbl.
 }
 \examples{
-\donttest{
 d <- tempdir()
-download_studentlife(dest = d)
+download_studentlife(location = d, url = "testdata")
 
 tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 
@@ -41,6 +40,5 @@ reg_PAM <- regularise_time(
   tab_PAM, blocks = c("day", "epoch"), m = mean(picture_idx, na.rm = TRUE))
 
 vis_response_counts(reg_PAM, response = "m")
-}
 
 }

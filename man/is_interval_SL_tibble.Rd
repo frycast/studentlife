@@ -17,15 +17,13 @@ Confirm that an object is
 an interval StudentLife tibble
 }
 \examples{
-\donttest{
 d <- tempdir()
-download_studentlife(dest = d)
+download_studentlife(location = d, url = "testdata")
 
 tab_con <- load_SL_tibble(
   schema = "sensing", table = "conversation", location = d, csv_nrow = 10)
 
 # Returns TRUE
 is_interval_SL_tibble(tab_con)
-}
 
 }

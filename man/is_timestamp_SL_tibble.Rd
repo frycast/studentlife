@@ -17,14 +17,12 @@ Confirm that an object is a
 timestamped StudentLife tibble
 }
 \examples{
-\donttest{
 d <- tempdir()
-download_studentlife(dest = d)
+download_studentlife(location = d, url = "testdata")
 
 tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 
 # Returns TRUE
 is_timestamp_SL_tibble(tab_PAM)
-}
 
 }

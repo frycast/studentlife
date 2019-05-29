@@ -61,12 +61,13 @@ unspecified to choose interactively via a
 menu.
 }
 \examples{
-\donttest{
 d <- tempdir()
-download_studentlife(dest = d)
+download_studentlife(location = d, url = "testdata")
 
+\donttest{
 ## With menu
 load_SL_tibble(location = d)
+}
 
 ## Without menu
 SL_tables
@@ -76,6 +77,7 @@ PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 act <- load_SL_tibble(schema = "sensing", table = "activity",
                      location = d, csv_nrows = 10)
 
+\donttest{
 ## Browse all tables with timestamps (non-interval)
 load_SL_tibble(location = d, time_options = "timestamp", csv_nrows = 10)
 
@@ -85,5 +87,4 @@ load_SL_tibble(location = d, time_options = "interval", csv_nrows = 10)
 ## Browse all dateless tables
 load_SL_tibble(location = d, time_options = "dateless", csv_nrows = 10)
 }
-
 }

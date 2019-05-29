@@ -17,9 +17,8 @@ Confirm that an object is a
 regularised StudentLife tibble
 }
 \examples{
-\donttest{
 d <- tempdir()
-download_studentlife(dest = d)
+download_studentlife(location = d, url = "testdata")
 
 tab_PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 
@@ -28,6 +27,5 @@ reg_PAM <- regularise_time(
 
 # Returns TRUE
 is_reg_SL_tibble(reg_PAM)
-}
 
 }

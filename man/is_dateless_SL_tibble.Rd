@@ -17,15 +17,13 @@ Confirm that an object is a
 dateless StudentLife tibble
 }
 \examples{
-\donttest{
 d <- tempdir()
-download_studentlife(dest = d)
+download_studentlife(location = d, url = "testdata")
 
 tab_S <- load_SL_tibble(
   schema = "survey", table = "BigFive", location = d)
 
 # Returns TRUE
 is_dateless_SL_tibble(tab_S)
-}
 
 }
