@@ -54,7 +54,7 @@ confirm_SL_tibble <- function(tab) {
 
   uids <- tab$uid
 
-  if ( !is.factor(uids) || !(levels(uids) %in% getOption("SL_uids")) )
+  if ( !is.factor(uids) || !all(levels(uids) %in% getOption("SL_uids")) )
     {warning("'uid' is not factor with correct levels"); return(FALSE)}
 
   schema <- attr(tab, "schema")
