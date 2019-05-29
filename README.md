@@ -29,14 +29,15 @@ Install from GitHub with
 ------------------------
 
 ``` r
+## Uncomment to install the package
 # install.packages("devtools")
-devtools::install_github("frycast/studentlife")
+# devtools::install_github("frycast/studentlife")
 ```
 
 Details on the dataset are available [here](https://studentlife.cs.dartmouth.edu). Once installed, you can download and extract the data within R:
 
 ``` r
-d <- "studentlife"
+d <- tempdir()
 library(studentlife)
 download_studentlife(dest = d)
 ```
