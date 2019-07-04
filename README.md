@@ -14,7 +14,7 @@ studentlife: Tidy Handling and Navigation of a Valuable Mobile-Health Dataset
 [![Lifecycle Status](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/)
 <!-- Badges End -->
 
-This package is [now available on CRAN](https://cran.r-project.org/web/packages/studentlife/index.html).
+This package is [available on CRAN](https://cran.r-project.org/web/packages/studentlife/index.html).
 
 Use this R package to download, navigate and analyse the Student-Life dataset. The Student-Life dataset contains 
     passive and automatic sensing data from the phones of a class 
