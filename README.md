@@ -6,6 +6,7 @@ studentlife: Tidy Handling and Navigation of a Valuable Mobile-Health Dataset
 
 <!-- Badges Start -->
 [![CRAN\_Release\_Badge](http://www.r-pkg.org/badges/version-ago/studentlife)](https://CRAN.R-project.org/package=studentlife)
+[![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/studentlife)](https://CRAN.R-project.org/package=studentlife)
 [![Travis-CI Build Status](https://travis-ci.org/frycast/studentlife.svg?branch=master)](https://travis-ci.org/frycast/studentlife) 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/frycast/studentlife/master?urlpath=rstudio) 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) 
@@ -13,7 +14,7 @@ studentlife: Tidy Handling and Navigation of a Valuable Mobile-Health Dataset
 [![Lifecycle Status](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/)
 <!-- Badges End -->
 
-This package is [now available on CRAN](https://cran.r-project.org/web/packages/studentlife/index.html).
+This package is [available on CRAN](https://cran.r-project.org/web/packages/studentlife/index.html).
 
 Use this R package to download, navigate and analyse the Student-Life dataset. The Student-Life dataset contains 
     passive and automatic sensing data from the phones of a class 
@@ -28,11 +29,14 @@ Use this R package to download, navigate and analyse the Student-Life dataset. T
 
 
 
-Install from GitHub with
-------------------------
+Installation
+------------
 
 ``` r
-## Uncomment to install the package
+## Uncomment to install the package from CRAN
+# install.packages("studentlife")
+
+## Or, uncomment to install the package from GitHub
 # install.packages("devtools")
 # devtools::install_github("frycast/studentlife")
 ```
@@ -204,7 +208,10 @@ Skim summary statistics
 ```
 
 
-This studentlife repository includes many automated software tests implemented via [`testthat`](https://cran.r-project.org/web/packages/testthat/index.html). We use these to check for bugs before releasing new updates. They can be found under the directory `tests`.
+Software Testing
+----------------
+
+This studentlife repository includes many automated software tests implemented via [`testthat`](https://cran.r-project.org/web/packages/testthat/index.html). We use these to check for bugs before releasing new updates. They can be found under the directory `tests`. Also, we use [Travis-CI](https://travis-ci.org/frycast/studentlife) for continuous integration.
 
 
 <!--
