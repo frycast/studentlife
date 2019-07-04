@@ -29,11 +29,14 @@ Use this R package to download, navigate and analyse the Student-Life dataset. T
 
 
 
-Install from GitHub with
-------------------------
+Installation
+------------
 
 ``` r
-## Uncomment to install the package
+## Uncomment to install the package from CRAN
+# install.packages("studentlife")
+
+## Or, uncomment to install the package from GitHub
 # install.packages("devtools")
 # devtools::install_github("frycast/studentlife")
 ```
