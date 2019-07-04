@@ -205,7 +205,10 @@ Skim summary statistics
 ```
 
 
-This studentlife repository includes many automated software tests implemented via [`testthat`](https://cran.r-project.org/web/packages/testthat/index.html). We use these to check for bugs before releasing new updates. They can be found under the directory `tests`.
+Software Testing
+----------------
+
+This studentlife repository includes many automated software tests implemented via [`testthat`](https://cran.r-project.org/web/packages/testthat/index.html). We use these to check for bugs before releasing new updates. They can be found under the directory `tests`. Also, we use [Travis-CI](https://travis-ci.org/frycast/studentlife) for continuous integration.
 
 
 <!--
