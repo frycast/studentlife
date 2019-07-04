@@ -13,16 +13,18 @@ studentlife: Tidy Handling and Navigation of a Valuable Mobile-Health Dataset
 [![Lifecycle Status](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/)
 <!-- Badges End -->
 
-
+This package is [now available on CRAN](https://cran.r-project.org/web/packages/studentlife/index.html).
 
 Use this R package to download, navigate and analyse the Student-Life dataset. The Student-Life dataset contains 
     passive and automatic sensing data from the phones of a class 
     of 48 de-identified Dartmouth college students. It was collected 
     over a 10 week term. Additionally, the dataset contains Ecological 
     Momentary Assessment results along with pre- and post-study mental 
-    health surveys, such as the PHQ-9. The intended use is to assess 
+    health surveys, such as the PHQ-9. The intended use is to allow
+    researchers and other interested people to assess 
     mental health, academic performance and behavioral trends. 
     The raw dataset and additional information is available at <https://studentlife.cs.dartmouth.edu/>.
+
 
 
 
@@ -35,15 +37,19 @@ Install from GitHub with
 # devtools::install_github("frycast/studentlife")
 ```
 
-Details on the dataset are available [here](https://studentlife.cs.dartmouth.edu). Once installed, you can download and extract the data within R:
+This studentlife repository includes a small sample dataset that can be used for practice and testing. You can download the sample data within R:
+```
+library(studentlife)
+d <- tempdir()
+download_studentlife(location = d, url = "testdata")
+```
+In this README we will use the full dataset rather than just the sample data. Details on the full dataset are available [here](https://studentlife.cs.dartmouth.edu). You can download and extract the full dataset within R. The download size is 5 GB.
 
 ``` r
-d <- tempdir()
-library(studentlife)
 download_studentlife(dest = d)
 ```
 
-Then you can use the interactive menu to browse the tables and schemas:
+Use the interactive menu to browse the tables and schemas of the downloaded dataset:
 
 ``` r
 tab <- studentlife::load_SL_tibble(location = d)
@@ -196,6 +202,9 @@ Skim summary statistics
      type       0       84 84        2           pre: 46, pos: 38, NA: 0   FALSE
       uid       0       84 84       46            0: 2, 1: 2, 2: 2, 3: 2   FALSE
 ```
+
+
+This studentlife repository includes many automated software tests implemented via [`testthat`](https://cran.r-project.org/web/packages/testthat/index.html). We use these to check for bugs before releasing new updates. They can be found under the directory `tests`.
 
 
 <!--
