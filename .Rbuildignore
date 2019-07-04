@@ -1,5 +1,5 @@
 ^\.covrignore$
-^paper\.md$
+^paper$
 ^\.travis\.yml$
 ^tests$
 ^install\.R$
@@ -9,3 +9,4 @@
 ^man\figures$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
+^LICENSE$
