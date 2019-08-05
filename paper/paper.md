@@ -24,7 +24,7 @@ affiliations:
  - name: School of Mathematics and Physics, University of Queensland, St. Lucia 4072,
     Queensland Australia
    index: 2
- - name: Department of Psychiatry, University of Montreal, Monstreal H3C 3J7,
+ - name: Department of Psychiatry, University of Montreal, Montreal H3C 3J7,
     Quebec Canada
    index: 3
 date: 4 July 2019
