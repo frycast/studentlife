@@ -213,6 +213,12 @@ Software Testing
 
 This studentlife repository includes many automated software tests implemented via [`testthat`](https://cran.r-project.org/web/packages/testthat/index.html). We use these to check for bugs before releasing new updates. They can be found under the directory `tests`. Also, we use [Travis-CI](https://travis-ci.org/frycast/studentlife) for continuous integration.
 
+Community Guidelines
+----------------
+* Please give your feedback and report bugs at the [issues page](https://github.com/frycast/studentlife/issues).
+* Contributions are welcome! The best way to contribute is to fork the project on GitHub, make a contribution to your fork, and then submit a pull request. A useful guide can be [found here](https://akrabat.com/the-beginners-guide-to-contributing-to-a-github-project/#summary).
+* If you have questions or need support please email Daniel Fryer via the email on his [GitHub profile](https://github.com/frycast/).
+
 
 <!--
 DOCUMENTATION CHECKLIST
