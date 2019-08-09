@@ -50,7 +50,7 @@ download_studentlife(location = d, url = "testdata")
 In this README we will use the full dataset rather than just the sample data. Details on the full dataset are available [here](https://studentlife.cs.dartmouth.edu). You can download and extract the full dataset within R. The download size is 5 GB.
 
 ``` r
-download_studentlife(dest = d)
+download_studentlife(location = d)
 ```
 
 Use the interactive menu to browse the tables and schemas of the downloaded dataset:
