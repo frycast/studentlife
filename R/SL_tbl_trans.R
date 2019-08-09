@@ -188,7 +188,7 @@ regularise_time <- function(
 #'"week", "weekday", "month" and "date". Any block label types that
 #'are not inferrable from the available date-time data are ignored.
 #'@param interval A character string that decides how block
-#'membership is decided when \code{stude} is of class
+#'membership is decided when \code{tab} is of class
 #'\code{interval_SL_tibble}. Can be either "start"
 #'(use \code{start_timestamp}),
 #'"end" (use \code{end_timestamp}) or "middle" (use the midpoint between

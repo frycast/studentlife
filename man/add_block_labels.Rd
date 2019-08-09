@@ -20,7 +20,7 @@ to include. Can be one or more of "epoch", "day",
 are not inferrable from the available date-time data are ignored.}
 
 \item{interval}{A character string that decides how block
-membership is decided when \code{stude} is of class
+membership is decided when \code{tab} is of class
 \code{interval_SL_tibble}. Can be either "start"
 (use \code{start_timestamp}),
 "end" (use \code{end_timestamp}) or "middle" (use the midpoint between
