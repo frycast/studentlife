@@ -12,7 +12,7 @@ studentlife: Tidy Handling and Navigation of a Valuable Mobile-Health Dataset
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) 
 [![Code coverage](https://codecov.io/gh/frycast/studentlife/branch/master/graph/badge.svg)](https://codecov.io/github/frycast/studentlife?branch=master)
 [![Lifecycle Status](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/)
-[![DOI](https://zenodo.org/badge/174307685.svg)](https://zenodo.org/badge/latestdoi/174307685)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3371922.svg)](https://doi.org/10.5281/zenodo.3371922)
 <!-- Badges End -->
 
 This package is [available on CRAN](https://cran.r-project.org/web/packages/studentlife/index.html).
