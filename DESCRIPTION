@@ -3,7 +3,7 @@ BugReports: https://github.com/Frycast/studentlife/issues
 Package: studentlife
 Type: Package
 Title: Tidy Handling and Navigation of the Student-Life Dataset
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: c(person("Daniel", "Fryer", 
                      role = c("aut", "cre"), 
                      email = "d.fryer@latrobe.edu.au",

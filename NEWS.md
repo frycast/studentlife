@@ -1,4 +1,4 @@
-# studentlife 1.0.2
+# studentlife 1.0.3
 This release only updates the authorship to give
 correct authorship information.
 

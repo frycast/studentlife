@@ -1,0 +1,37 @@
+{
+    "description": "Post Journal of Open Source Software Review, with updated authorship information", 
+    "license": "other-open", 
+    "title": "studentlife: Tidy Handling and Navigation of a Valuable Mobile-Health Dataset", 
+    "version": "v1.0.3", 
+    "upload_type": "software", 
+    "publication_date": "2019-08-20", 
+    "creators": [
+        {
+            "affiliation": "The University of Queensland and La Trobe University", 
+            "name": "Daniel Vidali Fryer",
+			"orcid": "0000-0001-6032-0522"
+        },
+		{
+            "affiliation": "La Trobe University",
+            "name": "Hien Nguyen",
+            "orcid": "0000-0002-9958-432X"
+		},
+		{
+            "affiliation": "University of Montreal",
+            "name": "Pierre Orban"
+		}
+    ], 
+    "access_right": "open", 
+    "related_identifiers": [
+        {
+            "scheme": "url", 
+            "identifier": "https://github.com/frycast/studentlife/tree/v1.0.2", 
+            "relation": "isSupplementTo"
+        }, 
+        {
+            "scheme": "doi", 
+            "identifier": "10.5281/zenodo.3371856", 
+            "relation": "isVersionOf"
+        }
+    ]
+}
