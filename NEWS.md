@@ -1,3 +1,9 @@
+# studentlife 1.0.2
+This release only updates the authorship to give
+correct authorship information.
+
+  * Updated authorship information in DESCRIPTION
+
 # studentlife 1.0.1
 This release includes changes recommended by 
 reviewers at the Journal of Open Source Software.

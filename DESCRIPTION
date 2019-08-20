@@ -3,11 +3,16 @@ BugReports: https://github.com/Frycast/studentlife/issues
 Package: studentlife
 Type: Package
 Title: Tidy Handling and Navigation of the Student-Life Dataset
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: c(person("Daniel", "Fryer", 
                      role = c("aut", "cre"), 
                      email = "d.fryer@latrobe.edu.au",
-                     comment = c(ORCID = "0000-0001-6032-0522")))
+                     comment = c(ORCID = "0000-0001-6032-0522")),
+             person("Hien", "Nguyen",  
+                     role = "aut",
+                     comment = c(ORCID = "0000-0002-9958-432X")),
+             person("Pierre", "Orban", 
+                     role = "aut"))
 Description: Download, navigate and analyse the Student-Life dataset. 
     The Student-Life dataset contains passive and automatic sensing data 
     from the phones of a class of 48 Dartmouth college students. 
