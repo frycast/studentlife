@@ -9,17 +9,17 @@
         {
             "affiliation": "The University of Queensland and La Trobe University", 
             "name": "Daniel Vidali Fryer",
-			"orcid": "0000-0001-6032-0522"
+            "orcid": "0000-0001-6032-0522"
         },
-		{
+        {
             "affiliation": "La Trobe University",
             "name": "Hien Nguyen",
             "orcid": "0000-0002-9958-432X"
-		},
-		{
+        },
+        {
             "affiliation": "University of Montreal",
             "name": "Pierre Orban"
-		}
+        }
     ], 
     "access_right": "open", 
     "related_identifiers": [
