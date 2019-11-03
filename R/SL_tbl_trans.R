@@ -60,6 +60,7 @@ regularise_time <- function(
   date_range = seq(from = start_date, by = 1, length.out = study_duration)) {
 
   blocks <- tolower(blocks)
+  if ( "hour" %in% blocks ) blocks <- c("date", blocks)
   if ( "day" %in% blocks ) blocks <- c("date", blocks)
   opt <- c("month", "week", "day", "date", "weekday", "epoch", "hour")
   options_check(par = blocks, opt = opt)
@@ -111,11 +112,12 @@ regularise_time <- function(
     if ("hour" %in% names(tab)) {
       full <- data.frame(
         uid = factor(
-          rep(uid_range, each = length(date_range)*length(epoch_levels)*24),
+          rep(uid_range, each = length(date_range)*24),
           levels = uid_range),
-        date = rep(date_range, each = length(epoch_levels)*24),
-        epoch = factor(epoch_levels, levels = epoch_levels))
-      tabg <- dplyr::left_join(full, tab, by = c("uid", "hour", "epoch", "date"))
+        date = rep(date_range, each = 24),
+        epoch = rep(factor(epoch_levels, levels = epoch_levels), each = 24/length(epoch_levels)),
+        hour = 0:23)
+      tabg <- dplyr::left_join(full, tab, by = c("uid", "hour", "date"))
     } else if ("epoch" %in% names(tab)){
       full <- data.frame(
         uid = factor(
@@ -129,7 +131,7 @@ regularise_time <- function(
         uid = factor(
           rep(uid_range, each = length(date_range)),
           levels = uid_range),
-        date = rep(date_range, each = length(epoch_levels)))
+        date = date_range)
       tabg <- dplyr::left_join(full, tab, by = c("uid", "date"))
     }
   } else {

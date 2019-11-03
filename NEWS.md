@@ -1,6 +1,8 @@
 # studentlife 1.0.4 (in progress)
-Updates dependency to skimr >= 1.0.7, to overcome
-bug in summary generic.
+Bug fixes:
+
+  * Updates dependency to skimr >= 1.0.7
+  * regularise_time output is now correct for "day" and "hour"
 
 # studentlife 1.0.3
 This release only updates the authorship to give
