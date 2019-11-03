@@ -60,7 +60,6 @@ regularise_time <- function(
   date_range = seq(from = start_date, by = 1, length.out = study_duration)) {
 
   blocks <- tolower(blocks)
-  if ( "hour" %in% blocks ) blocks <- c("date", blocks)
   if ( "day" %in% blocks ) blocks <- c("date", blocks)
   opt <- c("month", "week", "day", "date", "weekday", "epoch", "hour")
   options_check(par = blocks, opt = opt)
@@ -156,6 +155,8 @@ regularise_time <- function(
 
   if ( all(c("date","uid") %in% names(tabg)) ) {
     class(tabg) <- c("reg_SL_tbl", "dateonly_SL_tbl", "SL_tbl", class(tabg))
+  } else {
+    class(tabg) <- c("reg_SL_tbl", "SL_tbl", class(tabg))
   }
 
   transfer_SL_tbl_attrs(tabg) <- tab

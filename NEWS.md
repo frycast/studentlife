@@ -3,6 +3,7 @@ Bug fixes:
 
   * Updates dependency to skimr >= 1.0.7
   * regularise_time output is now correct for "day" and "hour"
+  * reg_SL_tbl class is now always returned by regularise_time
 
 # studentlife 1.0.3
 This release only updates the authorship to give
