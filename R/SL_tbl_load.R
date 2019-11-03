@@ -176,8 +176,16 @@ load_SL_tibble <- function(
   }
 
   if ( missing(schema) & !missing(table) ) {
-    stop(paste0("if table is specified then schema ",
-                "must be specified also"))
+
+    guess_schema <- names(
+      unlist(lapply(studentlife::SL_tables, function(x){which(x == table)})))
+    if (length(guess_schema) != 1) {
+      stop(paste0("Had trouble determining the schema, ",
+                  "try specifying it with the schema argument"))
+    } else {
+      schema <- guess_schema
+    }
+
   }
 
   if (!missing(schema))
