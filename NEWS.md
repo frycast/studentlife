@@ -1,10 +1,11 @@
 # studentlife 1.0.4 (in progress)
-Bug fixes:
+Updates:
 
   * Updates dependency to skimr >= 1.0.7
-  * regularise_time output is now correct for "day" and "hour"
-  * reg_SL_tbl class is now always returned by regularise_time
-
+  * Corrects regularise_time output for "day" and "hour"
+  * Makes sure reg_SL_tbl class is returned by regularise_time
+  * Add blocks to default title of vis_NAs plot
+  
 # studentlife 1.0.3
 This release only updates the authorship to give
 correct authorship information.

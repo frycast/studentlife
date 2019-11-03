@@ -84,7 +84,8 @@ response_hour_hist <- function(tab, break_hours = 10,
 #' @export
 vis_NAs <- function(tab, response,
                     main = paste0("Missing values by student (",
-                                  attr(tab,"table"),")" ),
+                                  attr(tab,"table"),") (blocks: ",
+                                  paste0(attr(tab,"blocks"), collapse = ", "), ")"),
                     show_perc_col = FALSE, ...) {
 
   if (!is_reg_SL_tibble(tab)) stop("tab must be a reg_SL_tbl")
