@@ -3,6 +3,8 @@
 #' Download the entire StudentLife dataset or
 #' a smaller sample dataset for testing.
 #'
+#' If \code{url = "rdata"} then data will be downloaded
+#' from <https://zenodo.org/record/3529253>
 #' If \code{url = "dartmouth"} then data will be downloaded
 #' from <https://studentlife.cs.dartmouth.edu/dataset/dataset.tar.bz2>
 #' If \code{url = "testdata"} then data will be downloaded
@@ -11,9 +13,11 @@
 #'
 #'
 #'@param url A character string. Either
-#'"dartmouth" for the Dartmouth URL, or
+#'"rdata" for the URL to the (more efficient)
+#'RData format version hosted on Zenodo, or
+#'"dartmouth" for the (original) Dartmouth URL, or
 #'"testdata" for a small sample dataset. Otherwise
-#'or a full URL of your choice can be specified leading to
+#'a full URL of your choice can be specified leading to
 #'the StudentLife dataset as a \code{.tar.gz} file.
 #'@param location The destination path. If the path does
 #'not exist it is created with \code{\link{dir.create}}
@@ -44,41 +48,65 @@ download_studentlife <- function(
   unzip = TRUE,
   untar = TRUE) {
 
-  if (tolower(url) == "dartmouth")
+  zip <- FALSE
+  if (tolower(url) == "dartmouth") {
+
     url <- paste0("https://studentlife.cs.dartmouth.edu",
                   "/dataset/dataset.tar.bz2")
 
-  if (tolower(url) == "testdata") {
+    mes1 <- "Downloading the original StudentLife dataset..."
+    f <- "dataset.tar.bz2"
+
+  } else if (tolower(url) == "testdata") {
 
     url <- paste0("https://raw.githubusercontent.com/",
                   "frycast/studentlife/master/tests/",
                   "testthat/testdata/sample/sample_dataset.tar.bz2")
 
     mes1 <- "Downloading the small sample dataset..."
+    f <- "dataset.tar.bz2"
+
+  } else if (tolower(url) == "rdata") {
+
+    url <- paste0("https://zenodo.org/record/3529253/",
+                  "files/dataset_rds.zip?download=1")
+
+    mes1 <- "Downloading the RData studentlife dataset..."
+    f <- "dataset_rds.zip"
+    untar <- FALSE
+    zip <- TRUE
 
   } else {
 
-    mes1 <- "Downloading the StudentLife dataset..."
+    mes1 <- "Downloading from user specified url..."
+    f <- "dataset.tar.bz2"
+
   }
 
   message(mes1)
-  f <- "dataset.tar.bz2"
   p <- paste0(location, "/", f)
   if (!dir.exists(location)) dir.create(location)
-  utils::download.file(url = url, destfile = p, cacheOK = FALSE)
+  if (!zip) {utils::download.file(url = url, destfile = p, cacheOK = FALSE)}
+  if (zip) {utils::download.file(url = url, destfile = p, method = 'curl')}
   message("Download complete")
-  if (unzip) {
+
+  if (zip && unzip) {
+    message("Unzipping the dataset...")
+    utils::unzip(p, exdir = location)
+    message("Unzip complete")
+  } else if (unzip) {
     message("Unzipping the dataset...")
     R.utils::bunzip2(p, remove = FALSE, skip = TRUE)
-    message("Unzip complete")}
+    message("Unzip complete")
+  }
   if (untar) {
     f <- "dataset.tar"
     p <- paste0(location, "/", f)
     message("Untarring the dataset...")
     utils::untar(p, exdir = location)
-    message("Untar complete")}
+    message("Untar complete")
+  }
 }
-
 
 
 #' load_SL_tibble
@@ -86,7 +114,11 @@ download_studentlife <- function(
 #' Import a chosen StudentLife table as
 #' a tibble. Leave \code{schema} and \code{table}
 #' unspecified to choose interactively via a
-#' menu.
+#' menu. This function is only intended for use
+#' with the studentlife dataset in it's original
+#' format, with the original directory structure.
+#' See the examples below for the recommended alternative approach
+#' to loading tables when the RData format is used.
 #'
 #' @param schema A character string. The menu 1 choice. Leave
 #' blank to choose interactively.
@@ -125,7 +157,28 @@ download_studentlife <- function(
 #' \code{dateonly_SL_tibble} (which are all
 #' subclasses of \code{SL_tibble}).
 #'
-#' @examples
+#'@examples
+#'## Example that uses RData format to efficiently
+#'## download and load tables, as an alternative
+#'## to using this function.
+#'\donttest{
+#' d <- tempdir()
+#' download_studentlife(location = d, url = "rdata")
+#'
+#' # Choose the schema and table from the list SL_tables:
+#' SL_tables
+#'
+#' # Example with activity table from sensing schema
+#' schema <- "sensing"
+#' table <- "activity"
+#' act <- readRDS(paste0(d, "/dataset_rds/", schema, "/", table, ".Rds"))
+#' act
+#'}
+#'
+#'## Example that uses the studentlife dataset in
+#'## its original format.
+#'
+#'# Use url = "dartmouth" for the full original dataset
 #'d <- tempdir()
 #'download_studentlife(location = d, url = "testdata")
 #'

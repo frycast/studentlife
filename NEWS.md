@@ -1,6 +1,8 @@
-# studentlife 1.0.4 (in progress)
-Updates:
+# studentlife 1.0.4
+Bug fixes and updates:
 
+  * Adds RData format download link to download_studentlife
+  * Updates documentation to explain RData download and usage from Zenodo
   * Updates dependency to skimr >= 1.0.7
   * Corrects regularise_time output for "day" and "hour"
   * Makes sure reg_SL_tbl class is returned by regularise_time

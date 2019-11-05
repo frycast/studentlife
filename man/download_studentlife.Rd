@@ -9,9 +9,11 @@ download_studentlife(url = "dartmouth", location = ".", unzip = TRUE,
 }
 \arguments{
 \item{url}{A character string. Either
-"dartmouth" for the Dartmouth URL, or
+"rdata" for the URL to the (more efficient)
+RData format version hosted on Zenodo, or
+"dartmouth" for the (original) Dartmouth URL, or
 "testdata" for a small sample dataset. Otherwise
-or a full URL of your choice can be specified leading to
+a full URL of your choice can be specified leading to
 the StudentLife dataset as a \code{.tar.gz} file.}
 
 \item{location}{The destination path. If the path does
@@ -30,6 +32,8 @@ Download the entire StudentLife dataset or
 a smaller sample dataset for testing.
 }
 \details{
+If \code{url = "rdata"} then data will be downloaded
+from <https://zenodo.org/record/3529253>
 If \code{url = "dartmouth"} then data will be downloaded
 from <https://studentlife.cs.dartmouth.edu/dataset/dataset.tar.bz2>
 If \code{url = "testdata"} then data will be downloaded

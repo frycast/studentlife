@@ -58,9 +58,34 @@ subclasses of \code{SL_tibble}).
 Import a chosen StudentLife table as
 a tibble. Leave \code{schema} and \code{table}
 unspecified to choose interactively via a
-menu.
+menu. This function is only intended for use
+with the studentlife dataset in it's original
+format, with the original directory structure.
+See the examples below for the recommended alternative approach
+to loading tables when the RData format is used.
 }
 \examples{
+## Example that uses RData format to efficiently
+## download and load tables, as an alternative
+## to using this function.
+\donttest{
+d <- tempdir()
+download_studentlife(location = d, url = "rdata")
+
+# Choose the schema and table from the list SL_tables:
+SL_tables
+
+# Example with activity table from sensing schema
+schema <- "sensing"
+table <- "activity"
+act <- readRDS(paste0(d, "/", schema, "/", table, ".Rds"))
+act
+}
+
+## Example that uses the studentlife dataset in
+## its original format.
+
+# Use url = "dartmouth" for the full original dataset
 d <- tempdir()
 download_studentlife(location = d, url = "testdata")
 
