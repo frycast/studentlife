@@ -48,7 +48,27 @@ library(studentlife)
 d <- tempdir()
 download_studentlife(location = d, url = "testdata")
 ```
-In this README we will use the full dataset rather than just the sample data. Details on the full dataset are available [here](https://studentlife.cs.dartmouth.edu). You can download and extract the full dataset within R. The download size is 5 GB.
+
+This README will use the studentlife data in its original format. 
+Details on the full original dataset are available [here](https://studentlife.cs.dartmouth.edu).
+However, an RData version of the dataset has been hosted on Zenodo as of 09/11/2019 [here](https://zenodo.org/record/3529253).
+To download and use this RData version (which is faster to read and takes up less space):
+
+```r
+d <- tempdir()
+download_studentlife(location = d, url = "rdata")
+
+# Choose the schema and table from the list SL_tables:
+SL_tables
+
+# Example with activity table from sensing schema
+schema <- "sensing"
+table <- "activity"
+act <- readRDS(paste0(d, "/dataset_rds/", schema, "/", table, ".Rds"))
+act
+```
+
+In this README we will use the full dataset rather than just the sample data. The download size is 5 GB.
 
 ``` r
 download_studentlife(location = d)
