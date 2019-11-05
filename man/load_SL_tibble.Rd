@@ -78,7 +78,7 @@ SL_tables
 # Example with activity table from sensing schema
 schema <- "sensing"
 table <- "activity"
-act <- readRDS(paste0(d, "/", schema, "/", table, ".Rds"))
+act <- readRDS(paste0(d, "/dataset_rds/", schema, "/", table, ".Rds"))
 act
 }
 

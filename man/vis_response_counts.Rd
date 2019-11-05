@@ -25,6 +25,10 @@ missing then this defaults to the first such column name.}
 
 \item{...}{Arguments passed to \code{\link[graphics]{barplot}}.}
 }
+\value{
+A named numeric vector of response counts,
+sorted in descending order.
+}
 \description{
 Produce an ordered bar plot of the
 total number of responses

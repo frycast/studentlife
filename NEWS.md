@@ -1,6 +1,8 @@
 # studentlife 1.0.4
 Bug fixes and updates:
 
+  * vis_response_counts returns named counts vector
+  * vis_response_counts plots in decreasing order
   * Adds RData format download link to download_studentlife
   * Updates documentation to explain RData download and usage from Zenodo
   * Updates dependency to skimr >= 1.0.7

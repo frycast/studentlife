@@ -126,6 +126,10 @@ vis_NAs <- function(tab, response,
 #' @param ylab The y axis label, passed to \code{\link[graphics]{barplot}}.
 #' @param ... Arguments passed to \code{\link[graphics]{barplot}}.
 #'
+#' @return
+#' A named numeric vector of response counts,
+#' sorted in descending order.
+#'
 #' @examples
 #' d <- tempdir()
 #' download_studentlife(location = d, url = "testdata")
@@ -158,10 +162,13 @@ vis_response_counts <- function(tab, response,
     dplyr::select(c(blocks, "uid"), response) %>%
     tidyr::spread("uid", response) %>%
     dplyr::select(-blocks)
-  wide_tabg_NA  %>%
+  counts <- wide_tabg_NA  %>%
     vapply(function(x) sum(!is.na(x)), numeric(1)) %>%
-    sort() %>% graphics::barplot(main = main,
+    sort(decreasing = T)
+
+  counts %>% graphics::barplot(main = main,
                                  xlab = xlab,
                                  ylab = ylab)
+  return(counts)
 }
 
