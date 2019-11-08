@@ -52,3 +52,10 @@ tab <- load_SL_tibble(
 PAM_categorise(tab)
 
 }
+\references{
+Pollak, J. P., Adams, P., & Gay, G. (2011, May).
+PAM: a photographic affect meter for frequent,
+in situ measurement of affect. In Proceedings of
+the SIGCHI conference on Human factors in
+computing systems (pp. 725-734). ACM.
+}

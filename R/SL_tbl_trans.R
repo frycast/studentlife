@@ -403,6 +403,13 @@ add_block_labels <- function(
 #' here we map those scores to positive numbers
 #' so (-2,-1,1,2) -> (1,2,3,4).
 #'
+#'@references
+#' Pollak, J. P., Adams, P., & Gay, G. (2011, May).
+#' PAM: a photographic affect meter for frequent,
+#' in situ measurement of affect. In Proceedings of
+#' the SIGCHI conference on Human factors in
+#' computing systems (pp. 725-734). ACM.
+#'
 #'@param tab A data.frame (or tibble) with a column representing
 #'Photographic Affect Meter (PAM) score.
 #'@param pam_name Character. The name of the column
