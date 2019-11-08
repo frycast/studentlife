@@ -379,3 +379,75 @@ add_block_labels <- function(
   return(tab)
 }
 
+
+
+
+
+
+#' PAM_categorise
+#'
+#' Categorise Photographic Affect Meter (PAM) scores into
+#' 4 categories by either PAM Quadrant, Valence or Arousal
+#' (or multiple of these).
+#'
+#' The 4 Quadrant categories are as follows:
+#' Quadrant 1: negative valence, low arousal.
+#' Quadrant 2: negative valence, high arousal.
+#' Quadrant 3: positive valence, low arousal.
+#' Quadrant 4: positive valence, high arousal.
+#'
+#' Valence and arousal are traditionally
+#' scores from -2 to 2,
+#' measuring displeasure to pleasure, and
+#' state of activation respectively. However,
+#' here we map those scores to positive numbers
+#' so (-2,-1,1,2) -> (1,2,3,4).
+#'
+#'@param tab A data.frame (or tibble) with a column representing
+#'Photographic Affect Meter (PAM) score.
+#'@param pam_name Character. The name of the column
+#'representing PAM.
+#'@param types Character vector containing the categories,
+#'one or more of "quadrant", "valence" and "arousal" into
+#'which to code PAM scores.
+#'
+#'@return
+#'The data.frame (or tibble) \code{tab} with extra columns
+#'\code{pam_q}, \code{pam_v}, and \code{pam_a} for
+#'quadrant, valence and arousal respectively.
+#'
+#'@examples
+#' d <- tempdir()
+#' download_studentlife(location = d, url = "testdata")
+#'
+#' tab <- load_SL_tibble(
+#'   loc = d, schema = "EMA", table = "PAM", csv_nrows = 10)
+#'
+#' PAM_categorise(tab)
+#'
+#' @export
+PAM_categorise <- function(tab, pam_name = "picture_idx",
+                           types = c("quadrant", "valence", "arousal") ) {
+  ub <- c(4, 8, 12, 16)
+  pams <- tab[[pam_name]]
+  ## Quadrant
+  if ( "quadrant" %in% types ) {
+    qc <- purrr::map_int(pams, function(x) { which(x <= ub)[1] })
+    tab$pam_q <- qc
+  }
+  ## Valence
+  v1 <- c(1, 2, 5, 6, 3, 4, 7, 8, 9, 10, 13, 14, 11, 12, 15, 16)
+  if ( "valence" %in% types ) {
+    vc <- purrr::map_int(v1[pams], function(x) { which(x <= ub)[1] })
+    tab$pam_v <- vc
+  }
+  ## Arousal
+  a1 <- c(1, 5, 2, 6, 9, 13, 10, 14, 3, 7, 4, 8, 11, 15, 12, 16)
+  if ( "arousal" %in% types ) {
+    ac <- purrr::map_int(a1[pams], function(x) { which(x <= ub)[1] })
+    tab$pam_a <- ac
+  }
+  return(tab)
+}
+
+

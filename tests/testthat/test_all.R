@@ -364,7 +364,6 @@ for (n in names(load_lists)) {
 })
 
 
-
 ###########################################################
 testthat::context("exploratory data analysis")
 testthat::test_that("functions in SL_tbl_explore produce plots", {

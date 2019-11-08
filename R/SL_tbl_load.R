@@ -275,6 +275,10 @@ load_SL_tibble <- function(
     tab, schema = attr(path, "schema"),
     table = attr(path, "table"))
 
+  if ( attr(tab, "table") == "PAM" && ("picture_idx" %in% names(tab)) ) {
+    tab <- PAM_categorise(tab, pam_name = "picture_idx")
+  }
+
   names(tab) <- clean_strings(names(tab))
 
   return(tab)
