@@ -15,7 +15,8 @@
 #' observations are encountered in a block. Any columns
 #' not specified here or under \code{blocks} will be dropped.
 #' @param blocks A character vector naming one or more of the
-#' block options "hour", "epoch", "day", "week", "weekday", "month" or "date".
+#' block options "hour-in-day", "epoch", "day", "week", "weekday",
+#' "month" or "date".
 #' If not present as column names in
 #' \code{tab}, an attempt will be made to infer the blocks from existing
 #' time information with \code{\link[studentlife]{add_block_labels}}.
@@ -61,11 +62,11 @@ regularise_time <- function(
 
   blocks <- tolower(blocks)
   if ( "day" %in% blocks ) blocks <- c("date", blocks)
-  opt <- c("month", "week", "day", "date", "weekday", "epoch", "hour")
+  opt <- c("month", "week", "day", "date", "weekday", "epoch", "hour-in-day")
   options_check(par = blocks, opt = opt)
   blocks <- sort(factor(blocks, levels = opt))
 
-  eh <- c("epoch", "hour")
+  eh <- c("epoch", "hour-in-day")
   ft <- c("date", eh[which(eh %in% blocks)])
 
   if ( "interval_SL_tbl" %in% class(tab) ) {
@@ -91,7 +92,7 @@ regularise_time <- function(
     if (!confirm_dateonly_SL_tibble(tab))
       stop("corrupt dateonly_SL_tbl")
 
-    v <- (blocks == "epoch" || blocks == "hour")
+    v <- (blocks == "epoch" || blocks == "hour-in-day")
     if (any(v)) {
       blocks <- blocks[which(!v)]
       warning("Not enough time information to derive epoch or hour")
@@ -108,7 +109,7 @@ regularise_time <- function(
   }
 
   if (add_NAs) {
-    if ("hour" %in% names(tab)) {
+    if ("hour-in-day" %in% names(tab)) {
       full <- data.frame(
         uid = factor(
           rep(uid_range, each = length(date_range)*24),
@@ -116,7 +117,7 @@ regularise_time <- function(
         date = rep(date_range, each = 24),
         epoch = rep(factor(epoch_levels, levels = epoch_levels), each = 24/length(epoch_levels)),
         hour = 0:23)
-      tabg <- dplyr::left_join(full, tab, by = c("uid", "hour", "date"))
+      tabg <- dplyr::left_join(full, tab, by = c("uid", "hour-in-day", "date"))
     } else if ("epoch" %in% names(tab)){
       full <- data.frame(
         uid = factor(
@@ -217,14 +218,14 @@ regularise_time <- function(
 #'
 #'@export
 add_block_labels <- function(
-  tab, type = c("hour", "epoch", "day", "week", "weekday", "month", "date"),
+  tab, type = c("hour-in-day", "epoch", "day", "week", "weekday", "month", "date"),
   interval = "start", warning = TRUE, start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
   epoch_ubs = getOption("SL_epoch_ubs")) {
 
   interval <- tolower(interval)
   type <- tolower(type)
-  opt <- c("month", "week", "day", "date", "weekday", "epoch", "hour")
+  opt <- c("month", "week", "day", "date", "weekday", "epoch", "hour-in-day")
   options_check(par = type, opt = opt)
   opt <- c("start", "end", "middle")
   options_check(par = interval, opt = opt)
@@ -275,7 +276,7 @@ add_block_labels <- function(
   }
 
   hours <- NULL
-  if ( "hour" %in% type ) {
+  if ( "hour-in-day" %in% type ) {
     if ( !is.null(timestamp) ) {
       hours <- as.integer(strftime(timestamp, format="%H"))
       tab$hour <- hours

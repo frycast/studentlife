@@ -1,6 +1,7 @@
 # studentlife 1.0.4
 Bug fixes and updates:
 
+  * block name "hour" changed to "hour-in-day" to avoid conflict with sleep EMA
   * vis_response_counts returns named counts vector
   * vis_response_counts plots in decreasing order
   * Adds RData format download link to download_studentlife

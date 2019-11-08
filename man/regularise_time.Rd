@@ -23,7 +23,8 @@ observations are encountered in a block. Any columns
 not specified here or under \code{blocks} will be dropped.}
 
 \item{blocks}{A character vector naming one or more of the
-block options "hour", "epoch", "day", "week", "weekday", "month" or "date".
+block options "hour-in-day", "epoch", "day", "week", "weekday",
+"month" or "date".
 If not present as column names in
 \code{tab}, an attempt will be made to infer the blocks from existing
 time information with \code{\link[studentlife]{add_block_labels}}.
