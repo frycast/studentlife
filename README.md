@@ -6,6 +6,7 @@ studentlife: Tidy Handling and Navigation of a Valuable Mobile-Health Dataset
 
 <!-- Badges Start -->
 [![CRAN\_Release\_Badge](http://www.r-pkg.org/badges/version-ago/studentlife)](https://CRAN.R-project.org/package=studentlife)
+[![devel Version](https://img.shields.io/badge/devel-1.1.0-brightgreen.svg)](https://github.com/frycast/studentlife)
 [![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/studentlife)](https://CRAN.R-project.org/package=studentlife)
 [![Travis-CI Build Status](https://travis-ci.org/frycast/studentlife.svg?branch=master)](https://travis-ci.org/frycast/studentlife) 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/frycast/studentlife/master?urlpath=rstudio) 
