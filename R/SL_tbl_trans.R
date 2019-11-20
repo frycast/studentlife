@@ -279,7 +279,7 @@ add_block_labels <- function(
   if ( "hour_in_day" %in% type ) {
     if ( !is.null(timestamp) ) {
       hours <- as.integer(strftime(timestamp, format="%H"))
-      tab$hour <- hours
+      tab$hour_in_day <- hours
     } else {
       if (warning)
         warning("not enough date-time information to derive hour")
