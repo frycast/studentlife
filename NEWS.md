@@ -14,6 +14,7 @@ Bug fixes and updates:
   * Makes sure reg_SL_tbl class is returned by regularise_time
   * Add blocks to default title of vis_NAs plot
   * SL_tbl_load now guesses schema from table
+  * removes pesky class-dropping tamper generics
   
 # studentlife 1.0.3
 This release only updates the authorship to give

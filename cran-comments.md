@@ -6,19 +6,7 @@
 * winbuilder (R devel and 3.6.0)
 
 ## R CMD Check results
-There were no ERRORS or WARNINGS.
-
-There was 1 NOTE:
-
-* checking CRAN incoming feasibility ... NOTE
-  Maintainer: 'Daniel Fryer <d.fryer@latrobe.edu.au>'
-
-  New submission
-
-  Possibly mis-spelled words in DESCRIPTION:
-  pre (15:45)
-  
-  This is the correct spelling.
+There were no ERRORS, WARNINGS or NOTES.
   
 ## Downstream dependencies
 There are no downstream dependencies for this package
