@@ -4,7 +4,7 @@
 \alias{add_block_labels}
 \title{add_block_labels}
 \usage{
-add_block_labels(tab, type = c("hour-in-day", "epoch", "day", "week",
+add_block_labels(tab, type = c("hour_in_day", "epoch", "day", "week",
   "weekday", "month", "date"), interval = "start", warning = TRUE,
   start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
