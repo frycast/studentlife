@@ -5,7 +5,7 @@
 \title{regularise_time}
 \usage{
 regularise_time(tab, ..., blocks = c("epoch", "day"), add_NAs = TRUE,
-  study_duration = getOption("SL_duration"),
+  unsafe = F, study_duration = getOption("SL_duration"),
   start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
   epoch_ubs = getOption("SL_epoch_ubs"),
@@ -33,6 +33,9 @@ have one observation (possibly \code{NA}) for each block.}
 
 \item{add_NAs}{A logical. If TRUE then NAs will be introduced
 to fill missing blocks.}
+
+\item{unsafe}{A logical. Default is \code{FALSE}. If this is
+set to \code{TRUE} then less checks will be performed.}
 
 \item{study_duration}{Integer. The duration of the StudentLife
 study in days. This parameter does nothing if \code{limit_date_range}

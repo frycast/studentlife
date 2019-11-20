@@ -8,8 +8,7 @@ add_block_labels(tab, type = c("hour_in_day", "epoch", "day", "week",
   "weekday", "month", "date"), interval = "start", warning = TRUE,
   start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
-  epoch_ubs = getOption("SL_epoch_ubs"),
-  timezone = getOption("SL_timezone"))
+  epoch_ubs = getOption("SL_epoch_ubs"), unsafe = F)
 }
 \arguments{
 \item{tab}{An \code{SL_tibble} as returned
@@ -37,6 +36,9 @@ available date-time data.}
 
 \item{epoch_ubs}{An integer vector that defines the hour that is
 the upper boundary of each epoch.}
+
+\item{unsafe}{A logical. Default is \code{FALSE}. If this is
+set to \code{TRUE} then less checks will be performed.}
 }
 \description{
 Classify observations from an \code{SL_tibble}

@@ -35,6 +35,8 @@
 #' the StudentLife study.
 #' @param date_range A vector of dates to be
 #' used if \code{limit_date_range} is \code{FALSE}.
+#'@param unsafe A logical. Default is \code{FALSE}. If this is
+#'set to \code{TRUE} then less checks will be performed.
 #'
 #' @examples
 #' d <- tempdir()
@@ -53,6 +55,7 @@
 regularise_time <- function(
   tab, ..., blocks = c("epoch", "day"),
   add_NAs = TRUE,
+  unsafe = F,
   study_duration = getOption("SL_duration"),
   start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
@@ -71,8 +74,10 @@ regularise_time <- function(
 
   if ( "interval_SL_tbl" %in% class(tab) ) {
 
-    if (!confirm_interval_SL_tibble(tab))
-      stop("corrupt interval_SL_tbl")
+    if (!unsafe) {
+      if (!confirm_interval_SL_tibble(tab))
+        stop("corrupt interval_SL_tbl")
+    }
 
     tab <- add_block_labels(
       tab, type = ft, start_date = start_date,
@@ -80,8 +85,10 @@ regularise_time <- function(
 
   } else if ( "timestamp_SL_tbl" %in% class(tab) ) {
 
-    if (!confirm_timestamp_SL_tibble(tab))
-      stop("corrupt timestamp_SL_tbl")
+    if (!unsafe) {
+      if (!confirm_timestamp_SL_tibble(tab))
+        stop("corrupt timestamp_SL_tbl")
+    }
 
     tab <- add_block_labels(
       tab, type = ft, start_date = start_date,
@@ -89,8 +96,10 @@ regularise_time <- function(
 
   } else if ( "dateonly_SL_tbl" %in% class(tab) ) {
 
-    if (!confirm_dateonly_SL_tibble(tab))
-      stop("corrupt dateonly_SL_tbl")
+    if (!unsafe) {
+      if (!confirm_dateonly_SL_tibble(tab))
+        stop("corrupt dateonly_SL_tbl")
+    }
 
     v <- (blocks == "epoch" || blocks == "hour_in_day")
     if (any(v)) {
@@ -205,6 +214,8 @@ regularise_time <- function(
 #'@param epoch_levels A character vector of epoch levels.
 #'@param epoch_ubs An integer vector that defines the hour that is
 #'the upper boundary of each epoch.
+#'@param unsafe A logical. Default is \code{FALSE}. If this is
+#'set to \code{TRUE} then less checks will be performed.
 #'
 #' @examples
 #' d <- tempdir()
@@ -223,7 +234,7 @@ add_block_labels <- function(
   interval = "start", warning = TRUE, start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
   epoch_ubs = getOption("SL_epoch_ubs"),
-  timezone = getOption("SL_timezone")) {
+  unsafe = F) {
 
   interval <- tolower(interval)
   type <- tolower(type)
@@ -240,8 +251,10 @@ add_block_labels <- function(
 
   if ( "interval_SL_tbl" %in% class(tab) ) {
 
-    if (!confirm_interval_SL_tibble(tab))
-      stop("corrupt interval_SL_tbl")
+    if (!unsafe) {
+      if (!confirm_interval_SL_tibble(tab))
+        stop("corrupt interval_SL_tbl")
+    }
 
     if ( interval == "start" )
       timestamp <- tab$start_timestamp else
@@ -252,15 +265,19 @@ add_block_labels <- function(
 
   } else if ( "timestamp_SL_tbl" %in% class(tab) ) {
 
-    if (!confirm_timestamp_SL_tibble(tab))
-      stop("corrupt timestamp_SL_tbl")
+    if (!unsafe) {
+      if (!confirm_timestamp_SL_tibble(tab))
+        stop("corrupt timestamp_SL_tbl")
+    }
 
     timestamp <- tab$timestamp
 
   } else if ( "dateonly_SL_tbl" %in% class(tab) ) {
 
-    if (!confirm_dateonly_SL_tibble(tab))
-      stop("corrupt dateonly_SL_tbl")
+    if (!unsafe) {
+      if (!confirm_dateonly_SL_tibble(tab))
+        stop("corrupt dateonly_SL_tbl")
+    }
 
     date <- tab$date
 
@@ -274,7 +291,7 @@ add_block_labels <- function(
 
   if ( !is.null(timestamp) ) {
     # Ignoring daylight savings, which occurs on 30th March
-    timestamp <- timestamp + timezone*3600
+    timestamp <- timestamp + getOption("SL_timezone")*3600
     timestamp <- as.POSIXct(timestamp, origin = "1970-01-01", tz = "GMT")
     date <- as.Date(timestamp)
   }
