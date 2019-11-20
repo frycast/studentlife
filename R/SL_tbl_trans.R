@@ -81,7 +81,8 @@ regularise_time <- function(
 
     tab <- add_block_labels(
       tab, type = ft, start_date = start_date,
-      epoch_levels = epoch_levels, epoch_ubs = epoch_ubs)
+      epoch_levels = epoch_levels, epoch_ubs = epoch_ubs,
+      unsafe = unsafe)
 
   } else if ( "timestamp_SL_tbl" %in% class(tab) ) {
 
@@ -92,7 +93,8 @@ regularise_time <- function(
 
     tab <- add_block_labels(
       tab, type = ft, start_date = start_date,
-      epoch_levels = epoch_levels, epoch_ubs = epoch_ubs)
+      epoch_levels = epoch_levels, epoch_ubs = epoch_ubs,
+      unsafe = unsafe)
 
   } else if ( "dateonly_SL_tbl" %in% class(tab) ) {
 
@@ -109,7 +111,8 @@ regularise_time <- function(
 
     tab <- add_block_labels(
       tab, type = "date", start_date = start_date,
-      epoch_levels = epoch_levels, epoch_ubs = epoch_ubs)
+      epoch_levels = epoch_levels, epoch_ubs = epoch_ubs,
+      unsafe = unsafe)
 
   } else {
 
@@ -156,7 +159,8 @@ regularise_time <- function(
   tabg <- add_block_labels(
     tabg, type = blocks[which(!(blocks %in% ft))],
     start_date = start_date, epoch_levels = epoch_levels,
-    epoch_ubs = epoch_ubs)
+    epoch_ubs = epoch_ubs,
+    unsafe = unsafe)
 
   `%>%` <- dplyr::`%>%`
   tabg <- tabg %>% dplyr::group_by_at(c("uid", as.character(blocks))) %>%
