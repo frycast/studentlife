@@ -153,7 +153,7 @@ regularise_time <- function(
 
   if ( all(c("date","uid") %in% names(tabg)) ) {
     class(tabg) <- c("dateonly_SL_tbl", "SL_tbl", class(tabg))
-    transfer_SL_tbl_attrs(tabg) <- tab
+    transfer_SL_tbl_attrs(tabg, unsafe = unsafe) <- tab
   }
 
   tabg <- add_block_labels(
@@ -173,7 +173,7 @@ regularise_time <- function(
     class(tabg) <- c("reg_SL_tbl", "SL_tbl", class(tabg))
   }
 
-  transfer_SL_tbl_attrs(tabg) <- tab
+  transfer_SL_tbl_attrs(tabg, unsafe = unsafe) <- tab
   attr(tabg, "blocks") <- as.character(blocks)
 
   return(tabg)

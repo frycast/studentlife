@@ -7,10 +7,12 @@ options_check <- function(par, opt) {
   }
 }
 
-`transfer_SL_tbl_attrs<-` <- function(to, ..., value) {
+`transfer_SL_tbl_attrs<-` <- function(to, unsafe = F, ..., value) {
 
-  if(!confirm_SL_tibble(value))
-    stop("value is not an SL_tbl")
+  if (!unsafe) {
+    if(!confirm_SL_tibble(value))
+      stop("value is not an SL_tbl")
+  }
 
   to <- structure(
     to, schema = attr(value, "schema"),
