@@ -1,9 +1,10 @@
 # studentlife 1.1.0
 Bug fixes and updates:
-
+  
+  * fixes timezone bug so that dates and times are correct
   * introduces PAM_quadrant function
   * load_SL_tibble will automatically call PAM_quadrant on PAM picture_idx
-  * block name "hour" changes to "hour-in-day" to avoid conflict with sleep EMA
+  * block name "hour" changes to "hour-in-day" to avoid conflict
   * vis_response_counts returns named counts vector
   * vis_response_counts plots in decreasing order
   * Adds RData format download link to download_studentlife

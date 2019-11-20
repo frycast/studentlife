@@ -8,7 +8,8 @@ add_block_labels(tab, type = c("hour_in_day", "epoch", "day", "week",
   "weekday", "month", "date"), interval = "start", warning = TRUE,
   start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
-  epoch_ubs = getOption("SL_epoch_ubs"))
+  epoch_ubs = getOption("SL_epoch_ubs"),
+  timezone = getOption("SL_timezone"))
 }
 \arguments{
 \item{tab}{An \code{SL_tibble} as returned
@@ -42,6 +43,7 @@ Classify observations from an \code{SL_tibble}
 into block labels using available
 date-time information. See more information
 about "blocks" under the details section.
+Daylight savings is ignored, and started on 31st March 2013.
 }
 \details{
 Block label types can be one or more of "epoch"

@@ -174,6 +174,7 @@ regularise_time <- function(
 #'into block labels using available
 #'date-time information. See more information
 #'about "blocks" under the details section.
+#'Daylight savings is ignored, and started on 31st March 2013.
 #'
 #'Block label types can be one or more of "epoch"
 #'(giving labels morning, evening, afternoon and night),
@@ -221,7 +222,8 @@ add_block_labels <- function(
   tab, type = c("hour_in_day", "epoch", "day", "week", "weekday", "month", "date"),
   interval = "start", warning = TRUE, start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
-  epoch_ubs = getOption("SL_epoch_ubs")) {
+  epoch_ubs = getOption("SL_epoch_ubs"),
+  timezone = getOption("SL_timezone")) {
 
   interval <- tolower(interval)
   type <- tolower(type)
@@ -271,7 +273,9 @@ add_block_labels <- function(
   }
 
   if ( !is.null(timestamp) ) {
-    timestamp <- as.POSIXct(timestamp, origin = "1970-01-01")
+    # Ignoring daylight savings, which occurs on 30th March
+    timestamp <- timestamp + timezone*3600
+    timestamp <- as.POSIXct(timestamp, origin = "1970-01-01", tz = "GMT")
     date <- as.Date(timestamp)
   }
 
