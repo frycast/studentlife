@@ -295,8 +295,7 @@ add_block_labels <- function(
 
   if ( !is.null(timestamp) ) {
     # Ignoring daylight savings, which occurs on 30th March
-    timestamp <- timestamp + getOption("SL_timezone")*3600
-    timestamp <- as.POSIXct(timestamp, origin = "1970-01-01", tz = "GMT")
+    timestamp <- as.POSIXct(timestamp, origin = "1970-01-01", tz = getOption("SL_timezone"))
     date <- as.Date(timestamp)
   }
 
