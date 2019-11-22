@@ -247,7 +247,9 @@ add_block_labels <- function(
   opt <- c("start", "end", "middle")
   options_check(par = interval, opt = opt)
 
-  day_0 <- julian(start_date, origin = as.Date("2013-01-01"))[1] + 1
+  day_0 <- julian(start_date,
+                  origin = as.Date("2013-01-01",
+                             tz = getOption("SL_timezone")))[1] + 1
   week_0 <- floor(day_0/7)
 
   timestamp <- NULL
@@ -296,13 +298,14 @@ add_block_labels <- function(
   if ( !is.null(timestamp) ) {
     # Ignoring daylight savings, which occurs on 30th March
     timestamp <- as.POSIXct(timestamp, origin = "1970-01-01", tz = getOption("SL_timezone"))
-    date <- as.Date(timestamp)
+    date <- as.Date(timestamp, tz = getOption("SL_timezone"))
   }
 
   hours <- NULL
   if ( "hour_in_day" %in% type ) {
     if ( !is.null(timestamp) ) {
-      hours <- as.integer(strftime(timestamp, format="%H"))
+      hours <- as.integer(strftime(timestamp, format="%H",
+                                   tz = getOption("SL_timezone")))
       tab$hour_in_day <- hours
     } else {
       if (warning)
@@ -315,7 +318,8 @@ add_block_labels <- function(
     if( !is.null(timestamp) ) {
 
       if (is.null(hours)) {
-        hours <- as.integer(strftime(timestamp, format="%H"))}
+        hours <- as.integer(strftime(timestamp, format="%H",
+                                     tz = getOption("SL_timezone")))}
       epc <- purrr::map_chr(hours, function(x){
         epoch_levels[which(x <= epoch_ubs)[1]]
       })

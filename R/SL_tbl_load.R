@@ -381,7 +381,8 @@ get_txt_tab <- function(path, location, vars) {
   if ( "date-time" %in% names(tab) ) {
     names(tab)[pmatch("date-time", names(tab))] <- "timestamp"
     tab$timestamp <- as.numeric(
-      as.POSIXct(tab$timestamp, origin="1970-01-01"))
+      as.POSIXct(tab$timestamp, origin="1970-01-01",
+                 tz = getOption("SL_timezone")))
     class(tab) <- c("timestamp_SL_tbl", class(tab))
   }
 
@@ -416,7 +417,9 @@ get_wide_csv_tab <- function(path, location, vars, csv_nrows) {
 
     tab <- tidyr::gather(tab, "date", "deadlines", -c("uid"))
     tab$date <- as.Date(
-      as.POSIXct(substr(tab$date,2,11), format = "%Y.%m.%d"))
+      as.POSIXct(substr(tab$date,2,11), format = "%Y.%m.%d",
+                 tz = getOption("SL_timezone")),
+      tz = getOption("SL_timezone"))
 
     class(tab) <- c("SL_tbl", class(tab))
 
