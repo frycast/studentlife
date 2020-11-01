@@ -11,10 +11,8 @@ matrix:
   include:
     - r: oldrel
       os: linux
-      dist: trusty
     - r: release
       os: linux
-      dist: trusty
       r_packages:
       - covr
       after_success:
@@ -22,7 +20,6 @@ matrix:
       - Rscript -e 'covr::codecov()'
     - r: devel
       os: linux
-      dist: trusty
     - r: release
       os: osx
       before_install:
