@@ -16,7 +16,7 @@ studentlife: Tidy Handling and Navigation of a Valuable Mobile-Health Dataset
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3371922.svg)](https://doi.org/10.5281/zenodo.3371922)
 <!-- Badges End -->
 
-This package is [available on CRAN](https://cran.r-project.org/web/packages/studentlife/index.html) but the CRAN version is older and has a number of known bugs. See bug fixes in [NEWS.md](NEWS.md).
+This package is [available on CRAN](https://CRAN.R-project.org/package=studentlife) but the CRAN version is older and has a number of known bugs. See bug fixes in [NEWS.md](NEWS.md).
 
 Use this R package to download, navigate and analyse the Student-Life dataset. The Student-Life dataset contains 
     passive and automatic sensing data from the phones of a class 
@@ -233,7 +233,7 @@ Skim summary statistics
 Software Testing
 ----------------
 
-This studentlife repository includes many automated software tests implemented via [`testthat`](https://cran.r-project.org/web/packages/testthat/index.html). We use these to check for bugs before releasing new updates. They can be found under the directory `tests`. Also, we use [Travis-CI](https://travis-ci.org/frycast/studentlife) for continuous integration.
+This studentlife repository includes many automated software tests implemented via [`testthat`](https://CRAN.R-project.org/package=testthat). We use these to check for bugs before releasing new updates. They can be found under the directory `tests`. Also, we use [Travis-CI](https://travis-ci.org/frycast/studentlife) for continuous integration.
 
 Community Guidelines
 ----------------
