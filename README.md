@@ -16,7 +16,7 @@ studentlife: Tidy Handling and Navigation of a Valuable Mobile-Health Dataset
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3371922.svg)](https://doi.org/10.5281/zenodo.3371922)
 <!-- Badges End -->
 
-This package is [available on CRAN](https://CRAN.R-project.org/package=studentlife) but the CRAN version is older and has a number of known bugs. See bug fixes in [NEWS.md](NEWS.md).
+This package is [available on CRAN](https://CRAN.R-project.org/package=studentlife).
 
 Use this R package to download, navigate and analyse the Student-Life dataset. The Student-Life dataset contains 
     passive and automatic sensing data from the phones of a class 
