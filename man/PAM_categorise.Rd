@@ -4,8 +4,11 @@
 \alias{PAM_categorise}
 \title{PAM_categorise}
 \usage{
-PAM_categorise(tab, pam_name = "picture_idx", types = c("quadrant",
-  "valence", "arousal"))
+PAM_categorise(
+  tab,
+  pam_name = "picture_idx",
+  types = c("quadrant", "valence", "arousal")
+)
 }
 \arguments{
 \item{tab}{A data.frame (or tibble) with a column representing

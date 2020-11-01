@@ -4,8 +4,12 @@
 \alias{download_studentlife}
 \title{download_studentlife}
 \usage{
-download_studentlife(url = "dartmouth", location = ".", unzip = TRUE,
-  untar = TRUE)
+download_studentlife(
+  url = "dartmouth",
+  location = ".",
+  unzip = TRUE,
+  untar = TRUE
+)
 }
 \arguments{
 \item{url}{A character string. Either
@@ -44,7 +48,7 @@ from the test data at the studentlife GitHub repository
 d <- tempdir()
 download_studentlife(location = d, url = "testdata")
 
-\donttest{
+\dontrun{
 ## With menu
 load_SL_tibble(location = d)
 }

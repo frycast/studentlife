@@ -4,13 +4,19 @@
 \alias{regularise_time}
 \title{regularise_time}
 \usage{
-regularise_time(tab, ..., blocks = c("epoch", "day"), add_NAs = TRUE,
-  unsafe = F, study_duration = getOption("SL_duration"),
+regularise_time(
+  tab,
+  ...,
+  blocks = c("epoch", "day"),
+  add_NAs = TRUE,
+  unsafe = F,
+  study_duration = getOption("SL_duration"),
   start_date = getOption("SL_start"),
   epoch_levels = getOption("SL_epoch_levels"),
   epoch_ubs = getOption("SL_epoch_ubs"),
-  uid_range = getOption("SL_uids"), date_range = seq(from = start_date,
-  by = 1, length.out = study_duration))
+  uid_range = getOption("SL_uids"),
+  date_range = seq(from = start_date, by = 1, length.out = study_duration)
+)
 }
 \arguments{
 \item{tab}{An \code{SL_tibble} as returned

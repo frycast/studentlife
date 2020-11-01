@@ -32,7 +32,7 @@
 #'d <- tempdir()
 #'download_studentlife(location = d, url = "testdata")
 #'
-#'\donttest{
+#'\dontrun{
 #'## With menu
 #'load_SL_tibble(location = d)
 #'}
@@ -161,7 +161,7 @@ download_studentlife <- function(
 #'## Example that uses RData format to efficiently
 #'## download and load tables, as an alternative
 #'## to using this function.
-#'\donttest{
+#'\dontrun{
 #' d <- tempdir()
 #' download_studentlife(location = d, url = "rdata")
 #'
@@ -182,7 +182,7 @@ download_studentlife <- function(
 #'d <- tempdir()
 #'download_studentlife(location = d, url = "testdata")
 #'
-#'\donttest{
+#'\dontrun{
 #'## With menu
 #'load_SL_tibble(location = d)
 #'}
@@ -195,7 +195,7 @@ download_studentlife <- function(
 #'act <- load_SL_tibble(schema = "sensing", table = "activity",
 #'                      location = d, csv_nrows = 10)
 #'
-#'\donttest{
+#'\dontrun{
 #'## Browse all tables with timestamps (non-interval)
 #'load_SL_tibble(location = d, time_options = "timestamp")
 #'

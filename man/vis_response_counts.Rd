@@ -4,9 +4,14 @@
 \alias{vis_response_counts}
 \title{vis_response_counts}
 \usage{
-vis_response_counts(tab, response,
+vis_response_counts(
+  tab,
+  response,
   main = paste0("Total responses by student (", attr(tab, "table"), ")"),
-  xlab = "Student UID", ylab = "Response count", ...)
+  xlab = "Student UID",
+  ylab = "Response count",
+  ...
+)
 }
 \arguments{
 \item{tab}{A regularised StudentLife tibble (i.e., an object of class

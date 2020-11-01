@@ -4,7 +4,9 @@
 \name{SL_tables}
 \alias{SL_tables}
 \title{List of all the tables available in the StudentLife dataset.}
-\format{An object of class \code{list} of length 5.}
+\format{
+An object of class \code{list} of length 5.
+}
 \source{
 \url{https://studentlife.cs.dartmouth.edu/}
 }

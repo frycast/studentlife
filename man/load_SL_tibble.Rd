@@ -4,10 +4,16 @@
 \alias{load_SL_tibble}
 \title{load_SL_tibble}
 \usage{
-load_SL_tibble(schema, table, location = ".",
+load_SL_tibble(
+  schema,
+  table,
+  location = ".",
   time_options = c("interval", "timestamp", "dateonly", "dateless"),
-  vars, csv_nrows, datafolder = "dataset",
-  uid_range = getOption("SL_uids"))
+  vars,
+  csv_nrows,
+  datafolder = "dataset",
+  uid_range = getOption("SL_uids")
+)
 }
 \arguments{
 \item{schema}{A character string. The menu 1 choice. Leave
@@ -68,7 +74,7 @@ to loading tables when the RData format is used.
 ## Example that uses RData format to efficiently
 ## download and load tables, as an alternative
 ## to using this function.
-\donttest{
+\dontrun{
 d <- tempdir()
 download_studentlife(location = d, url = "rdata")
 
@@ -89,7 +95,7 @@ act
 d <- tempdir()
 download_studentlife(location = d, url = "testdata")
 
-\donttest{
+\dontrun{
 ## With menu
 load_SL_tibble(location = d)
 }
@@ -102,7 +108,7 @@ PAM <- load_SL_tibble(schema = "EMA", table = "PAM", location = d)
 act <- load_SL_tibble(schema = "sensing", table = "activity",
                      location = d, csv_nrows = 10)
 
-\donttest{
+\dontrun{
 ## Browse all tables with timestamps (non-interval)
 load_SL_tibble(location = d, time_options = "timestamp")
 

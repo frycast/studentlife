@@ -4,9 +4,14 @@
 \alias{vis_NAs}
 \title{vis_NAs}
 \usage{
-vis_NAs(tab, response, main = paste0("Missing values by student (",
-  attr(tab, "table"), ") (blocks: ", paste0(attr(tab, "blocks"), collapse =
-  ", "), ")"), show_perc_col = FALSE, ...)
+vis_NAs(
+  tab,
+  response,
+  main = paste0("Missing values by student (", attr(tab, "table"), ") (blocks: ",
+    paste0(attr(tab, "blocks"), collapse = ", "), ")"),
+  show_perc_col = FALSE,
+  ...
+)
 }
 \arguments{
 \item{tab}{A regularised StudentLife tibble (i.e., an object of class

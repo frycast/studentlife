@@ -4,9 +4,13 @@
 \alias{response_hour_hist}
 \title{response_hour_hist}
 \usage{
-response_hour_hist(tab, break_hours = 10, xlab = "Hours into study",
-  main = paste0("Distribution of ", attr(tab, "table"),
-  " response times"), ...)
+response_hour_hist(
+  tab,
+  break_hours = 10,
+  xlab = "Hours into study",
+  main = paste0("Distribution of ", attr(tab, "table"), " response times"),
+  ...
+)
 }
 \arguments{
 \item{tab}{A StudentLife tibble with time information,
