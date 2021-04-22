@@ -53,7 +53,7 @@ download_studentlife(location = d, url = "testdata")
 This README will use the studentlife data in its original format. 
 Details on the full original dataset are available [here](https://studentlife.cs.dartmouth.edu).
 However, an RData version of the dataset has been hosted on Zenodo as of 09/11/2019 [here](https://zenodo.org/record/3529253).
-To download and use this RData version (which is faster to read and takes up less space):
+You can download and use this RData version, which is faster to read and takes up less space. However, `load_SL_tibble` is not (yet) designed to work with the RData format (but all the transformation and exploration functions, such as `regularise_time`, `add_block_labels`, and `vis_NAs` still work fine, because they work with any `SL_tbl` object). If you're working with the RData format, just replace instances of `load_SL_tibble` in this README with equivalent instances of the following:
 
 ```r
 d <- tempdir()
@@ -69,7 +69,7 @@ act <- readRDS(paste0(d, "/dataset_rds/", schema, "/", table, ".Rds"))
 act
 ```
 
-In this README we will use the full dataset rather than just the sample data. The download size is 5 GB.
+In this README, we will use the full dataset, so the download size is 5GB. 
 
 ``` r
 download_studentlife(location = d)
@@ -81,9 +81,12 @@ Use the interactive menu to browse the tables and schemas of the downloaded data
 tab <- studentlife::load_SL_tibble(location = d)
 ```
 
-The object returned by the above function is called a
+The object returned by `load_SL_tibble`, or by loading any table from the RData format, is called a
 'StudentLife tibble' (or `SL_tbl`).
-Restrictions can be placed on the menu options with `time_options`:
+
+-----
+
+If you're using the `load_SL_tibble` interactive menu, then restrictions can be placed on the menu options by changing the `time_options` parameter:
 
 ``` r
 tab_t <- load_SL_tibble(location = d, time_options = "timestamp", csv_nrows = 10)
@@ -102,6 +105,16 @@ tab <- load_SL_tibble(
 regularise_time(
   tab, blocks = c("day","weekday"),
   act_inf = max(activity_inference), add_NAs = FALSE)
+```
+
+If you just want to add date, epoch, or other labels, without aggregating, you can use `add_block_labels`:
+
+``` r
+tab <- load_SL_tibble(
+  loc = d, schema = "sensing", table = "activity", csv_nrows = 10)
+
+b_tab <- add_block_labels(tab)
+b_tab
 ```
 
 Produce a histogram showing PAM EMA response frequencies over the course of the study:
